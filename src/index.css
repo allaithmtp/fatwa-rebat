@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --fatwa-font-size: 1.2rem;
+  --fatwa-line-height: 2.1rem;
+  --primary-color: #0B4619;
+  --primary-dark: #083512;
+  --primary-darker: #041E0A;
+  --gold-color: #D4AF37;
+  --bg-light: #F9FAFB;
+}
+
+body {
+  background-color: #F9FAFB;
+}
+
+html.dark body,
+.dark body,
+html.dark {
+  background-color: #111827;
+}
+
+.font-serif {
+  font-family: 'Amiri', serif;
+}
+
+.font-sans {
+  font-family: 'Tajawal', sans-serif;
+}
+
+.islamic-pattern {
+  background-color: var(--primary-color, #0B4619);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M40 0l12.36 27.64L80 40 52.36 52.36 40 80 27.64 52.36 0 40l27.64-12.36zM40 15.28L31.82 31.82 15.28 40l16.54 8.18L40 64.72l8.18-16.54L64.72 40l-16.54-8.18z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.islamic-pattern-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%230B4619' fill-opacity='0.03'%3E%3Cpath d='M30 0l9.27 20.73L60 30 39.27 39.27 30 60 20.73 39.27 0 30l20.73-9.27z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .islamic-pattern-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 0l9.27 20.73L60 30 39.27 39.27 30 60 20.73 39.27 0 30l20.73-9.27z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.fatwa-content-text {
+  font-size: var(--fatwa-font-size, 1.2rem);
+  line-height: var(--fatwa-line-height, 2.1rem);
+}
+
+/* Custom colors helpers matching original design */
+.bg-emerald-850 { background-color: var(--primary-color, #0B4619); }
+.hover\:bg-emerald-850:hover { background-color: var(--primary-color, #0B4619); }
+.text-emerald-850 { color: var(--primary-color, #0B4619); }
+.border-emerald-850 { border-color: var(--primary-color, #0B4619); }
+
+.bg-emerald-900 { background-color: var(--primary-dark, #083512); }
+.hover\:bg-emerald-900:hover { background-color: var(--primary-dark, #083512); }
+.text-emerald-900 { color: var(--primary-dark, #083512); }
+
+.bg-emerald-950 { background-color: var(--primary-darker, #041E0A); }
+.text-emerald-950 { color: var(--primary-darker, #041E0A); }
+.border-emerald-950 { border-color: var(--primary-darker, #041E0A); }
+
+.text-gold-400 { color: #E5C158; }
+.text-gold-500 { color: var(--gold-color, #D4AF37); }
+.text-gold-600 { color: #B59024; }
+.bg-gold-400 { background-color: #E5C158; }
+.bg-gold-500 { background-color: var(--gold-color, #D4AF37); }
+.hover\:bg-gold-400:hover { background-color: #E5C158; }
+.border-gold-400 { border-color: #E5C158; }
+.border-gold-500 { border-color: var(--gold-color, #D4AF37); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color, #0B4619);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #146c29;
+}
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-area, #print-area * {
+    visibility: visible;
+  }
+  #print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

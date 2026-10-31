@@ -1,0 +1,2629 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دائرة الفتاوى والبحوث | رباط المصطفى بالشحر للدراسات الإسلامية</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Amiri for Islamic/Fatwa typography & Tajawal for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#0B4619',
+                            900: '#083512',
+                            950: '#041E0A',
+                        },
+                        gold: {
+                            400: '#E5C158',
+                            500: '#D4AF37',
+                            600: '#B59024',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Tajawal', 'sans-serif'],
+                        serif: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Islamic Geometric Background Pattern */
+        .islamic-pattern {
+            background-color: #0B4619;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M40 0l12.36 27.64L80 40 52.36 52.36 40 80 27.64 52.36 0 40l27.64-12.36zM40 15.28L31.82 31.82 15.28 40l16.54 8.18L40 64.72l8.18-16.54L64.72 40l-16.54-8.18z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .islamic-pattern-light {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%230B4619' fill-opacity='0.03'%3E%3Cpath d='M30 0l9.27 20.73L60 30 39.27 39.27 30 60 20.73 39.27 0 30l20.73-9.27z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .dark .islamic-pattern-light {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M30 0l9.27 20.73L60 30 39.27 39.27 30 60 20.73 39.27 0 30l20.73-9.27z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Dynamic Font Size Utility for Fatwa Reading */
+        :root {
+            --fatwa-font-size: 1.2rem;
+            --fatwa-line-height: 2.1rem;
+        }
+        .fatwa-content-text {
+            font-size: var(--fatwa-font-size);
+            line-height: var(--fatwa-line-height);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0B4619;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #146c29;
+        }
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 20px;
+                background: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 font-sans islamic-pattern-light transition-colors duration-300">
+
+    <!-- Top Info Bar -->
+    <div class="bg-emerald-950 text-gray-200 text-xs sm:text-sm py-2 px-2 sm:px-4 border-b border-emerald-800/60 no-print">
+        <div class="w-full max-w-[1600px] mx-auto px-1 sm:px-4 lg:px-8 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <span class="flex items-center gap-1.5 text-gold-400 font-medium">
+                    <i class="fa-solid fa-mosque"></i>
+                    <span data-i18n="topBarTitle">رباط المصطفى بالشحر للدراسات الإسلامية - حضرموت</span>
+                </span>
+                <span class="hidden md:inline text-gray-500">|</span>
+                <span id="current-date-display" class="hidden md:inline text-gray-300"></span>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Desktop Language Switcher (Beside Font Size Controls) -->
+                <div class="hidden lg:flex items-center bg-emerald-900/80 rounded-lg px-2.5 py-0.5 border border-emerald-700/50 gap-1.5">
+                    <i class="fa-solid fa-globe text-gold-400 text-xs"></i>
+                    <select id="desktop-lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-gray-200 text-xs font-bold focus:outline-none cursor-pointer py-0.5">
+                        <option value="ar" class="bg-emerald-950 text-white">العربية</option>
+                        <option value="en" class="bg-emerald-950 text-white">English</option>
+                        <option value="id" class="bg-emerald-950 text-white">Indonesia</option>
+                    </select>
+                </div>
+                <!-- Font Size Controls -->
+                <div class="flex items-center bg-emerald-900/80 rounded-lg px-2 py-0.5 border border-emerald-700/50" title="حجم خط الفتاوى">
+                    <button onclick="adjustFontSize(1)" class="px-1.5 hover:text-gold-400 transition font-bold" aria-label="تكبير الخط">A+</button>
+                    <span class="text-gray-500 mx-1">|</span>
+                    <button onclick="adjustFontSize(-1)" class="px-1.5 hover:text-gold-400 transition text-xs" aria-label="تصغير الخط">A-</button>
+                </div>
+                <!-- Saved Bookmarks Button -->
+                <button onclick="openBookmarksModal()" class="flex items-center gap-1.5 bg-emerald-900/80 hover:bg-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-700/50 transition">
+                    <i class="fa-solid fa-bookmark text-gold-400"></i>
+                    <span data-i18n="savedBtn">المفوظات</span>
+                    <span id="bookmark-count-badge" class="bg-gold-500 text-emerald-950 text-xs font-bold px-1.5 rounded-full">0</span>
+                </button>
+                <!-- Mobile Language Switcher (Beside Dark/Light Mode Button) -->
+                <div class="flex lg:hidden items-center bg-emerald-900/80 rounded-lg px-2 py-1 border border-emerald-700/50 gap-1">
+                    <i class="fa-solid fa-globe text-gold-400 text-xs"></i>
+                    <select id="mobile-lang-select" onchange="changeLanguage(this.value)" class="bg-transparent text-gray-200 text-xs font-bold focus:outline-none cursor-pointer">
+                        <option value="ar" class="bg-emerald-950 text-white">العربية</option>
+                        <option value="en" class="bg-emerald-950 text-white">English</option>
+                        <option value="id" class="bg-emerald-950 text-white">Indonesia</option>
+                    </select>
+                </div>
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="p-1.5 rounded-lg bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-700/50 text-gold-400 transition" aria-label="الوضع الليلي">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Main Header & Navigation -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md shadow-md border-b border-gray-200 dark:border-gray-700 no-print">
+        <div class="w-full max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 gap-2">
+                <!-- Branding Logo -->
+                <a href="#" class="flex items-center gap-2.5 sm:gap-3.5 group min-w-0">
+                    <div class="w-10 h-10 sm:w-14 sm:h-14 shrink-0 rounded-2xl islamic-pattern flex items-center justify-center shadow-lg border-2 border-gold-500/70 group-hover:scale-105 transition-transform">
+                        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L9.5 6.5C7 9 6 11.5 6 14H18C18 11.5 17 9 14.5 6.5L12 2ZM4 16V20H20V16H4ZM2 22H22V24H2V22Z"/>
+                        </svg>
+                    </div>
+                    <div class="truncate">
+                        <h1 data-i18n="brandTitle" class="text-base sm:text-2xl font-extrabold text-emerald-850 dark:text-emerald-400 font-serif tracking-wide truncate">
+                            دائرة الفتاوى والبحوث
+                        </h1>
+                        <p data-i18n="brandSubtitle" class="text-[10px] sm:text-sm text-gray-600 dark:text-gray-300 font-medium truncate">
+                            رباط المصطفى بالشحر للدراسات الإسلامية
+                        </p>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-1 font-medium text-sm xl:text-base">
+                    <a href="#hero" data-i18n="navHome" class="px-3 py-2 rounded-lg text-emerald-850 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/50">الرئيسية</a>
+                    <a href="#fatwas-section" data-i18n="navBrowse" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-emerald-850 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition">تصفح الفتاوى</a>
+                    <a href="#categories-section" data-i18n="navCategories" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-emerald-850 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition">الأقسام الفقهية</a>
+                    <a href="#ask-section" data-i18n="navAsk" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-emerald-850 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition">أرسل سؤالك</a>
+                    <a href="#track-section" data-i18n="navTrack" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-emerald-850 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition">متابعة استفتاء</a>
+                    <a href="#research-section" data-i18n="navResearch" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-emerald-850 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition">البحوث والإصدارات</a>
+                    <a href="#about-section" data-i18n="navAbout" class="px-3 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-emerald-850 dark:hover:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition">عن الدائرة</a>
+                </nav>
+
+                <!-- Prominent Action Button & Mobile Menu Trigger -->
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                    <a href="#ask-section" class="hidden md:inline-flex bg-emerald-850 hover:bg-emerald-900 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md hover:shadow-lg border border-gold-500/40 items-center gap-2 whitespace-nowrap transition transform active:scale-95">
+                        <i class="fa-solid fa-pen-nib text-gold-400 text-sm"></i>
+                        <span data-i18n="headerAskBtn">ضع سؤالك هنا</span>
+                    </a>
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none" aria-label="القائمة">
+                        <i id="mobile-menu-icon" class="fa-solid fa-bars text-lg sm:text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 pt-3 pb-5 space-y-2 shadow-xl">
+            <a href="#hero" onclick="toggleMobileMenu()" data-i18n="navHome" class="block px-4 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-850 dark:text-emerald-400 font-bold">الرئيسية</a>
+            <a href="#fatwas-section" onclick="toggleMobileMenu()" data-i18n="navBrowseMobile" class="block px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">تصفح جميع الفتاوى</a>
+            <a href="#categories-section" onclick="toggleMobileMenu()" data-i18n="navCategories" class="block px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">الأقسام الفقهية</a>
+            <a href="#ask-section" onclick="toggleMobileMenu()" data-i18n="navAskMobile" class="block px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 font-bold text-emerald-800 dark:text-gold-400">إرسال سؤال جديد</a>
+            <a href="#track-section" onclick="toggleMobileMenu()" data-i18n="navTrackMobile" class="block px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">متابعة حالة سؤال</a>
+            <a href="#research-section" onclick="toggleMobileMenu()" data-i18n="navResearchMobile" class="block px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">البحوث والدراسات</a>
+            <a href="#about-section" onclick="toggleMobileMenu()" data-i18n="navAboutMobile" class="block px-4 py-2.5 rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">عن الدائرة والرباط</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="islamic-pattern text-white relative overflow-hidden py-12 sm:py-16 lg:py-20 border-b-4 border-gold-500 no-print">
+        <!-- Decorative glowing orbs -->
+        <div class="absolute top-0 right-0 w-72 h-72 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                <!-- Right Column: Welcome & Live Search -->
+                <div class="lg:col-span-7 text-center lg:text-start space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-emerald-950/70 border border-gold-500/40 px-4 py-1.5 rounded-full text-gold-400 text-sm font-serif">
+                        <i class="fa-solid fa-star-and-crescent text-xs"></i>
+                        <span data-i18n="heroAyah">قال تعالى: ﴿فَاسْأَلُوا أَهْلَ الذِّكْرِ إِن كُنتُمْ لَا تَعْلَمُونَ﴾</span>
+                    </div>
+                    
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif leading-tight">
+                        <span data-i18n="heroMainTitle">منصة الإفتاء والبحوث الشرعية</span>
+                        <span data-i18n="heroSubTitle" class="block text-gold-400 text-2xl sm:text-3xl mt-3 font-normal">برباط المصطفى بالشحر للدراسات الإسلامية</span>
+                    </h2>
+                    
+                    <p data-i18n="heroDesc" class="text-gray-200 text-base sm:text-lg max-w-4xl mx-auto lg:mx-0 leading-relaxed font-light">
+                        مرجعك الموثوق للفتاوى الشرعية المؤصلة على منهج أهل السنة والجماعة والمذهب الشافعي، بإشراف نخبة من العلماء والباحثين المتخصصين بمدينة الشحر.
+                    </p>
+
+                    <!-- Mobile Only: "ضع سؤالك هنا" Button Directly Above the Search Box -->
+                    <div class="md:hidden flex justify-center">
+                        <a href="#ask-section" class="inline-flex bg-emerald-850 hover:bg-emerald-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md hover:shadow-lg border border-gold-500/40 items-center justify-center gap-2 whitespace-nowrap transition transform active:scale-95">
+                            <i class="fa-solid fa-pen-nib text-gold-400 text-sm"></i>
+                            <span data-i18n="headerAskBtn">ضع سؤالك هنا</span>
+                        </a>
+                    </div>
+
+                    <!-- Instant Search Box -->
+                    <div class="bg-white dark:bg-gray-800 p-2 rounded-2xl shadow-2xl max-w-4xl mx-auto lg:mx-0 border-2 border-gold-500/50">
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                            <div class="relative w-full flex-1">
+                                <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                                <input 
+                                    type="text" 
+                                    id="hero-search-input" 
+                                    data-i18n-placeholder="heroSearchPlaceholder"
+                                    oninput="handleSearch(this.value)"
+                                    placeholder="ابحث في الفتاوى بالكلمات المفتاحية، الموضوع، أو رقم الفتوى (مثلاً: زكاة، 1042)..." 
+                                    class="w-full pr-12 pl-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/60 text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm sm:text-base"
+                                >
+                            </div>
+                            <button onclick="scrollToFatwas()" class="w-full sm:w-auto bg-emerald-850 hover:bg-emerald-900 text-white font-bold px-7 py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+                                <span data-i18n="searchBtn">بحث</span>
+                                <i class="fa-solid fa-arrow-left text-xs text-gold-400"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Popular Searches -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm text-gray-300">
+                        <span class="text-gold-400 font-medium"><i class="fa-solid fa-fire-flame-curved mx-1"></i><span data-i18n="popularSearches">الأكثر بحثاً:</span></span>
+                        <button onclick="quickFilterKeyword('1039')" data-i18n="tagZakat" class="bg-emerald-950/60 hover:bg-emerald-800 px-3 py-1 rounded-full border border-emerald-700 transition">زكاة المال</button>
+                        <button onclick="quickFilterKeyword('1031')" data-i18n="tagDivorce" class="bg-emerald-950/60 hover:bg-emerald-800 px-3 py-1 rounded-full border border-emerald-700 transition">أحكام الطلاق</button>
+                        <button onclick="quickFilterKeyword('1020')" data-i18n="tagEcommerce" class="bg-emerald-950/60 hover:bg-emerald-800 px-3 py-1 rounded-full border border-emerald-700 transition">التجارة الإلكترونية</button>
+                        <button onclick="quickFilterKeyword('1035')" data-i18n="tagPrayer" class="bg-emerald-950/60 hover:bg-emerald-800 px-3 py-1 rounded-full border border-emerald-700 transition">جمع الصلوات</button>
+                    </div>
+                </div>
+
+                <!-- Left Column: Prominent Call-To-Action Box (Ask or Track) -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-3xl p-6 sm:p-8 shadow-2xl border-t-4 border-gold-500 relative">
+                        <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4 mb-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/50 text-emerald-850 dark:text-emerald-400 flex items-center justify-center text-xl shadow-inner shrink-0">
+                                    <i class="fa-solid fa-comments-question"></i>
+                                </div>
+                                <div>
+                                    <h3 data-i18n="ctaCardTitle" class="font-bold text-lg sm:text-xl text-emerald-950 dark:text-white">هل لديك سؤال شرعي؟</h3>
+                                    <p data-i18n="ctaCardSub" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">نستقبل أسئلتكم وتجيب عليها لجنة الإفتاء بالرباط</p>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 shrink-0">
+                                <span class="w-2 h-2 rounded-full bg-green-600 animate-ping"></span>
+                                <span data-i18n="ctaOnline">متاح الآن</span>
+                            </span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 dark:bg-gray-700/40 p-4 rounded-2xl border border-gray-200 dark:border-gray-700">
+                                <ul class="text-xs sm:text-sm space-y-2 text-gray-600 dark:text-gray-300">
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-emerald-700 dark:text-emerald-400"></i>
+                                        <span data-i18n="ctaPoint1">إجابات محررة وموثقة بالمراجع الفقهية المعتمدة.</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-emerald-700 dark:text-emerald-400"></i>
+                                        <span data-i18n="ctaPoint2">سرية تامة لبيانات المستفتي في القضايا الأسرية والخاصة.</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-emerald-700 dark:text-emerald-400"></i>
+                                        <span data-i18n="ctaPoint3">إمكانية متابعة السؤال برقم مرجعي خاص أو عبر الواتساب.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <a href="#ask-section" class="w-full py-4 px-6 bg-emerald-850 hover:bg-emerald-900 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-3 text-base sm:text-lg border border-gold-500/40">
+                                <i class="fa-solid fa-paper-plane text-gold-400"></i>
+                                <span data-i18n="ctaSubmitBtn">أرسل سؤالك الآن لدائرة الفتاوى</span>
+                            </a>
+
+                            <!-- Quick Track Mini Bar -->
+                            <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                                <label data-i18n="ctaTrackLabel" class="block text-xs font-bold text-gray-500 dark:text-gray-400 mb-2">لديك رقم استفتاء سابق؟ تابع حالته مباشرة:</label>
+                                <div class="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        id="hero-track-input" 
+                                        data-i18n-placeholder="ctaTrackPlaceholder"
+                                        placeholder="أدخل رقم المتابعة (مثال: RM-105)" 
+                                        class="flex-1 px-3.5 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 text-sm border border-gray-300 dark:border-gray-600 focus:outline-none focus:border-emerald-700"
+                                    >
+                                    <button onclick="quickTrackFromHero()" data-i18n="ctaTrackBtn" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-xl text-sm font-bold transition">
+                                        متابعة
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics & Featured Bar -->
+    <section class="py-6 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-x divide-x-reverse divide-gray-200 dark:divide-gray-700">
+                <div class="p-2">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-emerald-850 dark:text-emerald-400 font-serif">+3,450</div>
+                    <div data-i18n="stat1Label" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">فتوى شرعية مؤصلة</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-emerald-850 dark:text-emerald-400 font-serif">7</div>
+                    <div data-i18n="stat2Label" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">أبواب وأقسام فقهية</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-2xl sm:text-3xl font-extrabold text-emerald-850 dark:text-emerald-400 font-serif">+48</div>
+                    <div data-i18n="stat3Label" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">بحثاً وإصداراً علمياً</div>
+                </div>
+                <div class="p-2">
+                    <div data-i18n="stat4Val" class="text-2xl sm:text-3xl font-extrabold text-gold-600 dark:text-gold-400 font-serif">24 - 48 ساعة</div>
+                    <div data-i18n="stat4Label" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">متوسط الرد على الاستفتاءات</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Filter Section (الأقسام الفقهية) -->
+    <section id="categories-section" class="py-12 w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 no-print">
+        <div class="text-center max-w-3xl mx-auto mb-8">
+            <span data-i18n="catBadge" class="text-emerald-850 dark:text-gold-400 font-bold text-sm tracking-wider uppercase bg-emerald-50 dark:bg-emerald-950/60 px-3.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+                تصنيف موضوعي
+            </span>
+            <h2 data-i18n="catTitle" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-3 font-serif">أقسام الفتاوى الشرعية</h2>
+            <p data-i18n="catSubtitle" class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-2">اختر الباب الفقهي لتصفح جميع الأسئلة والفتاوى المتعلقة به مع مراجعها المعتمدة</p>
+        </div>
+
+        <!-- Categories Grid -->
+        <div id="categories-container" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </section>
+
+    <!-- Main Fatwas Display Section (جميع الفتاوى) -->
+    <section id="fatwas-section" class="py-6 pb-16 w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 no-print">
+        
+        <!-- Filter & Sort Bar -->
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="w-10 h-10 rounded-xl bg-emerald-850 text-gold-400 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <div>
+                    <h3 id="current-category-title" class="font-bold text-lg text-gray-900 dark:text-white">جميع الفتاوى المنشورة</h3>
+                    <p id="fatwa-results-count" class="text-xs text-gray-500 dark:text-gray-400">جاري عرض الفتاوى...</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full md:w-auto">
+                <!-- Local Search inside section -->
+                <div class="relative flex-1 sm:w-64">
+                    <i class="fa-solid fa-search absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input 
+                        type="text" 
+                        id="section-search-input"
+                        data-i18n-placeholder="filterSearchPlaceholder"
+                        oninput="handleSearch(this.value)"
+                        placeholder="فلترة سريعة للفتاوى..." 
+                        class="w-full pr-9 pl-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-sm border border-gray-200 dark:border-gray-600 focus:outline-none focus:border-emerald-700"
+                    >
+                </div>
+
+                <!-- Sort Select -->
+                <select id="sort-select" onchange="handleSort(this.value)" class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm rounded-xl px-3.5 py-2 border border-gray-200 dark:border-gray-600 focus:outline-none focus:border-emerald-700">
+                    <option value="newest" data-i18n="sortNewest">الأحدث نشراً</option>
+                    <option value="popular" data-i18n="sortPopular">الأكثر قراءة</option>
+                    <option value="number" data-i18n="sortNumber">حسب رقم الفتوى</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Fatwas Cards List -->
+        <div id="fatwas-list-container" class="space-y-8">
+            <!-- Populated dynamically via JS -->
+        </div>
+
+    </section>
+
+    <!-- Prominent Ask a Fatwa Section (مكان بارز لوضع السؤال) -->
+    <section id="ask-section" class="py-16 bg-gray-100 dark:bg-gray-800/60 border-y border-gray-200 dark:border-gray-700 no-print">
+        <div class="w-full max-w-[1320px] mx-auto px-4 sm:px-8 lg:px-14">
+            
+            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+                <!-- Header Banner -->
+                <div class="islamic-pattern p-6 sm:p-10 text-white border-b-4 border-gold-500">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <span data-i18n="askBadge" class="inline-block bg-gold-500 text-emerald-950 font-bold text-xs px-3 py-1 rounded-full mb-2">
+                                خدمة الاستفتاء الإلكتروني
+                            </span>
+                            <h2 data-i18n="askTitle" class="text-2xl sm:text-3xl font-bold font-serif">أرسل سؤالك إلى دائرة الفتاوى والبحوث</h2>
+                            <p data-i18n="askDesc" class="text-gray-200 text-sm sm:text-base mt-1">
+                                يُعرض سؤالك على لجنة الإفتاء برباط المصطفى بالشحر، ويتم الرد عليك وإعطاؤك رقم متابعة خاص.
+                            </p>
+                        </div>
+                        <div class="hidden sm:flex w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm border border-gold-400/40 items-center justify-center text-3xl text-gold-400 shrink-0">
+                            <i class="fa-solid fa-file-signature"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Body -->
+                <form id="ask-fatwa-form" onsubmit="submitFatwaQuestion(event)" class="p-6 sm:p-10 space-y-6">
+                    
+                    <!-- Alert Box if Submitted Successfully -->
+                    <div id="submission-success-box" class="hidden bg-emerald-50 dark:bg-emerald-950/80 border-2 border-emerald-700 rounded-2xl p-6 text-center space-y-4">
+                        <div class="w-16 h-16 bg-emerald-850 text-gold-400 rounded-full flex items-center justify-center text-2xl mx-auto shadow-lg">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h3 data-i18n="successTitle" class="text-xl font-bold text-emerald-950 dark:text-white font-serif">تم استلام سؤالك بنجاح ولله الحمد!</h3>
+                        <p data-i18n="successDesc" class="text-sm text-gray-600 dark:text-gray-300 max-w-lg mx-auto">
+                            تم إحالة سؤالك إلى لجنة الفتوى والبحوث برباط المصطفى بالشحر. يرجى الاحتفاظ برقم المتابعة التالي للاستعلام عن حالة الإجابة:
+                        </p>
+                        <div class="inline-flex items-center gap-3 bg-white dark:bg-gray-800 px-6 py-3 rounded-xl border-2 border-dashed border-emerald-700 shadow-sm">
+                            <span data-i18n="trackingCodeLabel" class="text-xs text-gray-500">رقم متابعة الاستفتاء:</span>
+                            <strong id="generated-tracking-code" class="text-xl font-mono text-emerald-850 dark:text-gold-400 tracking-wider">RM-2026-000</strong>
+                            <button type="button" onclick="copyTrackingCode()" class="text-gray-500 hover:text-emerald-700 p-1" title="نسخ الرقم">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="pt-2 flex flex-wrap justify-center gap-3">
+                            <button type="button" onclick="trackNewlySubmittedQuestion()" data-i18n="viewStatusNowBtn" class="bg-emerald-850 text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-emerald-900 transition">
+                                عرض حالة السؤال الآن
+                            </button>
+                            <button type="button" onclick="resetAskForm()" data-i18n="askAnotherBtn" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-300 transition">
+                                إرسال سؤال آخر
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="form-fields-wrapper" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Questioner Name -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                    <span data-i18n="formNameLabel">اسم المستفتي</span> <span data-i18n="formNameHint" class="text-xs font-normal text-gray-500">(اختياري - يمكنك كتابة "مستفتي" للخصوصية)</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-regular fa-user absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <input 
+                                        type="text" 
+                                        id="q-name" 
+                                        data-i18n-placeholder="formNamePlaceholder"
+                                        placeholder="الاسم الكريم أو كنية المستفتي" 
+                                        class="w-full pr-10 pl-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Category Selection -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                    <span data-i18n="formCatLabel">الباب الفقهي للسؤال</span> <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-solid fa-folder-open absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    <select 
+                                        id="q-category" 
+                                        required
+                                        class="w-full pr-10 pl-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm"
+                                    >
+                                        <option value="الطهارة والصلاة" data-i18n="cat1">الطهارة والصلاة</option>
+                                        <option value="الزكاة والصيام والحج" data-i18n="cat2">الزكاة والصيام والحج</option>
+                                        <option value="المعاملات المالية والتجارة" data-i18n="cat3">المعاملات المالية والتجارة</option>
+                                        <option value="فقه الأسرة والأحوال الشخصية" data-i18n="cat4">فقه الأسرة والطلاق والمواريث</option>
+                                        <option value="العقيدة والتوحيد" data-i18n="cat5">العقيدة والتوحيد</option>
+                                        <option value="الآداب والأخلاق والرقائق" data-i18n="cat6">الآداب والأخلاق والرقائق</option>
+                                        <option value="قضايا معاصرة ونوازل" data-i18n="cat7">قضايا معاصرة ونوازل</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Contact Method (WhatsApp / Email) -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                    <span data-i18n="formContactLabel">رقم الواتساب أو البريد الإلكتروني</span> <span data-i18n="formContactHint" class="text-xs font-normal text-gray-500">(لإشعارك عند صدور الفتوى)</span>
+                                </label>
+                                <div class="relative">
+                                    <i class="fa-brands fa-whatsapp absolute right-3.5 top-1/2 -translate-y-1/2 text-emerald-600 text-lg"></i>
+                                    <input 
+                                        type="text" 
+                                        id="q-contact" 
+                                        data-i18n-placeholder="formContactPlaceholder"
+                                        placeholder="مثال: 770000000 أو البريد الإلكتروني" 
+                                        class="w-full pr-10 pl-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Priority Level -->
+                            <div>
+                                <label data-i18n="formPriorityLabel" class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                    درجة أهمية السؤال وطبيعته
+                                </label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 cursor-pointer has-[:checked]:border-emerald-700 has-[:checked]:bg-emerald-50 dark:has-[:checked]:bg-emerald-950/60">
+                                        <input type="radio" name="q-priority" value="عادي" checked class="accent-emerald-800">
+                                        <span data-i18n="formPriorityNormal" class="text-sm font-medium">استفتاء عادي</span>
+                                    </label>
+                                    <label class="flex items-center justify-center gap-2 p-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 cursor-pointer has-[:checked]:border-amber-600 has-[:checked]:bg-amber-50 dark:has-[:checked]:bg-amber-950/40">
+                                        <input type="radio" name="q-priority" value="مستعجل (طلاق / ميراث / نازلة)" class="accent-amber-600">
+                                        <span data-i18n="formPriorityUrgent" class="text-sm font-medium text-amber-800 dark:text-amber-300">مستعجل (طلاق/دم/وفاة)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Title -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                <span data-i18n="formTitleLabel">عنوان مختصر للسؤال</span> <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="q-title" 
+                                required
+                                data-i18n-placeholder="formTitlePlaceholder"
+                                placeholder="مثال: حكم البيع بالتقسيط مع زيادة السعر عن الكاش" 
+                                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm"
+                            >
+                        </div>
+
+                        <!-- Detailed Question Textarea -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                <span data-i18n="formDetailsLabel">نص الاستفتاء بالتفصيل</span> <span class="text-red-500">*</span>
+                            </label>
+                            <textarea 
+                                id="q-details" 
+                                rows="5" 
+                                required
+                                data-i18n-placeholder="formDetailsPlaceholder"
+                                placeholder="اكتب تفاصيل سؤالك بوضوح تام؛ فإن الحكم على الشيء فرع عن تصوره..." 
+                                class="w-full p-4 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-sm leading-relaxed"
+                            ></textarea>
+                            <p class="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-info text-emerald-700"></i>
+                                <span data-i18n="formDetailsNote">يرجى ذكر جميع الملابسات المؤثرة في الحكم الشرعي خاصة في مسائل الطلاق والمعاملات المالية.</span>
+                            </p>
+                        </div>
+
+                        <!-- Privacy Option & Submit -->
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-gray-200 dark:border-gray-700">
+                            <label class="flex items-center gap-2.5 text-sm text-gray-600 dark:text-gray-300 cursor-pointer">
+                                <input type="checkbox" id="q-private" class="w-4 h-4 rounded accent-emerald-850">
+                                <span data-i18n="formPrivacyCheck">سؤال خاص (أرغب في استلام الفتوى بشكل خاص دون نشر الاسم)</span>
+                            </label>
+
+                            <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-emerald-850 hover:bg-emerald-900 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-3">
+                                <i class="fa-solid fa-paper-plane text-gold-400"></i>
+                                <span data-i18n="formSubmitBtn">إرسال السؤال للدائرة</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Track Question Section (متابعة الأسئلة المنتظرة للرد) -->
+    <section id="track-section" class="py-14 w-full max-w-[1320px] mx-auto px-4 sm:px-8 lg:px-14 no-print">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-10 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-850 dark:text-gold-400 flex items-center justify-center text-xl mx-auto mb-3 border border-emerald-200 dark:border-emerald-800">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                </div>
+                <h2 data-i18n="trackTitle" class="text-2xl sm:text-3xl font-bold font-serif text-gray-900 dark:text-white">متابعة حالة استفتاء</h2>
+                <p data-i18n="trackSubtitle" class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    أدخل رقم المتابعة الذي حصلت عليه عند إرسال سؤالك لمعرفة مرحلة دراسته أو قراءة الفتوى فور صدورها
+                </p>
+            </div>
+
+            <!-- Search Bar for Tracking -->
+            <div class="max-w-xl mx-auto flex flex-col sm:flex-row gap-3 mb-6">
+                <input 
+                    type="text" 
+                    id="track-code-input" 
+                    data-i18n-placeholder="trackInputPlaceholder"
+                    placeholder="أدخل رقم المتابعة (مثال: RM-105 أو RM-108)" 
+                    class="flex-1 px-4 py-3.5 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-center sm:text-start font-mono text-base"
+                >
+                <button onclick="checkTrackingStatus()" class="bg-emerald-850 hover:bg-emerald-900 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-radar text-gold-400"></i>
+                    <span data-i18n="trackCheckBtn">استعلام</span>
+                </button>
+            </div>
+
+            <!-- Demo Codes Hint -->
+            <div class="text-center text-xs text-gray-500 dark:text-gray-400 mb-6">
+                <span data-i18n="trackDemoHint">أرقام تجريبية للمعاينة الفورية:</span>
+                <button onclick="fillTrackDemo('RM-105')" data-i18n="trackDemo1" class="underline hover:text-emerald-700 mx-1 font-mono font-bold">RM-105 (قيد العرض على اللجنة)</button> |
+                <button onclick="fillTrackDemo('RM-108')" data-i18n="trackDemo2" class="underline hover:text-emerald-700 mx-1 font-mono font-bold">RM-108 (تمت الإجابة)</button>
+            </div>
+
+            <!-- Tracking Output Container -->
+            <div id="tracking-result-container" class="hidden mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- Recent User Submitted Questions stored in browser -->
+            <div id="user-submitted-history" class="hidden mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <h4 class="font-bold text-sm text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-emerald-700"></i>
+                    <span data-i18n="trackBrowserHistory">أسئلة قمت بإرسالها من هذا المتصفح:</span>
+                </h4>
+                <div id="user-questions-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research & Studies Section (قسم البحوث والدراسات) -->
+    <section id="research-section" class="py-14 bg-gray-100 dark:bg-gray-800/40 border-t border-gray-200 dark:border-gray-700 no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                <div>
+                    <span data-i18n="resBadge" class="text-emerald-850 dark:text-gold-400 font-bold text-xs tracking-wider uppercase bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full">
+                        الإنتاج العلمي والبحثي
+                    </span>
+                    <h2 data-i18n="resTitle" class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-2 font-serif">
+                        إصدارات وبحوث رباط المصطفى بالشحر
+                    </h2>
+                    <p data-i18n="resSubtitle" class="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                        دراسات فقهية محكمة ونشرات موسمية تصدرها دائرة البحوث والدراسات بالرباط
+                    </p>
+                </div>
+            </div>
+
+            <div id="research-cards-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Populated dynamically via JS for full language support -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (عن الدائرة ومنهجها) -->
+    <section id="about-section" class="py-14 w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14 no-print">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-6 sm:p-10 shadow-md border border-gray-200 dark:border-gray-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-4">
+                    <span data-i18n="aboutBadge" class="text-emerald-850 dark:text-gold-400 font-bold text-xs px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800">
+                        نبذة تعريفية
+                    </span>
+                    <h2 data-i18n="aboutTitle" class="text-2xl sm:text-3xl font-bold font-serif text-gray-900 dark:text-white">
+                        عن دائرة الفتاوى والبحوث برباط المصطفى بالشحر
+                    </h2>
+                    <p data-i18n="aboutDesc" class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+                        تُعد دائرة الفتاوى والبحوث إحدى الركائز العلمية في رباط المصطفى بالشحر للدراسات الإسلامية بمحافظة حضرموت، وقد تأسست لخدمة المجتمع المسلم والإجابة عن تساؤلات المستفتين في شتى أبواب الفقه والعبادات والمعاملات والأحوال الشخصية، مع العناية بدراسة النوازل المعاصرة.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700">
+                            <h4 class="font-bold text-emerald-850 dark:text-gold-400 mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-book-quran"></i>
+                                <span data-i18n="aboutBox1Title">المنهج العلمي في الإفتاء</span>
+                            </h4>
+                            <p data-i18n="aboutBox1Desc" class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                                تعتمد الدائرة في فتاواها على المعتمد في المذهب الشافعي من خلال كتب الشيخين (النووي والرافعي) وشروح المنهاج كـ «تحفة المحتاج» و«نهاية المحتاج»، مع مراعاة فقه الواقع والتيسير المعتبر شرعاً.
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700">
+                            <h4 class="font-bold text-emerald-850 dark:text-gold-400 mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-users-gear"></i>
+                                <span data-i18n="aboutBox2Title">آلية عمل اللجنة</span>
+                            </h4>
+                            <p data-i18n="aboutBox2Desc" class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                                تُفرز الأسئلة الواردة عبر الموقع أو الحضور المباشر، وتُحرر إجاباتها مرفقة بالمصادر الشرعية، أما القضايا الكبرى كالطلاق والمواريث فتُعرض على اللجنة العلمية المجتمعة.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timings & Direct Contact Card -->
+                <div class="lg:col-span-5 bg-emerald-950 text-white rounded-2xl p-6 sm:p-8 islamic-pattern border-2 border-gold-500/40 space-y-5">
+                    <h3 class="text-xl font-bold font-serif text-gold-400 flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i>
+                        <span data-i18n="aboutHoursTitle">مواعيد استقبال المستفتين</span>
+                    </h3>
+                    <ul class="space-y-3 text-sm text-gray-200">
+                        <li class="flex justify-between pb-2 border-b border-emerald-800">
+                            <span data-i18n="aboutHours1Label">استقبال الأسئلة عبر الموقع:</span>
+                            <span data-i18n="aboutHours1Val" class="font-bold text-gold-400">طوال أيام الأسبوع (24/7)</span>
+                        </li>
+                        <li class="flex justify-between pb-2 border-b border-emerald-800">
+                            <span data-i18n="aboutHours2Label">الحضور المباشر لمقر الدائرة:</span>
+                            <span data-i18n="aboutHours2Val" class="font-bold">السبت - الخميس (صباحاً ومساءً)</span>
+                        </li>
+                        <li class="flex justify-between pb-2 border-b border-emerald-800">
+                            <span data-i18n="aboutHours3Label">لجنة قضايا الأسرة والمواريث:</span>
+                            <span data-i18n="aboutHours3Val" class="font-bold">الإثنين والخميس (بعد العصر)</span>
+                        </li>
+                    </ul>
+                    <div class="pt-2 space-y-2 text-xs text-gray-300">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-gold-400 w-4"></i>
+                            <span data-i18n="aboutLocation">اليمن - حضرموت - مدينة الشحر - رباط المصطفى للدراسات الإسلامية</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="islamic-pattern text-gray-300 pt-12 pb-8 border-t-4 border-gold-500 no-print">
+        <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-14">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-emerald-800">
+                
+                <!-- Col 1: Brand -->
+                <div class="md:col-span-5 space-y-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-950 border border-gold-500 flex items-center justify-center text-gold-400">
+                            <i class="fa-solid fa-mosque text-lg"></i>
+                        </div>
+                        <div>
+                            <h3 data-i18n="brandTitle" class="text-lg font-bold text-white font-serif">دائرة الفتاوى والبحوث</h3>
+                            <p data-i18n="brandSubtitle" class="text-xs text-gold-400">رباط المصطفى بالشحر للدراسات الإسلامية</p>
+                        </div>
+                    </div>
+                    <p data-i18n="footerDesc" class="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-md">
+                        منبر علمي شرعي يُعنى بنشر العلم المؤصل والإجابة على استفتاءات الناس وتوثيق المسائل الفقهية بأدلتها ومراجعها المعتمدة.
+                    </p>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="md:col-span-4 space-y-2">
+                    <h4 data-i18n="footerQuickLinks" class="text-white font-bold text-sm mb-3 text-gold-400">روابط سريعة</h4>
+                    <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+                        <a href="#fatwas-section" data-i18n="navBrowse" class="hover:text-gold-400 transition">تصفح الفتاوى</a>
+                        <a href="#ask-section" data-i18n="navAsk" class="hover:text-gold-400 transition">إرسال سؤال شرعي</a>
+                        <a href="#track-section" data-i18n="navTrack" class="hover:text-gold-400 transition">متابعة رقم استفتاء</a>
+                        <a href="#categories-section" data-i18n="navCategories" class="hover:text-gold-400 transition">الأقسام الفقهية</a>
+                        <a href="#research-section" data-i18n="navResearch" class="hover:text-gold-400 transition">البحوث والدراسات</a>
+                        <a href="#about-section" data-i18n="navAbout" class="hover:text-gold-400 transition">عن الدائرة والرباط</a>
+                    </div>
+                </div>
+
+                <!-- Col 3: Direct Action -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 data-i18n="footerContactTitle" class="text-white font-bold text-sm mb-2 text-gold-400">للتواصل والاستفسار</h4>
+                    <p data-i18n="footerContactDesc" class="text-xs text-gray-300">يمكنكم إرسال أسئلتكم مباشرة عبر الموقع أو زيارة مقر الدائرة بمدينة الشحر.</p>
+                    <a href="#ask-section" class="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-emerald-950 font-bold text-xs px-4 py-2.5 rounded-xl transition">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span data-i18n="footerAskBtn">اطرح سؤالك الآن</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+                <p data-i18n="footerCopyright">© جميع الحقوق محفوظة لـ دائرة الفتاوى والبحوث - رباط المصطفى بالشحر للدراسات الإسلامية.</p>
+                <p class="text-gray-400 font-mono">Developed by <span class="text-gold-400 font-semibold">Al-Laith M.T.P</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bookmarks Modal -->
+    <div id="bookmarks-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="p-5 islamic-pattern text-white flex justify-between items-center border-b-2 border-gold-500">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-bookmark text-gold-400 text-lg"></i>
+                    <h3 data-i18n="bookmarksModalTitle" class="font-bold text-lg font-serif">الفتاوى المحفوظة في المفضلة</h3>
+                </div>
+                <button onclick="closeBookmarksModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="bookmarks-list-container" class="p-6 overflow-y-auto space-y-4 flex-1">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Research Summary Modal -->
+    <div id="research-modal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="p-5 islamic-pattern text-white flex justify-between items-center border-b-2 border-gold-500">
+                <h3 id="research-modal-title" class="font-bold text-lg font-serif">ملخص البحث العلمي</h3>
+                <button onclick="closeResearchModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="research-modal-body" class="p-6 overflow-y-auto space-y-4 text-sm sm:text-base leading-relaxed">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Dedicated Print Container -->
+    <div id="print-area" class="hidden"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="fixed bottom-5 left-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none no-print">
+        <div class="bg-emerald-950 text-white px-5 py-3 rounded-2xl shadow-2xl border border-gold-500 flex items-center gap-3 text-sm">
+            <i class="fa-solid fa-circle-check text-gold-400 text-lg"></i>
+            <span id="toast-message">تمت العملية بنجاح</span>
+        </div>
+    </div>
+
+    <!-- Application Logic & Data -->
+    <script>
+        // ==========================================
+        // 1. INITIAL DATA: CATEGORIES & FATWAS (MULTI-LANGUAGE)
+        // ==========================================
+        const categoriesData = [
+            { id: 'الكل', name: { ar: 'جميع الأقسام', en: 'All Categories', id: 'Semua Kategori' }, icon: 'fa-layer-group' },
+            { id: 'الطهارة والصلاة', name: { ar: 'الطهارة والصلاة', en: 'Purification & Prayer', id: 'Thaharah & Shalat' }, icon: 'fa-mosque' },
+            { id: 'الزكاة والصيام والحج', name: { ar: 'الزكاة والصيام والحج', en: 'Zakat, Fasting & Hajj', id: 'Zakat, Puasa & Haji' }, icon: 'fa-hand-holding-heart' },
+            { id: 'المعاملات المالية والتجارة', name: { ar: 'المعاملات المالية', en: 'Financial Transactions', id: 'Muamalah & Bisnis' }, icon: 'fa-coins' },
+            { id: 'فقه الأسرة والأحوال الشخصية', name: { ar: 'فقه الأسرة والمواريث', en: 'Family & Inheritance', id: 'Keluarga & Waris' }, icon: 'fa-people-roof' },
+            { id: 'العقيدة والتوحيد', name: { ar: 'العقيدة والتوحيد', en: 'Creed & Tawheed', id: 'Akidah & Tauhid' }, icon: 'fa-star-and-crescent' },
+            { id: 'الآداب والأخلاق والرقائق', name: { ar: 'الآداب والأخلاق', en: 'Islamic Ethics', id: 'Adab & Akhlak' }, icon: 'fa-seedling' },
+            { id: 'قضايا معاصرة ونوازل', name: { ar: 'قضايا معاصرة ونوازل', en: 'Contemporary Issues', id: 'Isu Kontemporer' }, icon: 'fa-globe' }
+        ];
+
+        const fatwasDatabase = [
+            {
+                id: 1042,
+                category: "المعاملات المالية والتجارة",
+                views: 1420,
+                ar: {
+                    title: "حكم بيع التقسيط بزيادة في الثمن عن البيع النقدي (الكاش)",
+                    date: "14 ربيع الثاني 1447 هـ",
+                    questioner: "تاجر مواد غذائية وأجهزة - الشحر",
+                    question: "السلام عليكم ورحمة الله وبركاته، أنا صاحب محل لبيع الأجهزة الكهربائية في مدينة الشحر، وأبيع الجهاز نقداً (كاش) بمبلغ مائة ألف ريال مثلاً، فإذا طلب المشتري شراءه بالتقسيط على ستة أشهر أبيعه بمائة وعشرين ألفاً، ونتفق على ذلك صراحة قبل إبرام العقد، فهل هذه الزيادة جائزة شرعاً أم تدخل في الربا؟ أفتونا مأجورين.",
+                    answer: `الحمد لله رب العالمين، والصلاة والسلام على سيدنا محمد وعلى آله وصحبه أجمعين، وبعد:
+فإن البيع بالتقسيط مع زيادة الثمن مقابل الأجل (التأجيل) جائز شرعاً عند جماهير الفقهاء ومنهم أئمة المذهب الشافعي رحمهم الله تعالى، ولا يدخل ذلك في الربا المحرم؛ لأن للزمن حصة من الثمن في عقود المعاوضات والبيوع، ولكن يشترط لصحة هذا البيع شروط مهمة لا بد من مراعاتها:
+
+أولاً: أن يجزم المتعاقدان (البائع والمشتري) عند إجراء العقد بأحد الثمنين؛ فيقول البائع مثلاً: بعتك هذه السلعة بمائة وعشرين ألفاً مقسطة إلى ستة أشهر، فيقول المشتري: قبلت. ولا يجوز أن يتفرقا والعقد متردد بين النقد والتقسيط دون جزم بأحدهما؛ لنهيه صلى الله عليه وسلم عن بيعتين في بيعة.
+
+ثانياً: أن تكون الأقساط معلومة المقدار ومعلومة الآجال (المواعيد) علماً ينفي الجهالة والنزاع.
+
+ثالثاً: ألا يترتب على تأخر المشتري في سداد قسط من الأقساط أي زيادة مالية أو غرامة تأخير؛ لأن الزيادة على الدين بعد ثبوته في الذمة مقابل التأخير هي عين ربا الجاهلية المحرم (إما أن تقضي وإما أن تربي).
+
+وعليه؛ فما تقوم به في محلك التجاري صحيح وجائز شرعاً ما دمتما تتفقان وتجزمان بكون البيع بالتقسيط وبالثمن المحدد قبل التفرق من مجلس العقد. والله تعالى أعلم.`,
+                    references: [
+                        "منهاج الطالبين وعمدة المفتين للإمام النووي (كتاب البيع - باب الربا وبيعتين في بيعة).",
+                        "تحفة المحتاج في شرح المنهاج للعلامة ابن حجر الهيتمي (4/ 294).",
+                        "فتح المعين بشرح قرة العين بمهمات الدين للعلامة زين الدين المليباري."
+                    ]
+                },
+                en: {
+                    title: "Ruling on Installment Sales with a Higher Price than Cash Sales",
+                    date: "14 Rabi' al-Thani 1447 AH",
+                    questioner: "Appliance & Grocery Merchant - Ash-Shihr",
+                    question: "Peace be upon you. I own an electrical appliances shop in Ash-Shihr. I sell an item for cash at 100,000 riyals, and if the buyer requests to pay in installments over six months, I sell it for 120,000 riyals. We explicitly agree on this before concluding the contract. Is this price increase permissible in Sharia or is it considered Riba (usury)?",
+                    answer: `Praise be to Allah, the Lord of the Worlds, and peace and blessings be upon our Master Muhammad, his family, and all his companions. To proceed:
+Selling by installments at a higher price in exchange for deferred payment is permissible in Sharia according to the majority of jurists, including the Imams of the Shafi'i school (may Allah have mercy on them). It does not fall under prohibited Riba because time has a recognized share in the price within sales contracts, provided the following essential conditions are met:
+
+First: Both contracting parties (seller and buyer) must definitively settle on one of the two prices at the time of the contract. For example, the seller says: "I sell you this item for 120,000 in installments over six months," and the buyer says: "I accept." They must not part while the contract remains undecided between cash and installment, as the Prophet (peace be upon him) forbade two sales in one sale.
+
+Second: The installment amounts and their due dates must be clearly specified to prevent ambiguity and dispute.
+
+Third: No financial penalty or late fee may be imposed if the buyer delays paying an installment, because any increase added to an established debt due to delay is strict prohibited Riba.
+
+Accordingly, your practice in your shop is valid and permissible as long as both parties clearly agree on the installment option and fixed total price during the contract session. And Allah knows best.`,
+                    references: [
+                        "Minhaj al-Talibin by Imam Al-Nawawi (Book of Sales - Chapter on Riba and Two Sales in One).",
+                        "Tuhfat al-Muhtaj fi Sharh al-Minhaj by Ibn Hajar al-Haytami (4/294).",
+                        "Fath al-Mu'in bi-Sharh Qurrat al-'Ayn by Shaykh Zayn al-Din al-Malibari."
+                    ]
+                },
+                id: {
+                    title: "Hukum Jual Beli Kredit (Cicilan) dengan Harga Lebih Tinggi dari Tunai",
+                    date: "14 Rabiul Akhir 1447 H",
+                    questioner: "Pedagang Elektronik & Sembako - Asy-Syihr",
+                    question: "Assalamu'alaikum warahmatullahi wabarakatuh. Saya pemilik toko alat elektronik di kota Asy-Syihr. Saya menjual barang secara tunai seharga 100.000 riyal, namun jika pembeli meminta cicilan selama enam bulan, saya menjualnya seharga 120.000 riyal dan kami menyepakatinya secara jelas sebelum akad. Apakah tambahan harga ini boleh secara syariat atau termasuk riba?",
+                    answer: `Segala puji bagi Allah Tuhan semesta alam, shalawat dan salam semoga tercurah kepada junjungan kita Nabi Muhammad beserta keluarga dan seluruh sahabatnya. Amma ba'du:
+Jual beli secara kredit (cicilan) dengan tambahan harga karena penangguhan waktu adalah boleh secara syariat menurut mayoritas ulama fikih termasuk para Imam Mazhab Syafi'i rahimahumullah, dan tidak termasuk riba yang diharamkan, selama memenuhi syarat-syarat sah berikut:
+
+Pertama: Kedua belah pihak (penjual dan pembeli) harus memastikan salah satu dari dua harga saat melangsungkan akad; misalnya penjual berkata: "Saya jual barang ini seharga 120.000 dicicil selama enam bulan," lalu pembeli menjawab: "Saya terima." Tidak boleh berpisah dalam keadaan akad masih mengambang antara tunai atau cicilan, karena Nabi SAW melarang dua jual beli dalam satu transaksi.
+
+Kedua: Jumlah cicilan dan batas waktu pembayarannya harus diketahui secara jelas agar tidak menimbulkan ketidakpastian (gharar) dan sengketa.
+
+Ketiga: Tidak boleh ada denda uang atau tambahan apa pun jika pembeli terlambat membayar angsuran, karena tambahan atas utang akibat keterlambatan adalah riba jahiliyah yang diharamkan.
+
+Dengan demikian, transaksi yang Anda lakukan di toko Anda adalah sah dan boleh selama disepakati secara pasti sebelum berpisah dari majelis akad. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Minhaj ath-Thalibin karya Imam An-Nawawi (Kitab Jual Beli - Bab Riba dan Dua Jual Beli dalam Satu Akad).",
+                        "Tuhfatul Muhtaj fi Syarh al-Minhaj karya Ibnu Hajar al-Haitami (4/294).",
+                        "Fathul Mu'in bi Syarh Qurratil 'Ain karya Syaikh Zainuddin al-Malibari."
+                    ]
+                }
+            },
+            {
+                id: 1039,
+                category: "الزكاة والصيام والحج",
+                views: 1890,
+                ar: {
+                    title: "كيفية حساب زكاة المحلات التجارية في ظل تغير سعر صرف العملة",
+                    date: "02 ربيع الثاني 1447 هـ",
+                    questioner: "أبو عبد الله - حضرموت",
+                    question: "كيف يحسب التاجر زكاة بضاعته (عروض التجارة) عند تمام الحول مع التذبذب المستمر في سعر العملة المحلية؟ وهل تُقوّم البضاعة بسعر الشراء الذي اشتراها به سابقاً أم بسعر السوق يوم وجوب الزكاة؟ وهل الديون التي للتاجر على الزبائن تدخل في حساب الزكاة؟",
+                    answer: `الحمد لله، والصلاة والسلام على سيدنا رسول الله وعلى آله وصحبه ومن والاه، أما بعد:
+فإن زكاة عروض التجارة واجبة متى بلغت قيمتها نصاباً في آخر الحول، والنصاب الشرعي يُقدّر بقيمة (85 جراماً من الذهب الخالص عيار 24)، وطريقة جرد وحساب الزكاة عند تمام الحول تكون وفق الضوابط الفقهية الآتية:
+
+1. تقويم البضاعة: تقوم السلع الموجودة في المحل والمخازن عند تمام الحول بـ (سعر البيع الحالي في السوق وقت وجوب الزكاة) لا بسعر شرائها القديم، ويُراعى في التقويم حال البيع المعتاد للتاجر (إن كان يبيع بالجملة قوّمها بسعر الجملة، وإن كان يبيع بالتجزئة قوّمها بسعر التجزئة).
+2. النقود والسيولة: يضم التاجر إلى قيمة البضاعة ما لديه من نقود سائلة في الصندوق أو الحسابات البنكية التجارية.
+3. الديون التي للتاجر على الناس: إن كانت الديون على مماطلين أو معسرين لا يُرجى السداد منهم حالياً، فلا يجب إخراج زكاتها في الحال حتى يقبضها، أما إن كانت الديون مرجوة الأداء على أناس مليئين باذلين، فإنها تُضم إلى رأس المال وتُزكى معه.
+4. مقدار الواجب إخراجه: بعد جمع ما سبق، إن بلغ المجموع قيمة نصاب الذهب (85 جراماً) أخرج التاجر ربع العشر أي (2.5%)، وله أن يخرجها بالعملة المتداولة بسعر يوم الإخراج. والله تعالى أعلم.`,
+                    references: [
+                        "المجموع شرح المهذب للإمام النووي (6/ 48 - باب زكاة التجارة).",
+                        "نهاية المحتاج إلى شرح المنهاج للشمس الرملي (3/ 103).",
+                        "الفتاوى الكبرى الفقهية لابن حجر الهيتمي."
+                    ]
+                },
+                en: {
+                    title: "How to Calculate Zakat on Commercial Goods Amid Currency Fluctuations",
+                    date: "02 Rabi' al-Thani 1447 AH",
+                    questioner: "Abu Abdullah - Hadhramaut",
+                    question: "How should a merchant calculate Zakat on commercial inventory at the end of the lunar year given the continuous fluctuation of the local currency? Should goods be valued at their original purchase price or current market value on the due date? And are debts owed by customers included?",
+                    answer: `Praise be to Allah, and peace and blessings be upon the Messenger of Allah, his family, and companions. To proceed:
+Zakat on commercial goods (Urud al-Tijarah) is obligatory when their value reaches the Nisab at the completion of one lunar year (Hawl). The Nisab is equivalent to the value of 85 grams of pure 24-karat gold. Inventory valuation and calculation follow these juristic rules:
+
+1. Valuation of Goods: Goods in the shop and warehouses at the end of the year are valued at their current market selling price on the day Zakat becomes due, not their past purchase cost. Wholesale merchants value at wholesale prices, and retailers at retail prices.
+2. Cash & Liquidity: The merchant adds available cash on hand and commercial bank balances to the inventory value.
+3. Receivable Debts: Debts owed by insolvent or delaying debtors do not require immediate Zakat payment until collected. However, collectible debts owed by solvent, willing debtors are added to the total capital and zakated together.
+4. Amount Due: If the total reaches the value of 85 grams of gold, the merchant pays 2.5% (one-fortieth) in the local currency at the exchange rate of the day of payment. And Allah knows best.`,
+                    references: [
+                        "Al-Majmu' Sharh al-Muhadhdhab by Imam Al-Nawawi (6/48 - Chapter on Zakat of Trade).",
+                        "Nihayat al-Muhtaj ila Sharh al-Minhaj by Al-Ramli (3/103).",
+                        "Al-Fatawa al-Kubra al-Fiqhiyyah by Ibn Hajar al-Haytami."
+                    ]
+                },
+                id: {
+                    title: "Cara Menghitung Zakat Barang Dagangan di Tengah Fluktuasi Nilai Tukar Mata Uang",
+                    date: "02 Rabiul Akhir 1447 H",
+                    questioner: "Abu Abdullah - Hadhramaut",
+                    question: "Bagaimana seorang pedagang menghitung zakat barang dagangannya saat genap satu haul di tengah perubahan nilai tukar mata uang lokal? Apakah barang dinilai berdasarkan harga beli lama atau harga pasar saat jatuh tempo zakat? Dan apakah piutang pada pelanggan ikut dihitung?",
+                    answer: `Segala puji bagi Allah, shalawat dan salam atas Rasulullah beserta keluarga dan sahabatnya. Amma ba'du:
+Zakat barang dagangan wajib dikeluarkan apabila nilainya mencapai nishab di akhir haul (satu tahun hijriah), yaitu senilai 85 gram emas murni 24 karat. Cara inventarisasi dan perhitungannya adalah sebagai berikut:
+
+1. Penilaian Barang: Barang yang ada di toko dan gudang saat akhir haul dinilai berdasarkan harga jual pasar saat ini pada hari wajib zakat, bukan harga beli lama (pedagang grosir menilai dengan harga grosir, pengecer dengan harga eceran).
+2. Uang Tunai & Kas: Pedagang menggabungkan nilai barang dengan uang tunai yang ada di kas maupun rekening bank dagang.
+3. Piutang Dagang: Jika piutang berada pada orang yang sulit membayar atau menunda-nunda, maka belum wajib dizakati sampai diterima. Namun jika piutang mudah ditagih dari pelanggan yang mampu, maka digabungkan ke dalam modal dan dizakati.
+4. Kadar Zakat: Jika totalnya mencapai nilai nishab 85 gram emas, pedagang mengeluarkan 2,5% (seperempat puluh) menggunakan mata uang yang berlaku sesuai nilai pada hari pengeluaran. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Al-Majmu' Syarh al-Muhadzzab karya Imam An-Nawawi (6/48 - Bab Zakat Perdagangan).",
+                        "Nihayatul Muhtaj ila Syarh al-Minhaj karya Syamsuddin Ar-Ramli (3/103).",
+                        "Al-Fatawa al-Kubra al-Fiqhiyyah karya Ibnu Hajar al-Haitami."
+                    ]
+                }
+            },
+            {
+                id: 1035,
+                category: "الطهارة والصلاة",
+                views: 980,
+                ar: {
+                    title: "حكم الجمع بين الصلاتين للمريض ومن يغلب عليه المشقة الشديدة",
+                    date: "25 ربيع الأول 1447 هـ",
+                    questioner: "مستفتٍ من مدينة الشحر",
+                    question: "والدي كبير في السن ويعاني من مرض في المفاصل وسلس أحياناً، ويشق عليه جداً الوضوء والاستعداد لكل صلاة في وقتها، فهل يجوز له الجمع بين صلاتي الظهر والعصر، وبين المغرب والعشاء وهو مقيم غير مسافر؟",
+                    answer: `الحمد لله وحده، والصلاة والسلام على من لا نبي بعده، وعلى آله وصحبه، وبعد:
+فإن الأصل في الصلوات الخمس أن تؤدى كل صلاة في وقتها المحدد شرعاً؛ لقوله تعالى: ﴿إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَّوْقُوتًا﴾، إلا أن الشريعة الإسلامية مبناها على التيسير ورفع الحرج عن المكلفين عند وجود العذر.
+
+وقد ذهب جماعة من محققي فقهاء الشافعية - كالإمام النووي والخطابي والقاضي حسين والمتولي والروياني - إلى جواز الجمع بين الظهر والعصر، وبين المغرب والعشاء (جمع تقديم أو جمع تأخير من غير قصر) للمريض الذي يلحقه بترك الجمع مشقة ظاهرة وضعف شديد، واستدلوا بحديث ابن عباس رضي الله عنهما في الصحيحين أن النبي صلى الله عليه وسلم جمع بالمدينة من غير خوف ولا مطر، قال ابن عباس: «أراد أن لا يُحرج أمته».
+
+وعليه؛ فإذا كان والدكم الكريم يجد مشقة شديدة غير معتادة في إفراد كل صلاة في وقتها بسبب مرضه، فيجوز له تقليد هذا القول المعتمد عند جمع من أئمة المذهب فيجمع بين الظهر والعصر، وبين المغرب والعشاء، مع المحافظة على شروط الجمع من النية والترتيب والموالاة في جمع التقديم. شافاه الله وعافاه، والله تعالى أعلم.`,
+                    references: [
+                        "روضة الطالبين وعمدة المفتين للإمام النووي (1/ 401 - جواز الجمع للمرض).",
+                        "أسنى المطالب في شرح روض الطالب لشيخ الإسلام زكريا الأنصاري (1/ 245).",
+                        "بغية المسترشدين في تلخيص فتاوى بعض الأئمة من العلماء المتأخرين للعلامة باعلوي الحضرمي."
+                    ]
+                },
+                en: {
+                    title: "Ruling on Combining Prayers for a Sick Person Facing Severe Hardship",
+                    date: "25 Rabi' al-Awwal 1447 AH",
+                    questioner: "Questioner from Ash-Shihr",
+                    question: "My father is elderly and suffers from severe joint pain and occasional incontinence. It is very difficult for him to perform ablution and prepare for every prayer separately on time. Is it permissible for him to combine Dhuhr with Asr, and Maghrib with Isha while resident and not traveling?",
+                    answer: `Praise be to Allah alone, and peace and blessings be upon the final Prophet. To proceed:
+The basic rule regarding the five daily prayers is that each prayer must be performed within its prescribed time. However, Islamic Sharia is built upon ease and removing hardship when a valid excuse exists.
+
+A group of verifying Shafi'i jurists—including Imam Al-Nawawi, Al-Khattabi, Al-Qadi Husayn, Al-Mutawalli, and Al-Ruyani—held that it is permissible for a sick person who experiences manifest hardship and weakness to combine Dhuhr with Asr, and Maghrib with Isha (either advancing or delaying, without shortening), citing the Hadith of Ibn Abbas in Sahih Bukhari and Muslim that the Prophet (peace be upon him) combined prayers in Madinah without fear or rain "so that his Ummah would not be put to hardship."
+
+Therefore, if your father faces unusual severe hardship in performing each prayer separately due to his illness, he may follow this sound opinion among the Imams of the school and combine Dhuhr with Asr, and Maghrib with Isha, while observing the conditions of combining (intention, order, and continuity). May Allah grant him healing. And Allah knows best.`,
+                    references: [
+                        "Rawdat al-Talibin by Imam Al-Nawawi (1/401 - Permissibility of Combining Due to Illness).",
+                        "Asna al-Matalib by Shaykh al-Islam Zakariyya al-Ansari (1/245).",
+                        "Bughyat al-Mustarshidin by Allamah Abd al-Rahman Ba'alawi al-Hadhrami."
+                    ]
+                },
+                id: {
+                    title: "Hukum Menjamak Shalat bagi Orang Sakit yang Mengalami Kesulitan Berat",
+                    date: "25 Rabiul Awal 1447 H",
+                    questioner: "Penanya dari Kota Asy-Syihr",
+                    question: "Ayah saya sudah lanjut usia dan menderita sakit persendian serta terkadang beser. Beliau sangat kesulitan untuk berwudhu dan bersiap pada setiap waktu shalat. Apakah boleh bagi beliau menjamak shalat Zhuhur dengan Ashar, serta Maghrib dengan Isya meskipun beliau mukim (tidak sedang bepergian)?",
+                    answer: `Segala puji bagi Allah semata, shalawat dan salam atas Nabi terakhir. Amma ba'du:
+Hukum asal shalat lima waktu adalah dikerjakan pada waktunya masing-masing. Namun syariat Islam dibangun di atas kemudahan dan pengangkatan kesulitan (raf'ul haraj) ketika terdapat uzur.
+
+Sejumlah ulama muhaqqiqin dalam Mazhab Syafi'i—seperti Imam An-Nawawi, Al-Khatthabi, Al-Qadhi Husain, Al-Mutawalli, dan Ar-Ruyani—berpendapat bolehnya menjamak antara Zhuhur dan Ashar, serta Maghrib dan Isya (baik jamak taqdim maupun ta'khir tanpa qashar) bagi orang sakit yang mengalami kesulitan nyata (masyaqqah) jika harus mengerjakan setiap shalat secara terpisah, berdasarkan hadits Ibnu Abbas dalam Shahihain bahwa Nabi SAW menjamak shalat di Madinah tanpa sebab takut atau hujan agar tidak memberatkan umatnya.
+
+Oleh karena itu, apabila ayah Anda mengalami kesulitan berat karena sakitnya, beliau boleh mengikuti pendapat mu'tamad dari kalangan ulama mazhab ini untuk menjamak shalat dengan tetap memperhatikan syarat-syarat jamak. Semoga Allah memberikan kesembuhan kepada beliau. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Raudhatuth Thalibin karya Imam An-Nawawi (1/401 - Bolehnya Jamak karena Sakit).",
+                        "Asnal Mathalib karya Syaikhul Islam Zakariya Al-Anshari (1/245).",
+                        "Bughyatul Mustarsyidin karya Allamah Abdurrahman Ba'alawi Al-Hadhrami."
+                    ]
+                }
+            },
+            {
+                id: 1031,
+                category: "فقه الأسرة والأحوال الشخصية",
+                views: 2310,
+                ar: {
+                    title: "حكم طلاق الغضبان وضابط الغضب الذي يمنع وقوع الطلاق",
+                    date: "18 ربيع الأول 1447 هـ",
+                    questioner: "فاعل خير (استفتاء خاص)",
+                    question: "حصل شجار شديد بيني وبين زوجتي، وفي لحظة غضب شديد وانفعال تلفظت بلفظ الطلاق مرة واحدة، وبعد أن هدأت ندمت أشد الندم، فهل يقع هذا الطلاق؟ وما هو الغضب الذي لا يقع معه الطلاق؟",
+                    answer: `الحمد لله، والصلاة والسلام على سيدنا رسول الله وعلى آله وصحبه، وبعد:
+فإن الغضب الذي يعتري الإنسان عند الخصومة ينقسم عند الفقهاء إلى مراتب، والحكم الشرعي يدور مع درجة إدراك المتلفظ ووعيه:
+
+المرتبة الأولى: أن يكون الغضب في مبادئه أو متوسطاً، بحيث يكون الزوج واعياً لما يقول، مدركاً لمعنى كلامه، قادراً على ضبط نفسه لو شاء، لكنه استرسل مع غضبه وتلفظ بالطلاق؛ فهذا يقع طلاقه بلا خلاف عند الفقهاء.
+
+المرتبة الثانية: أن يشتد به الغضب ويصل إلى حالة من الإغلاق والدهش الشديد، بحيث يغيب عقله وشعوره فلا يدري ما يقول ولا يعي ما يصدر منه كالمجنون أو المغمى عليه؛ فهذا لا يقع طلاقه؛ لارتفاع التكليف عنه حينئذٍ، ولحديث: «لا طلاق ولا عتاق في إغلاق».
+
+وعليه؛ فإن كنت حين تلفظت بالطلاق تعي ما تقول وتقصده وإن كنت في ثورة غضب، فإنها تُحسب عليك طلقة واحدة رجعية (ما لم تكن مسبوقة بطلقتين)، ولك مراجعة زوجتك ما دامت في العدة بقولك: (راجعتك إلى عصمتي). وننصح في قضايا الطلاق بالحضور الشخصي للزوجين إلى مقر دائرة الفتاوى برباط المصطفى للتحقق من الألفاظ والملابسات بدقة. والله تعالى أعلم.`,
+                    references: [
+                        "تحفة المحتاج لابن حجر الهيتمي (8/ 22 - كتاب الطلاق).",
+                        "مغني المحتاج إلى معرفة معاني ألفاظ المنهاج للخطيب الشربيني (4/ 456).",
+                        "إعانة الطالبين على حل ألفاظ فتح المعين للعلامة البكري الدمياطي."
+                    ]
+                },
+                en: {
+                    title: "Ruling on Divorce Uttered in Anger and the Criterion That Prevents Its Validity",
+                    date: "18 Rabi' al-Awwal 1447 AH",
+                    questioner: "Anonymous (Private Inquiry)",
+                    question: "A heated argument occurred between me and my wife, and in a moment of intense anger I uttered the word of divorce once. After calming down, I deeply regretted it. Does this divorce take effect? And what level of anger prevents divorce from taking place?",
+                    answer: `Praise be to Allah, and peace and blessings be upon the Messenger of Allah. To proceed:
+Anger experienced during a dispute is categorized by jurists according to the person's level of awareness and consciousness:
+
+First Level: Initial or moderate anger where the husband is conscious of what he is saying, understands its meaning, and could restrain himself if he wished, yet yields to his anger and pronounces divorce. In this state, the divorce takes effect by consensus of the jurists.
+
+Second Level: Extreme anger that reaches a state of mental closure (Ighlaq) and severe bewilderment, such that he loses awareness and does not know what he is saying, similar to one who is unconscious. In this state, divorce does not occur due to the absence of legal accountability, based on the Hadith: "There is no divorce or emancipation in a state of Ighlaq."
+
+Accordingly, if you were aware of your words when pronouncing the divorce despite your outburst, it counts as one revocable divorce (unless preceded by two divorces), and you may take your wife back during her waiting period ('Iddah). We advise attending the Fatwa Department at Ribat Al-Mustafa in person for precise verification in divorce cases. And Allah knows best.`,
+                    references: [
+                        "Tuhfat al-Muhtaj by Ibn Hajar al-Haytami (8/22 - Book of Divorce).",
+                        "Mughni al-Muhtaj by Al-Khatib al-Shirbini (4/456).",
+                        "I'anat al-Talibin by Allamah Al-Bakri al-Dimyati."
+                    ]
+                },
+                id: {
+                    title: "Hukum Talak Saat Marah dan Batasan Kemarahan yang Menghalangi Jatuhnya Talak",
+                    date: "18 Rabiul Awal 1447 H",
+                    questioner: "Hamba Allah (Konsultasi Khusus)",
+                    question: "Terjadi pertengkaran hebat antara saya dan istri saya, dan dalam keadaan sangat marah saya mengucapkan kata talak satu kali. Setelah tenang, saya sangat menyesal. Apakah talak tersebut jatuh? Dan kemarahan seperti apa yang membuat talak tidak jatuh?",
+                    answer: `Segala puji bagi Allah, shalawat dan salam atas Rasulullah. Amma ba'du:
+Kemarahan yang dialami seseorang saat berselisih dibagi oleh para ulama fikih menjadi beberapa tingkatan sesuai tingkat kesadaran orang yang mengucapkannya:
+
+Tingkatan Pertama: Kemarahan pada tahap awal atau menengah, di mana suami masih menyadari apa yang diucapkannya dan memahami maknanya, namun ia mengikuti emosinya lalu mengucapkan talak; maka talaknya jatuh menurut kesepakatan ulama.
+
+Tingkatan Kedua: Kemarahan yang sangat memuncak hingga mencapai kondisi tertutupnya akal (ighlaq) dan kebingungan hebat, sehingga hilang kesadarannya dan tidak menyadari apa yang keluar dari lisannya; maka dalam kondisi ini talaknya tidak jatuh karena hilangnya beban taklif saat itu, berdasarkan hadits: "Tidak ada talak dan pembebasan budak dalam kondisi ighlaq."
+
+Oleh karena itu, jika saat mengucapkan talak Anda masih menyadari ucapan Anda meskipun sedang emosi, maka terhitung jatuh talak satu raj'i (selama belum didahului dua talak sebelumnya), dan Anda berhak merujuk istri Anda selama masih dalam masa iddah. Kami menyarankan dalam masalah talak untuk hadir langsung ke kantor Departemen Fatwa Ribat Al-Mustafa guna memastikan rincian lafaz secara akurat. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Tuhfatul Muhtaj karya Ibnu Hajar al-Haitami (8/22 - Kitab Talak).",
+                        "Mughnil Muhtaj karya Al-Khathib Asy-Syarbini (4/456).",
+                        "I'anatuth Thalibin karya Allamah Al-Bakri Ad-Dimyathi."
+                    ]
+                }
+            },
+            {
+                id: 1027,
+                category: "العقيدة والتوحيد",
+                views: 1640,
+                ar: {
+                    title: "حكم التوسل إلى الله تعالى بجاه النبي صلى الله عليه وسلم والصالحين",
+                    date: "10 ربيع الأول 1447 هـ",
+                    questioner: "طالب علم - الشحر",
+                    question: "ما حكم التوسل إلى الله عز وجل بسيدنا رسول الله صلى الله عليه وسلم بعد وفاته، كأن يقول الداعي: (اللهم إني أسألك بنبيك محمد صلى الله عليه وسلم)؟ وهل هذا جائز عند علماء أهل السنة؟",
+                    answer: `الحمد لله رب العالمين، والصلاة والسلام الأتمان الأكملان على سيدنا ومولانا محمد وعلى آله وصحبه أجمعين، وبعد:
+فإن التوسل إلى الله سبحانه وتعالى بذات النبي صلى الله عليه وسلم أو بجاهه العظيم عند ربه أمر مشروع وجائز ومستحب عند جمهور علماء المذاهب الأربعة في حياته صلى الله عليه وسلم وبعد انتقاله إلى الرفيق الأعلى؛ لأن المتوسل لا يدعو غير الله، وإنما يسأل الله وحده متقرباً إليه بأحب خلقه إليه وأعظمهم قدراً عنده.
+
+وقد ثبت في الحديث الصحيح الذي رواه الترمذي والنسائي وابن ماجه وصححه جمع من الحفاظ (حديث الضرير) أنه صلى الله عليه وسلم علّمه أن يدعو فيقول: «اللهم إني أسألك وأتوجه إليك بنبيك محمد نبي الرحمة...»، وقد نص أئمة الفقه والحديث في كتب المناسك عند زيارة قبره الشريف على استحباب التوسل به والاستشفاع به إلى ربه سبحانه وتعالى. والله تعالى أعلم.`,
+                    references: [
+                        "المجموع شرح المهذب للإمام النووي (8/ 274 - باب زيارة قبر رسول الله صلى الله عليه وسلم).",
+                        "وفاء الوفا بأخبار دار المصطفى للعلامة السمهودي (4/ 1371).",
+                        "شفاء السقام في زيارة خير الأنام لتقي الدين السبكي."
+                    ]
+                },
+                en: {
+                    title: "Ruling on Tawassul to Allah Through the Status of the Prophet (PBUH) and the Righteous",
+                    date: "10 Rabi' al-Awwal 1447 AH",
+                    questioner: "Student of Knowledge - Ash-Shihr",
+                    question: "What is the ruling on seeking intermediation (Tawassul) to Allah Almighty through our Master the Messenger of Allah (peace be upon him) after his passing, such as saying: 'O Allah, I ask You by Your Prophet Muhammad'? Is this permissible according to Ahlus Sunnah scholars?",
+                    answer: `Praise be to Allah, the Lord of the Worlds, and complete blessings and peace be upon our Master Muhammad, his family, and companions. To proceed:
+Making Tawassul to Allah Almighty through the person of the Prophet (peace be upon him) or his exalted rank with his Lord is legitimate, permissible, and recommended according to the majority of scholars of the four Sunni schools of jurisprudence, both during his earthly life and after his passing. This is because the supplicant is calling upon none other than Allah alone, drawing nearer to Him through the most beloved and honored of His creation.
+
+It is established in the authentic Hadith narrated by Al-Tirmidhi, Al-Nasa'i, and Ibn Majah (the Hadith of the blind man) that the Prophet (peace be upon him) taught him to supplicate saying: "O Allah, I ask You and turn to You through Your Prophet Muhammad, the Prophet of Mercy..." Furthermore, the Imams of Fiqh and Hadith explicitly stated in the chapters of Hajj rites the recommendation of making Tawassul through him when visiting his noble grave. And Allah knows best.`,
+                    references: [
+                        "Al-Majmu' Sharh al-Muhadhdhab by Imam Al-Nawawi (8/274 - Visiting the Grave of the Messenger of Allah).",
+                        "Wafa' al-Wafa bi-Akhbar Dar al-Mustafa by Allamah Al-Samhudi (4/1371).",
+                        "Shifa' al-Siqam fi Ziyarat Khayr al-Anam by Imam Taqi al-Din al-Subki."
+                    ]
+                },
+                id: {
+                    title: "Hukum Bertawassul kepada Allah Melalui Kedudukan Nabi SAW dan Orang-Orang Shalih",
+                    date: "10 Rabiul Awal 1447 H",
+                    questioner: "Penuntut Ilmu - Asy-Syihr",
+                    question: "Apa hukum bertawassul kepada Allah عز وجل melalui junjungan kita Rasulullah SAW setelah beliau wafat, seperti ucapan seorang yang berdoa: (Ya Allah, sesungguhnya aku memohon kepada-Mu dengan kemuliaan Nabi-Mu Muhammad SAW)? Apakah hal ini diperbolehkan menurut ulama Ahlussunnah?",
+                    answer: `Segala puji bagi Allah Tuhan semesta alam, shalawat dan salam yang paling sempurna semoga tercurah kepada junjungan kita Nabi Muhammad beserta keluarga dan para sahabatnya. Amma ba'du:
+Bertawassul kepada Allah SWT dengan dzat Nabi SAW atau kedudukan (jah) beliau yang agung di sisi Tuhannya adalah perkara yang disyariatkan, boleh, dan dianjurkan (mustahab) menurut mayoritas ulama empat mazhab, baik semasa hidup beliau maupun setelah beliau wafat. Sebab orang yang bertawassul tidak berdoa kepada selain Allah, melainkan memohon hanya kepada Allah semata dengan menjadikan makhluk yang paling dicintai-Nya sebagai wasilah.
+
+Telah tetap dalam hadits shahih yang diriwayatkan oleh At-Tirmidzi, An-Nasa'i, dan Ibnu Majah (hadits seorang tunanetra) bahwa Nabi SAW mengajarkannya berdoa: "Ya Allah, sesungguhnya aku memohon kepada-Mu dan menghadap kepada-Mu melalui Nabi-Mu Muhammad, Nabi pembawa rahmat..." Para imam fikih dan hadits juga menegaskan dalam kitab-kitab manasik tentang kesunnahan bertawassul dengan beliau saat berziarah ke makam beliau yang mulia. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Al-Majmu' Syarh al-Muhadzzab karya Imam An-Nawawi (8/274 - Bab Ziarah Makam Rasulullah SAW).",
+                        "Wafa'ul Wafa bi Akhbar Daril Musthafa karya Allamah As-Samhudi (4/1371).",
+                        "Syifa'us Siqam fi Ziyarati Khairil Anam karya Imam Taqiyuddin As-Subki."
+                    ]
+                }
+            },
+            {
+                id: 1020,
+                category: "قضايا معاصرة ونوازل",
+                views: 1510,
+                ar: {
+                    title: "حكم التسويق بالعمولة والوساطة التجارية عبر الإنترنت (الدروب شيبينغ)",
+                    date: "29 صفر 1447 هـ",
+                    questioner: "شاب يعمل في التجارة الإلكترونية",
+                    question: "أعمل عبر الإنترنت في مجال التسويق للسلع، حيث أعرض صور منتجات لا أملكها في متجري، فإذا طلبها الزبون أشتريها من المورد الأصلي وأشحنها للزبون، أو آخذ نسبة عمولة متفقاً عليها مع صاحب البضاعة، فما الضابط الشرعي لصحة هذا العمل؟",
+                    answer: `الحمد لله، والصلاة والسلام على رسول الله وعلى آله وصحبه، وبعد:
+فإن العمل في التسويق الإلكتروني للبضائع التي لا يملكها المسوّق له صورتان رئيسيتان، ولكل صورة حكمها الشرعي:
+
+الصورة الأولى (السمسرة أو الوكالة بالعمولة): أن يظهر المسوّق للزبون بوصفه وسيطاً أو مسوّقاً لمنتجات تاجر معين، ولا يبيع السلعة باسم نفسه بل يربط المشتري بالبائع الأصلي، ويأخذ عمولة معلومة (مبلغاً مقطوعاً أو نسبة مئوية متفقاً عليها) من البائع أو المشتري؛ فهذه الصورة جائزة شرعاً ولا إشكال فيها لأنها من باب الجعالة أو الإجارة والسمسرة المشروعة، بشرط أن تكون السلعة مباحة وموصوفة بصدق.
+
+الصورة الثانية (بيع ما ليس عندك): أن يعرض المسوّق السلعة على أنها ملكه ويبرم عقد بيع باتّ مع المشتري ويقبض الثمن قبل أن يشتري السلعة ويتملكها؛ فهذا غير جائز لنهي النبي صلى الله عليه وسلم حكيم بن حزام بقوله: «لا تبع ما ليس عندك». والمخرج الشرعي في هذه الحالة أن يسلك طريق (عقد السَّلَم) بشروطه الشرعية إذا كانت السلعة موصوفة في الذمة غير معينة، أو يجعل طلب الزبون مجرد (وعد بالشراء غير ملزم) ثم يشتري المسوق السلعة ويتملكها ويحوزها ثم يبيعها للزبون. والله تعالى أعلم.`,
+                    references: [
+                        "روضة الطالبين للإمام النووي (4/ 3 - باب السلم وشروط المبيع).",
+                        "قرارات وتوصيات المجامع الفقهية المعاصرة بشأن التجارة الإلكترونية والسمسرة.",
+                        "حاشية البجيرمي على الخطيب (3/ 18)."
+                    ]
+                },
+                en: {
+                    title: "Ruling on Affiliate Marketing and Online Dropshipping",
+                    date: "29 Safar 1447 AH",
+                    questioner: "Youth working in E-Commerce",
+                    question: "I work online marketing products. I display pictures of items I do not own in my store; when a customer orders one, I buy it from the original supplier and ship it to the customer, or I take an agreed commission percentage from the supplier. What is the Sharia guideline for this?",
+                    answer: `Praise be to Allah, and peace and blessings be upon the Messenger of Allah. To proceed:
+Online marketing of goods not owned by the marketer takes two main forms, each with its respective ruling:
+
+First Form (Brokerage / Commission Agency): The marketer presents himself as a broker or promoter for a merchant's products and connects the buyer with the original seller in exchange for a known commission (a fixed amount or agreed percentage). This is permissible under lawful brokerage (Simsarah) or Ju'alah, provided the product is lawful and accurately described.
+
+Second Form (Selling What One Does Not Own): The marketer displays the item as his own property, concludes a binding sale contract with the buyer, and receives payment before purchasing and possessing the item himself. This is impermissible due to the Prophet's prohibition: "Do not sell what is not with you." The lawful alternative is either to fulfill the conditions of a Salam contract for described goods in liability, or to treat the customer's request as a non-binding promise to purchase until the marketer buys and possesses the item, then sells it. And Allah knows best.`,
+                    references: [
+                        "Rawdat al-Talibin by Imam Al-Nawawi (4/3 - Chapter on Salam and Conditions of Sold Goods).",
+                        "Resolutions of Contemporary Fiqh Academies on E-Commerce and Brokerage.",
+                        "Hashiyat al-Bujayrimi 'ala al-Khatib (3/18)."
+                    ]
+                },
+                id: {
+                    title: "Hukum Pemasaran Komisi (Affiliate) dan Dropshipping عبر Internet",
+                    date: "29 Shafar 1447 H",
+                    questioner: "Pemuda Pelaku Bisnis Online",
+                    question: "Saya bekerja memasarkan barang secara online dengan menampilkan foto produk yang belum saya miliki. Jika pelanggan memesan, saya membelinya dari pemasok asli lalu mengirimkannya ke pelanggan, atau saya mengambil persentase komisi yang disepakati dengan pemilik barang. Bagaimana ketentuan syariat agar usaha ini sah?",
+                    answer: `Segala puji bagi Allah, shalawat dan salam atas Rasulullah. Amma ba'du:
+Pemasaran online atas barang yang tidak dimiliki oleh pemasar memiliki dua bentuk utama:
+
+Bentuk Pertama (Makelar / Wakalah bil Ujrah): Pemasar bertindak sebagai perantara atau pemasar bagi produk pedagang tertentu dan mengambil komisi yang jelas (nominal tetap atau persentase yang disepakati). Bentuk ini boleh secara syariat karena termasuk akad Ju'alah atau samsarah (makelar) yang sah, selama barangnya halal dan dijelaskan sesuai kenyataan.
+
+Bentuk Kedua (Menjual Barang yang Belum Dimiliki): Pemasar menjual barang seolah-olah miliknya sendiri dan melakukan akad jual beli mengikat sebelum membeli dan memiliki barang tersebut. Hal ini tidak diperbolehkan berdasarkan sabda Nabi SAW: "Janganlah engkau menjual apa yang tidak ada padamu." Solusi syar'inya adalah menggunakan skema Akad Salam sesuai syarat-syaratnya, atau menjadikan pesanan pembeli sebagai janji beli (wa'd) terlebih dahulu, lalu pemasar membeli dan menguasai barang tersebut sebelum menjualnya kepada pelanggan. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Raudhatuth Thalibin karya Imam An-Nawawi (4/3 - Bab Salam dan Syarat Barang Jualan).",
+                        "Keputusan Lembaga Fikih Kontemporer tentang E-Commerce dan Samsarah.",
+                        "Hasyiyah Al-Bujairimi 'alal Khathib (3/18)."
+                    ]
+                }
+            },
+            {
+                id: 1014,
+                category: "الآداب والأخلاق والرقائق",
+                views: 1120,
+                ar: {
+                    title: "بر الوالدين وكيفية التعامل مع الأب الذي يأمر بقطيعة بعض الأقارب",
+                    date: "15 صفر 1447 هـ",
+                    questioner: "مستفتٍ - حضرموت",
+                    question: "حصل خلاف دنيوي بين والدي وعمي، فطلب مني والدي ألا أزور عمي وألا أسلّم عليه، وقال لي: إن ذهبت إليه فلست راضياً عنك، وأنا في حيرة بين بر والدي وبين صلة رحمي، فماذا أفعل؟",
+                    answer: `الحمد لله، والصلاة والسلام على سيدنا رسول الله وعلى آله وصحبه، وبعد:
+فإن بر الوالدين من أعظم الفرائض وأجل القربات بعد توحيد الله تعالى، كما أن صلة الرحم واجبة وقطيعتها من كبائر الذنوب، والقاعدة الشرعية الكلية أنه: «لا طاعة لمخلوق في معصية الخالق».
+
+وعليه؛ فلا يجوز لك أن تطيع والدك في قطيعة عمك أو هجره كلياً؛ لأن صلة الرحم واجبة شرعاً ولا تسقط لغضب الوالد، ولكن يجب عليك في الوقت ذاته التلطف البالغ مع والدك ومداراته؛ فتصل عمك بالسلام والاتصال والزيارة في أوقات لا تثير حفيظة والدك ولا تشعره بالتحدي أو العناد، مع السعي بالحكمة والكلمة الطيبة للإصلاح بينهما وتأليف قلبيهما، والدعاء لهما في ظهر الغيب. والله تعالى أعلم.`,
+                    references: [
+                        "الزواجر عن اقتراف الكبائر لابن حجر الهيتمي (باب بر الوالدين وصلة الأرحام).",
+                        "إحياء علوم الدين للإمام الغزالي (كتاب آداب الألفة والأخوة وحقوق الوالدين).",
+                        "النصائح الدينية والوصايا الإيمانية للإمام عبد الله بن علوي الحداد."
+                    ]
+                },
+                en: {
+                    title: "Honoring Parents vs. Obeying a Father Who Orders Severing Family Ties",
+                    date: "15 Safar 1447 AH",
+                    questioner: "Questioner - Hadhramaut",
+                    question: "A worldly dispute occurred between my father and my paternal uncle. My father ordered me not to visit my uncle or greet him, saying he will not be pleased with me if I go to him. I am torn between honoring my father and upholding kinship ties. What should I do?",
+                    answer: `Praise be to Allah, and peace and blessings be upon the Messenger of Allah. To proceed:
+Honoring one's parents is among the greatest obligations after belief in Allah, and upholding ties of kinship (Silat al-Rahim) is likewise obligatory while severing them is a major sin. The universal principle of Sharia states: "There is no obedience to a created being if it involves disobedience to the Creator."
+
+Therefore, you must not obey your father in completely severing ties with your uncle, because maintaining kinship is an obligation that does not drop due to a parent's anger. At the same time, you must show utmost gentleness and wisdom toward your father: maintain contact and visits with your uncle discreetly without provoking your father or appearing defiant, while striving with kind words to reconcile their hearts and praying for both of them. And Allah knows best.`,
+                    references: [
+                        "Al-Zawajir 'an Iqtiraf al-Kaba'ir by Ibn Hajar al-Haytami (Honoring Parents & Kinship Ties).",
+                        "Ihya' 'Ulum al-Din by Imam Al-Ghazali (Book of Brotherhood and Rights of Parents).",
+                        "Al-Nasa'ih al-Diniyyah by Imam Abdullah ibn Alawi al-Haddad."
+                    ]
+                },
+                id: {
+                    title: "Berbakti kepada Orang Tua dan Menyikapi Ayah yang Menyuruh Memutus Silaturahmi",
+                    date: "15 Shafar 1447 H",
+                    questioner: "Penanya - Hadhramaut",
+                    question: "Terjadi perselisihan duniawi antara ayah saya dan paman saya. Ayah meminta saya untuk tidak mengunjungi paman dan tidak menyapanya, bahkan berkata tidak ridha jika saya mendatanginya. Saya bingung antara berbakti kepada ayah dan menjaga silaturahmi. Apa yang harus saya lakukan?",
+                    answer: `Segala puji bagi Allah, shalawat dan salam atas Rasulullah. Amma ba'du:
+Berbakti kepada kedua orang tua (birrul walidain) adalah salah satu kewajiban terbesar setelah tauhid, sebagaimana menyambung tali silaturahmi juga wajib dan memutuskannya termasuk dosa besar. Kaidah syariat menegaskan: "Tidak ada ketaatan kepada makhluk dalam bermaksiat kepada Sang Pencipta."
+
+Oleh karena itu, Anda tidak boleh menaati perintah untuk memutus silaturahmi dengan paman Anda secara total. Namun pada saat yang sama, Anda wajib bersikap sangat santun dan bijaksana terhadap ayah Anda; tetaplah menyambung silaturahmi dengan paman melalui salam, komunikasi, dan kunjungan pada waktu-waktu yang tidak memancing kemarahan ayah Anda atau terkesan menentangnya, sembari berusaha mendamaikan keduanya dengan penuh hikmah serta mendoakan kebaikan bagi mereka. Wallahu Ta'ala A'lam.`,
+                    references: [
+                        "Az-Zawajir 'an Iqtirafil Kaba'ir karya Ibnu Hajar al-Haitami (Bab Birrul Walidain dan Silaturahmi).",
+                        "Ihya' Ulumiddin karya Imam Al-Ghazali (Kitab Adab Persaudaraan dan Hak Orang Tua).",
+                        "An-Nasha'ih ad-Diniyyah karya Imam Abdullah bin Alawi Al-Haddad."
+                    ]
+                }
+            }
+        ];
+
+        // Demo & Local Tracking Database
+        const defaultTrackingItems = [
+            {
+                code: "RM-105",
+                category: "فقه الأسرة والأحوال الشخصية",
+                statusStep: 2,
+                ar: {
+                    title: "حكم تقسيم تركة فيها عقار مشترك بين الورثة القُصّر والبالغين",
+                    date: "منذ يومين",
+                    statusText: "قيد الدراسة والعرض على لجنة المواريث بالرباط",
+                    answer: null
+                },
+                en: {
+                    title: "Ruling on Dividing an Estate Containing Shared Property Among Minor and Adult Heirs",
+                    date: "2 days ago",
+                    statusText: "Under study and review by the Inheritance Committee at the Ribat",
+                    answer: null
+                },
+                id: {
+                    title: "Hukum Pembagian Warisan Properti Bersama Antara Ahli Waris Anak-Anak dan Dewasa",
+                    date: "2 hari yang lalu",
+                    statusText: "Sedang dikaji oleh Komisi Fikih Waris di Ribat Al-Mustafa",
+                    answer: null
+                }
+            },
+            {
+                code: "RM-108",
+                category: "الطهارة والصلاة",
+                statusStep: 3,
+                ar: {
+                    title: "حكم المسح على الجوارب الخفيفة في الوضوء",
+                    date: "منذ 4 أيام",
+                    statusText: "تمت الإجابة واعتماد الفتوى",
+                    answer: "الحمد لله، والصلاة والسلام على رسول الله، وبعد: فيشترط في الجورب الذي يجوز المسح عليه في المذهب الشافعي أن يكون صفيقاً (سميكاً) يمكن متابعة المشي عليه لتردد مسافر لحاجاته، وأن يكون مانعاً من نفوذ الماء إلى القدم لو صُب عليه، أما الجوارب الرقيقة الشفافة أو التي ينفذ منها الماء فلا يصح المسح عليها بل يجب غسل الرجلين. والله أعلم."
+                },
+                en: {
+                    title: "Ruling on Wiping Over Thin Socks During Ablution (Wudu)",
+                    date: "4 days ago",
+                    statusText: "Answered and Approved by the Fatwa Committee",
+                    answer: "Praise be to Allah, and peace and blessings be upon the Messenger of Allah. In the Shafi'i school, for wiping over socks (Khuff/Jawrab) to be valid, they must be thick and durable enough to walk in continuously for a traveler's needs, and impermeable to water. Thin or transparent socks that allow water to penetrate are not valid to wipe over; rather, the feet must be washed. And Allah knows best."
+                },
+                id: {
+                    title: "Hukum Mengusap Kaus Kaki Tipis Saat Berwudhu",
+                    date: "4 hari yang lalu",
+                    statusText: "Telah Dijawab dan Disahkan oleh Komisi Fatwa",
+                    answer: "Segala puji bagi Allah, shalawat dan salam atas Rasulullah. Dalam Mazhab Syafi'i, kaus kaki (jaurab) yang boleh diusap saat wudhu disyaratkan harus tebal dan kuat dipakai berjalan untuk keperluan musafir serta menahan tembusnya air ke kulit. Adapun kaus kaki tipis yang tembus air tidak sah diusap, melainkan wajib membasuh kedua kaki. Wallahu A'lam."
+                }
+            }
+        ];
+
+        const researchSummaries = [
+            {
+                ar: {
+                    badge: "فقه النوازل المالية",
+                    pages: "42 صفحة",
+                    title: "أحكام التعامل بالعملات الرقمية والتجارة الإلكترونية في الفقه الشافعي",
+                    desc: "بحث فقهي مؤصل يناقش ضوابط العقود المستحدثة عبر الإنترنت، الدروب شيبينغ، وحكم استبدال العملات مع اختلاف سعر الصرف.",
+                    author: "إعداد: لجنة البحوث بالرباط",
+                    summary: `يتناول هذا البحث المحكّم أبرز النوازل المالية التي شاعت بين الشباب والتجار في العصر الحاضر، ويقسمها إلى ثلاثة فصول رئيسية:<br><br><strong>الفصل الأول:</strong> ضوابط صحة العقود المبرمة عبر وسائل التواصل الاجتماعي والمتاجر الإلكترونية، وكيفية تحقق مجلس العقد وخيار المجلس فيها.<br><strong>الفصل الثاني:</strong> حكم البيع بالعمولة والتسويق الشبكي والدروب شيبينغ، وتفصيل الفرق بين السمسرة المشروعة وبين بيع الإنسان ما لا يملك.<br><strong>الفصل الثالث:</strong> ضوابط الصرف والتحويلات المالية عبر التطبيقات البنكية والمحافظ الإلكترونية وشروط التقابض الحكمي.`
+                },
+                en: {
+                    badge: "Contemporary Financial Fiqh",
+                    pages: "42 Pages",
+                    title: "Rulings on Digital Currencies and E-Commerce in Shafi'i Jurisprudence",
+                    desc: "An authenticated juristic study examining modern online contracts, dropshipping, and currency exchange regulations.",
+                    author: "By: Ribat Research Committee",
+                    summary: `This peer-reviewed study addresses key contemporary financial issues among youth and merchants across three chapters:<br><br><strong>Chapter 1:</strong> Conditions for the validity of contracts concluded via social media and online stores, and how the contract session (Majlis al-'Aqd) is realized.<br><strong>Chapter 2:</strong> Rulings on affiliate marketing and dropshipping, distinguishing lawful brokerage from selling what one does not own.<br><strong>Chapter 3:</strong> Guidelines on currency exchange and transfers via banking apps and digital wallets.`
+                },
+                id: {
+                    badge: "Fikih Keuangan Kontemporer",
+                    pages: "42 Halaman",
+                    title: "Hukum Transaksi Mata Uang Digital & E-Commerce dalam Fikih Syafi'i",
+                    desc: "Kajian fikih mendalam yang membahas ketentuan akad modern عبر internet, dropshipping, dan pertukaran mata uang.",
+                    author: "Oleh: Komisi Riset Ribat",
+                    summary: `Penelitian ilmiah ini mengupas berbagai persoalan keuangan modern di kalangan pedagang dan generasi muda dalam tiga bab:<br><br><strong>Bab Pertama:</strong> Ketentuan sahnya akad jual beli melalui media sosial dan toko online serta konsep majelis akad.<br><strong>Bab Kedua:</strong> Hukum pemasaran komisi (affiliate) dan dropshipping serta perbedaan antara makelar yang sah dengan menjual barang yang belum dimiliki.<br><strong>Bab Ketiga:</strong> Ketentuan sharf (pertukaran mata uang) dan transfer melalui aplikasi perbankan serta dompet digital.`
+                }
+            },
+            {
+                ar: {
+                    badge: "فقه العبادات",
+                    pages: "64 صفحة",
+                    title: "الخلاصة الوفية في زكاة عروض التجارة والأسهم والذهب",
+                    desc: "دليل عملي للتجار وأصحاب المحلات التجارية في كيفية جرد البضائع وتقويمها وحساب نصاب الزكاة في ظل تقلب العملات.",
+                    author: "إعداد: دائرة الفتاوى والبحوث",
+                    summary: `رسالة عملية ميسرة أعدتها دائرة الفتاوى لمساعدة التجار والمحاسبين في محافظة حضرموت على إخراج زكاة أموالهم على الوجه الشرعي الصحيح:<br><br>• بيان شروط وجوب زكاة التجارة وكيفية تحديد الحول الزكوي بالهجري.<br>• الجداول التطبيقية لجرد البضائع الراكدة والرائجة والديون التجارية.<br>• أحكام زكاة الحلي للنساء وما أُعدّ للزينة أو للادخار والكنز.`
+                },
+                en: {
+                    badge: "Fiqh of Worship",
+                    pages: "64 Pages",
+                    title: "Comprehensive Guide to Zakat on Commercial Goods, Shares, and Gold",
+                    desc: "A practical manual for merchants and shop owners on inventory valuation and calculating Zakat Nisab amid currency fluctuations.",
+                    author: "By: Dept. of Fatwas & Research",
+                    summary: `An accessible practical guide prepared by the Fatwa Department to assist merchants and accountants in calculating Zakat accurately:<br><br>• Conditions for the obligation of trade Zakat and determining the lunar Hawl.<br>• Practical tables for valuing active inventory, stagnant goods, and commercial debts.<br>• Rulings on women's gold jewelry prepared for adornment versus savings.`
+                },
+                id: {
+                    badge: "Fikih Ibadah",
+                    pages: "64 Halaman",
+                    title: "Panduan Lengkap Zakat Barang Dagangan, Saham, dan Emas",
+                    desc: "Panduan praktis bagi para pedagang dan pemilik toko dalam menghitung inventaris barang dan nishab zakat.",
+                    author: "Oleh: Departemen Fatwa & Riset",
+                    summary: `Risalah praktis yang disusun oleh Departemen Fatwa untuk memudahkan para pedagang dalam menunaikan zakat harta mereka sesuai syariat:<br><br>• Penjelasan syarat wajib zakat perdagangan dan penentuan haul hijriah.<br>• Tabel praktis inventarisasi barang dagangan serta piutang usaha.<br>• Hukum zakat perhiasan emas wanita baik untuk perhiasan maupun simpanan.`
+                }
+            },
+            {
+                ar: {
+                    badge: "التراث الحضرمي والفقه",
+                    pages: "85 صفحة",
+                    title: "جهود علماء الشحر في خدمة المذهب الشافعي والفتوى القضائية",
+                    desc: "دراسة تاريخية وفقهية تستعرض أبرز أعلام الإفتاء والقضاء في مدينة الشحر الساحلية ومخطوطاتهم الفقهية النادرة.",
+                    author: "إعداد: قسم الدراسات التاريخية",
+                    summary: `دراسة توثيقية تبرز الدور التاريخي والعلمي لمدينة الشحر الساحلية باعتبارها إحدى حواضر العلم في حضرموت:<br><br>• تراجم أبرز المفتين والقضاة في الشحر خلال القرون الماضية.<br>• منهجية الفتوى ومراعاة الأعراف الحضرمية في المعاملات البحرية والزراعية والتجارية.<br>• فهرس لأهم المخطوطات والفتاوى المحفوظة لعلماء الشحر.`
+                },
+                en: {
+                    badge: "Hadhrami Heritage & Fiqh",
+                    pages: "85 Pages",
+                    title: "Contributions of Ash-Shihr Scholars to the Shafi'i School and Judicial Fatwa",
+                    desc: "A historical and juristic study highlighting prominent Muftis and judges of the coastal city of Ash-Shihr and their rare manuscripts.",
+                    author: "By: Historical Studies Division",
+                    summary: `A documentary study highlighting the scholarly legacy of the coastal city of Ash-Shihr as a major center of Islamic learning in Hadhramaut:<br><br>• Biographies of leading Muftis and judges in Ash-Shihr over past centuries.<br>• Methodology of Fatwa and consideration of local maritime, agricultural, and commercial customs.<br>• Index of preserved manuscripts and fatwa collections by Ash-Shihr scholars.`
+                },
+                id: {
+                    badge: "Warisan Hadhramaut & Fikih",
+                    pages: "85 Halaman",
+                    title: "Peran Ulama Asy-Syihr dalam Khidmah Mazhab Syafi'i dan Fatwa Peradilan",
+                    desc: "Kajian sejarah dan fikih yang mengulas tokoh-tokoh mufti dan qadhi di kota pesisir Asy-Syihr beserta manuskrip langka mereka.",
+                    author: "Oleh: Divisi Studi Sejarah",
+                    summary: `Studi dokumentasi yang menampilkan peran ilmiah dan sejarah kota pesisir Asy-Syihr sebagai salah satu pusat keilmuan di Hadhramaut:<br><br>• Biografi para mufti dan hakim terkemuka di Asy-Syihr pada abad-abad silam.<br>• Metodologi fatwa dan perhatian terhadap adat kebiasaan lokal dalam transaksi kelautan, pertanian, dan perdagangan.<br>• Katalog manuskrip fikih dan kumpulan fatwa ulama Asy-Syihr.`
+                }
+            }
+        ];
+
+        // ==========================================
+        // 2. STATE MANAGEMENT & COMPLETE TRANSLATIONS
+        // ==========================================
+        let currentCategory = 'الكل';
+        let currentSearchQuery = '';
+        let currentSort = 'newest';
+        let currentFontSizeStep = 0;
+        let currentLang = 'ar';
+        let bookmarkedIds = JSON.parse(localStorage.getItem('ribat_bookmarks') || '[]');
+        let userQuestions = JSON.parse(localStorage.getItem('ribat_user_questions') || '[]');
+
+        const uiTranslations = {
+            ar: {
+                dir: 'rtl',
+                topBarTitle: 'رباط المصطفى بالشحر للدراسات الإسلامية - حضرموت',
+                savedBtn: 'المحفوظات',
+                brandTitle: 'دائرة الفتاوى والبحوث',
+                brandSubtitle: 'رباط المصطفى بالشحر للدراسات الإسلامية',
+                navHome: 'الرئيسية',
+                navBrowse: 'تصفح الفتاوى',
+                navBrowseMobile: 'تصفح جميع الفتاوى',
+                navCategories: 'الأقسام الفقهية',
+                navAsk: 'أرسل سؤالك',
+                navAskMobile: 'إرسال سؤال جديد',
+                navTrack: 'متابعة استفتاء',
+                navTrackMobile: 'متابعة حالة سؤال',
+                navResearch: 'البحوث والإصدارات',
+                navResearchMobile: 'البحوث والدراسات',
+                navAbout: 'عن الدائرة',
+                navAboutMobile: 'عن الدائرة والرباط',
+                headerAskBtn: 'ضع سؤالك هنا',
+                langLabel: 'اللغة / Language / Bahasa',
+                heroAyah: 'قال تعالى: ﴿فَاسْأَلُوا أَهْلَ الذِّكْرِ إِن كُنتُمْ لَا تَعْلَمُونَ﴾',
+                heroMainTitle: 'منصة الإفتاء والبحوث الشرعية',
+                heroSubTitle: 'برباط المصطفى بالشحر للدراسات الإسلامية',
+                heroDesc: 'مرجعك الموثوق للفتاوى الشرعية المؤصلة على منهج أهل السنة والجماعة والمذهب الشافعي، بإشراف نخبة من العلماء والباحثين المتخصصين بمدينة الشحر.',
+                heroSearchPlaceholder: 'ابحث في الفتاوى بالكلمات المفتاحية، الموضوع، أو رقم الفتوى (مثلاً: زكاة، 1042)...',
+                searchBtn: 'بحث',
+                popularSearches: 'الأكثر بحثاً:',
+                tagZakat: 'زكاة المال',
+                tagDivorce: 'أحكام الطلاق',
+                tagEcommerce: 'التجارة الإلكترونية',
+                tagPrayer: 'جمع الصلوات',
+                ctaCardTitle: 'هل لديك سؤال شرعي؟',
+                ctaCardSub: 'نستقبل أسئلتكم وتجيب عليها لجنة الإفتاء بالرباط',
+                ctaOnline: 'متاح الآن',
+                ctaPoint1: 'إجابات محررة وموثقة بالمراجع الفقهية المعتمدة.',
+                ctaPoint2: 'سرية تامة لبيانات المستفتي في القضايا الأسرية والخاصة.',
+                ctaPoint3: 'إمكانية متابعة السؤال برقم مرجعي خاص أو عبر الواتساب.',
+                ctaSubmitBtn: 'أرسل سؤالك الآن لدائرة الفتاوى',
+                ctaTrackLabel: 'لديك رقم استفتاء سابق؟ تابع حالته مباشرة:',
+                ctaTrackPlaceholder: 'أدخل رقم المتابعة (مثال: RM-105)',
+                ctaTrackBtn: 'متابعة',
+                stat1Label: 'فتوى شرعية مؤصلة',
+                stat2Label: 'أبواب وأقسام فقهية',
+                stat3Label: 'بحثاً وإصداراً علمياً',
+                stat4Val: '24 - 48 ساعة',
+                stat4Label: 'متوسط الرد على الاستفتاءات',
+                catBadge: 'تصنيف موضوعي',
+                catTitle: 'أقسام الفتاوى الشرعية',
+                catSubtitle: 'اختر الباب الفقهي لتصفح جميع الأسئلة والفتاوى المتعلقة به مع مراجعها المعتمدة',
+                fatwaUnit: 'فتوى',
+                allPublishedFatwas: 'جميع الفتاوى المنشورة',
+                categoryPrefix: 'فتاوى قسم: ',
+                totalResultsPrefix: 'إجمالي النتائج المعروضة: ',
+                filterSearchPlaceholder: 'فلترة سريعة للفتاوى...',
+                sortNewest: 'الأحدث نشراً',
+                sortPopular: 'الأكثر قراءة',
+                sortNumber: 'حسب رقم الفتوى',
+                noResultsTitle: 'لم يتم العثور على فتوى مطابقة لبحثك',
+                noResultsDesc: 'يمكنك تغيير كلمات البحث، أو إرسال سؤالك مباشرة إلى دائرة الفتاوى والبحوث ليتم الرد عليك.',
+                showAllFatwasBtn: 'عرض كل الفتاوى',
+                fatwaNumPrefix: 'فتوى رقم #',
+                viewsUnit: 'قراءة',
+                questionLabel: 'السؤال:',
+                questionerPrefix: 'المستفتي: ',
+                answerLabel: 'الجواب من دائرة الفتاوى والبحوث:',
+                referencesLabel: 'المراجع والمصادر الفقهية المعتمدة',
+                issuedByFooter: 'صادر عن دائرة الفتاوى والبحوث - رباط المصطفى بالشحر',
+                copyBtn: 'نسخ الفتوى',
+                whatsappBtn: 'واتساب',
+                printBtn: 'طباعة',
+                saveBtn: 'حفظ',
+                savedStateBtn: 'محفوظة',
+                askBadge: 'خدمة الاستفتاء الإلكتروني',
+                askTitle: 'أرسل سؤالك إلى دائرة الفتاوى والبحوث',
+                askDesc: 'يُعرض سؤالك على لجنة الإفتاء برباط المصطفى بالشحر، ويتم الرد عليك وإعطاؤك رقم متابعة خاص.',
+                successTitle: 'تم استلام سؤالك بنجاح ولله الحمد!',
+                successDesc: 'تم إحالة سؤالك إلى لجنة الفتوى والبحوث برباط المصطفى بالشحر. يرجى الاحتفاظ برقم المتابعة التالي للاستعلام عن حالة الإجابة:',
+                trackingCodeLabel: 'رقم متابعة الاستفتاء:',
+                viewStatusNowBtn: 'عرض حالة السؤال الآن',
+                askAnotherBtn: 'إرسال سؤال آخر',
+                formNameLabel: 'اسم المستفتي',
+                formNameHint: '(اختياري - يمكنك كتابة "مستفتي" للخصوصية)',
+                formNamePlaceholder: 'الاسم الكريم أو كنية المستفتي',
+                formCatLabel: 'الباب الفقهي للسؤال',
+                cat1: 'الطهارة والصلاة',
+                cat2: 'الزكاة والصيام والحج',
+                cat3: 'المعاملات المالية والتجارة',
+                cat4: 'فقه الأسرة والطلاق والمواريث',
+                cat5: 'العقيدة والتوحيد',
+                cat6: 'الآداب والأخلاق والرقائق',
+                cat7: 'قضايا معاصرة ونوازل',
+                formContactLabel: 'رقم الواتساب أو البريد الإلكتروني',
+                formContactHint: '(لإشعارك عند صدور الفتوى)',
+                formContactPlaceholder: 'مثال: 770000000 أو البريد الإلكتروني',
+                formPriorityLabel: 'درجة أهمية السؤال وطبيعته',
+                formPriorityNormal: 'استفتاء عادي',
+                formPriorityUrgent: 'مستعجل (طلاق/دم/وفاة)',
+                formTitleLabel: 'عنوان مختصر للسؤال',
+                formTitlePlaceholder: 'مثال: حكم البيع بالتقسيط مع زيادة السعر عن الكاش',
+                formDetailsLabel: 'نص الاستفتاء بالتفصيل',
+                formDetailsPlaceholder: 'اكتب تفاصيل سؤالك بوضوح تام؛ فإن الحكم على الشيء فرع عن تصوره...',
+                formDetailsNote: 'يرجى ذكر جميع الملابسات المؤثرة في الحكم الشرعي خاصة في مسائل الطلاق والمعاملات المالية.',
+                formPrivacyCheck: 'سؤال خاص (أرغب في استلام الفتوى بشكل خاص دون نشر الاسم)',
+                formSubmitBtn: 'إرسال السؤال للدائرة',
+                trackTitle: 'متابعة حالة استفتاء',
+                trackSubtitle: 'أدخل رقم المتابعة الذي حصلت عليه عند إرسال سؤالك لمعرفة مرحلة دراسته أو قراءة الفتوى فور صدورها',
+                trackInputPlaceholder: 'أدخل رقم المتابعة (مثال: RM-105 أو RM-108)',
+                trackCheckBtn: 'استعلام',
+                trackDemoHint: 'أرقام تجريبية للمعاينة الفورية:',
+                trackDemo1: 'RM-105 (قيد العرض على اللجنة)',
+                trackDemo2: 'RM-108 (تمت الإجابة)',
+                trackBrowserHistory: 'أسئلة قمت بإرسالها من هذا المتصفح:',
+                trackNotFoundTitle: 'لم يتم العثور على استفتاء برقم',
+                trackNotFoundDesc: 'تأكد من كتابة الرقم بشكل صحيح (مثال: RM-105 أو RM-108)',
+                trackStep1: '1. استلام السؤال',
+                trackStep2: '2. قيد الدراسة باللجنة',
+                trackStep3: '3. صدور الفتوى',
+                trackCurrentStatus: 'الحالة الحالية: ',
+                trackIssuedAnswer: 'نص الجواب الصادر عن الدائرة:',
+                trackUnderReviewBadge: 'قيد المراجعة',
+                resBadge: 'الإنتاج العلمي والبحثي',
+                resTitle: 'إصدارات وبحوث رباط المصطفى بالشحر',
+                resSubtitle: 'دراسات فقهية محكمة ونشرات موسمية تصدرها دائرة البحوث والدراسات بالرباط',
+                readSummaryBtn: 'قراءة الملخص',
+                closeBtn: 'إغلاق',
+                aboutBadge: 'نبذة تعريفية',
+                aboutTitle: 'عن دائرة الفتاوى والبحوث برباط المصطفى بالشحر',
+                aboutDesc: 'تُعد دائرة الفتاوى والبحوث إحدى الركائز العلمية في رباط المصطفى بالشحر للدراسات الإسلامية بمحافظة حضرموت، وقد تأسست لخدمة المجتمع المسلم والإجابة عن تساؤلات المستفتين في شتى أبواب الفقه والعبادات والمعاملات والأحوال الشخصية، مع العناية بدراسة النوازل المعاصرة.',
+                aboutBox1Title: 'المنهج العلمي في الإفتاء',
+                aboutBox1Desc: 'تعتمد الدائرة في فتاواها على المعتمد في المذهب الشافعي من خلال كتب الشيخين (النووي والرافعي) وشروح المنهاج كـ «تحفة المحتاج» و«نهاية المحتاج»، مع مراعاة فقه الواقع والتيسير المعتبر شرعاً.',
+                aboutBox2Title: 'آلية عمل اللجنة',
+                aboutBox2Desc: 'تُفرز الأسئلة الواردة عبر الموقع أو الحضور المباشر، وتُحرر إجاباتها مرفقة بالمصادر الشرعية، أما القضايا الكبرى كالطلاق والمواريث فتُعرض على اللجنة العلمية المجتمعة.',
+                aboutHoursTitle: 'مواعيد استقبال المستفتين',
+                aboutHours1Label: 'استقبال الأسئلة عبر الموقع:',
+                aboutHours1Val: 'طوال أيام الأسبوع (24/7)',
+                aboutHours2Label: 'الحضور المباشر لمقر الدائرة:',
+                aboutHours2Val: 'السبت - الخميس (صباحاً ومساءً)',
+                aboutHours3Label: 'لجنة قضايا الأسرة والمواريث:',
+                aboutHours3Val: 'الإثنين والخميس (بعد العصر)',
+                aboutLocation: 'اليمن - حضرموت - مدينة الشحر - رباط المصطفى للدراسات الإسلامية',
+                footerDesc: 'منبر علمي شرعي يُعنى بنشر العلم المؤصل والإجابة على استفتاءات الناس وتوثيق المسائل الفقهية بأدلتها ومراجعها المعتمدة.',
+                footerQuickLinks: 'روابط سريعة',
+                footerContactTitle: 'للتواصل والاستفسار',
+                footerContactDesc: 'يمكنكم إرسال أسئلتكم مباشرة عبر الموقع أو زيارة مقر الدائرة بمدينة الشحر.',
+                footerAskBtn: 'اطرح سؤالك الآن',
+                footerCopyright: '© جميع الحقوق محفوظة لـ دائرة الفتاوى والبحوث - رباط المصطفى بالشحر للدراسات الإسلامية.',
+                bookmarksModalTitle: 'الفتاوى المحفوظة في المفضلة',
+                noBookmarksText: 'لا توجد فتاوى محفوظة في المفضلة حالياً.',
+                viewBtn: 'عرض',
+                langChangedMsg: 'تم تغيير اللغة إلى العربية'
+            },
+            en: {
+                dir: 'ltr',
+                topBarTitle: 'Ribat Al-Mustafa in Ash-Shihr for Islamic Studies - Hadhramaut',
+                savedBtn: 'Saved',
+                brandTitle: 'Department of Fatwas & Research',
+                brandSubtitle: 'Ribat Al-Mustafa in Ash-Shihr for Islamic Studies',
+                navHome: 'Home',
+                navBrowse: 'Browse Fatwas',
+                navBrowseMobile: 'Browse All Fatwas',
+                navCategories: 'Fiqh Categories',
+                navAsk: 'Ask a Question',
+                navAskMobile: 'Submit New Question',
+                navTrack: 'Track Inquiry',
+                navTrackMobile: 'Track Question Status',
+                navResearch: 'Research & Publications',
+                navResearchMobile: 'Research & Studies',
+                navAbout: 'About Us',
+                navAboutMobile: 'About the Department',
+                headerAskBtn: 'Ask Question',
+                langLabel: 'Language / اللغة / Bahasa',
+                heroAyah: 'Allah says: "So ask the people of knowledge if you do not know"',
+                heroMainTitle: 'Islamic Fatwa & Research Platform',
+                heroSubTitle: 'Ribat Al-Mustafa in Ash-Shihr for Islamic Studies',
+                heroDesc: 'Your trusted source for authentic Islamic fatwas rooted in Ahlus Sunnah wal Jama\'ah and the Shafi\'i school, supervised by specialist scholars and researchers in Ash-Shihr.',
+                heroSearchPlaceholder: 'Search fatwas by keyword, topic, or fatwa number (e.g., Zakat, 1042)...',
+                searchBtn: 'Search',
+                popularSearches: 'Popular:',
+                tagZakat: 'Zakat on Wealth',
+                tagDivorce: 'Divorce Rulings',
+                tagEcommerce: 'E-Commerce',
+                tagPrayer: 'Combining Prayers',
+                ctaCardTitle: 'Have a Religious Question?',
+                ctaCardSub: 'We receive your questions and answer them via the Ribat Fatwa Committee',
+                ctaOnline: 'Online Now',
+                ctaPoint1: 'Edited answers documented with approved juristic references.',
+                ctaPoint2: 'Complete confidentiality for personal and family inquiries.',
+                ctaPoint3: 'Track your question status with a special reference code or WhatsApp.',
+                ctaSubmitBtn: 'Submit Your Question to the Fatwa Dept.',
+                ctaTrackLabel: 'Have a previous inquiry code? Track its status directly:',
+                ctaTrackPlaceholder: 'Enter tracking code (e.g., RM-105)',
+                ctaTrackBtn: 'Track',
+                stat1Label: 'Authenticated Fatwas',
+                stat2Label: 'Fiqh Categories',
+                stat3Label: 'Research & Publications',
+                stat4Val: '24 - 48 Hours',
+                stat4Label: 'Average Response Time',
+                catBadge: 'Thematic Classification',
+                catTitle: 'Islamic Fiqh Categories',
+                catSubtitle: 'Select a category to browse all related questions, answers, and approved references',
+                fatwaUnit: 'Fatwas',
+                allPublishedFatwas: 'All Published Fatwas',
+                categoryPrefix: 'Category: ',
+                totalResultsPrefix: 'Total Displayed Results: ',
+                filterSearchPlaceholder: 'Quick filter fatwas...',
+                sortNewest: 'Newest First',
+                sortPopular: 'Most Viewed',
+                sortNumber: 'By Fatwa Number',
+                noResultsTitle: 'No Matching Fatwas Found',
+                noResultsDesc: 'Try changing your search keywords, or submit your question directly to the Department of Fatwas & Research.',
+                showAllFatwasBtn: 'Show All Fatwas',
+                fatwaNumPrefix: 'Fatwa #',
+                viewsUnit: 'views',
+                questionLabel: 'Question:',
+                questionerPrefix: 'Questioner: ',
+                answerLabel: 'Answer from the Department of Fatwas & Research:',
+                referencesLabel: 'Approved Juristic References & Sources',
+                issuedByFooter: 'Issued by the Dept. of Fatwas & Research - Ribat Al-Mustafa in Ash-Shihr',
+                copyBtn: 'Copy Fatwa',
+                whatsappBtn: 'WhatsApp',
+                printBtn: 'Print',
+                saveBtn: 'Save',
+                savedStateBtn: 'Saved',
+                askBadge: 'Online Fatwa Service',
+                askTitle: 'Submit Your Question to the Department of Fatwas & Research',
+                askDesc: 'Your question is presented to the Fatwa Committee at Ribat Al-Mustafa in Ash-Shihr, and you will receive a private tracking number.',
+                successTitle: 'Your Question Has Been Received Successfully!',
+                successDesc: 'Your question has been forwarded to the Fatwa Committee at Ribat Al-Mustafa. Please save the following tracking code to check your answer status:',
+                trackingCodeLabel: 'Tracking Code:',
+                viewStatusNowBtn: 'View Question Status Now',
+                askAnotherBtn: 'Submit Another Question',
+                formNameLabel: 'Questioner Name',
+                formNameHint: '(Optional - you may write "Inquirer" for privacy)',
+                formNamePlaceholder: 'Your name or kunyah',
+                formCatLabel: 'Fiqh Category',
+                cat1: 'Purification & Prayer',
+                cat2: 'Zakat, Fasting & Hajj',
+                cat3: 'Financial Transactions & Trade',
+                cat4: 'Family, Divorce & Inheritance',
+                cat5: 'Creed & Tawheed',
+                cat6: 'Islamic Ethics & Spirituality',
+                cat7: 'Contemporary Issues',
+                formContactLabel: 'WhatsApp Number or Email',
+                formContactHint: '(To notify you when the fatwa is issued)',
+                formContactPlaceholder: 'Example: +967770000000 or Email',
+                formPriorityLabel: 'Question Priority & Nature',
+                formPriorityNormal: 'Standard Inquiry',
+                formPriorityUrgent: 'Urgent (Divorce/Inheritance)',
+                formTitleLabel: 'Brief Question Title',
+                formTitlePlaceholder: 'Example: Ruling on installment sales with a higher price than cash',
+                formDetailsLabel: 'Detailed Question Text',
+                formDetailsPlaceholder: 'Write the details of your question clearly...',
+                formDetailsNote: 'Please mention all relevant details affecting the Islamic ruling, especially in divorce and financial contracts.',
+                formPrivacyCheck: 'Private Question (I wish to receive the fatwa privately without publishing my name)',
+                formSubmitBtn: 'Submit Question to Department',
+                trackTitle: 'Track Inquiry Status',
+                trackSubtitle: 'Enter the tracking code you received upon submitting your question to check its review stage or read the issued fatwa',
+                trackInputPlaceholder: 'Enter tracking code (e.g., RM-105 or RM-108)',
+                trackCheckBtn: 'Check Status',
+                trackDemoHint: 'Demo codes for instant preview:',
+                trackDemo1: 'RM-105 (Under Committee Review)',
+                trackDemo2: 'RM-108 (Answered)',
+                trackBrowserHistory: 'Questions you submitted from this browser:',
+                trackNotFoundTitle: 'No Inquiry Found With Code',
+                trackNotFoundDesc: 'Please make sure you typed the code correctly (e.g., RM-105 or RM-108)',
+                trackStep1: '1. Question Received',
+                trackStep2: '2. Under Committee Review',
+                trackStep3: '3. Fatwa Issued',
+                trackCurrentStatus: 'Current Status: ',
+                trackIssuedAnswer: 'Official Answer Issued by the Department:',
+                trackUnderReviewBadge: 'Under Review',
+                resBadge: 'Academic & Research Output',
+                resTitle: 'Publications & Research of Ribat Al-Mustafa',
+                resSubtitle: 'Peer-reviewed juristic studies and seasonal publications issued by the Research Department',
+                readSummaryBtn: 'Read Summary',
+                closeBtn: 'Close',
+                aboutBadge: 'About Us',
+                aboutTitle: 'About the Department of Fatwas & Research at Ribat Al-Mustafa',
+                aboutDesc: 'The Department of Fatwas and Research is one of the main academic pillars at Ribat Al-Mustafa in Ash-Shihr for Islamic Studies in Hadhramaut. It was established to serve the Muslim community and answer inquiries across worship, transactions, family law, and contemporary issues.',
+                aboutBox1Title: 'Scholarly Methodology in Fatwa',
+                aboutBox1Desc: 'The Department relies on the relied-upon positions of the Shafi\'i school through the works of Imams Al-Nawawi and Al-Rafi\'i and commentaries such as Tuhfat al-Muhtaj and Nihayat al-Muhtaj.',
+                aboutBox2Title: 'Committee Workflow',
+                aboutBox2Desc: 'Questions received online or in person are sorted and answered with documented sources, while major cases like divorce and inheritance are reviewed by the joint scholarly committee.',
+                aboutHoursTitle: 'Schedule for Receiving Inquirers',
+                aboutHours1Label: 'Online Questions via Website:',
+                aboutHours1Val: 'All Days of the Week (24/7)',
+                aboutHours2Label: 'In-Person Visits at Department HQ:',
+                aboutHours2Val: 'Saturday - Thursday (Morning & Evening)',
+                aboutHours3Label: 'Family & Inheritance Committee:',
+                aboutHours3Val: 'Monday & Thursday (After Asr)',
+                aboutLocation: 'Yemen - Hadhramaut - Ash-Shihr City - Ribat Al-Mustafa for Islamic Studies',
+                footerDesc: 'An Islamic scholarly platform dedicated to spreading authentic knowledge, answering public inquiries, and documenting juristic rulings with their approved references.',
+                footerQuickLinks: 'Quick Links',
+                footerContactTitle: 'Contact & Inquiries',
+                footerContactDesc: 'You can submit your questions directly through the website or visit our headquarters in Ash-Shihr.',
+                footerAskBtn: 'Ask Your Question Now',
+                footerCopyright: '© All Rights Reserved to Department of Fatwas & Research - Ribat Al-Mustafa in Ash-Shihr.',
+                bookmarksModalTitle: 'Saved Fatwas in Bookmarks',
+                noBookmarksText: 'No saved fatwas in your bookmarks yet.',
+                viewBtn: 'View',
+                langChangedMsg: 'Language switched to English'
+            },
+            id: {
+                dir: 'ltr',
+                topBarTitle: 'Ribat Al-Mustafa Asy-Syihr untuk Studi Islam - Hadhramaut',
+                savedBtn: 'Tersimpan',
+                brandTitle: 'Departemen Fatwa & Penelitian',
+                brandSubtitle: 'Ribat Al-Mustafa Asy-Syihr untuk Studi Islam',
+                navHome: 'Beranda',
+                navBrowse: 'Jelajahi Fatwa',
+                navBrowseMobile: 'Jelajahi Semua Fatwa',
+                navCategories: 'Kategori Fikih',
+                navAsk: 'Kirim Pertanyaan',
+                navAskMobile: 'Kirim Pertanyaan Baru',
+                navTrack: 'Lacak Fatwa',
+                navTrackMobile: 'Lacak Status Pertanyaan',
+                navResearch: 'Riset & Publikasi',
+                navResearchMobile: 'Riset & Studi Ilmiah',
+                navAbout: 'Tentang Kami',
+                navAboutMobile: 'Tentang Departemen & Ribat',
+                headerAskBtn: 'Tanya Fatwa',
+                langLabel: 'Bahasa / اللغة / Language',
+                heroAyah: 'Allah berfirman: "Maka bertanyalah kepada ahli ilmu jika kamu tidak mengetahui"',
+                heroMainTitle: 'Platform Fatwa & Riset Syariah',
+                heroSubTitle: 'Ribat Al-Mustafa Asy-Syihr untuk Studi Islam',
+                heroDesc: 'Rujukan tepercaya untuk fatwa syariah berdasarkan manhaj Ahlussunnah wal Jama\'ah dan Mazhab Syafi\'i, di bawah bimbingan para ulama dan peneliti di kota Asy-Syihr.',
+                heroSearchPlaceholder: 'Cari fatwa berdasarkan kata kunci, topik, atau nomor fatwa (misal: Zakat, 1042)...',
+                searchBtn: 'Cari',
+                popularSearches: 'Populer:',
+                tagZakat: 'Zakat Harta',
+                tagDivorce: 'Hukum Talak',
+                tagEcommerce: 'Bisnis Online',
+                tagPrayer: 'Menjamak Shalat',
+                ctaCardTitle: 'Punya Pertanyaan Syariah?',
+                ctaCardSub: 'Kami menerima pertanyaan Anda dan dijawab oleh Komisi Fatwa Ribat',
+                ctaOnline: 'Aktif Sekarang',
+                ctaPoint1: 'Jawaban terverifikasi dan dilengkapi referensi kitab fikih muktabar.',
+                ctaPoint2: 'Kerahasiaan penuh bagi data penanya dalam masalah keluarga dan pribadi.',
+                ctaPoint3: 'Lacak status pertanyaan dengan nomor referensi khusus atau via WhatsApp.',
+                ctaSubmitBtn: 'Kirim Pertanyaan Anda Sekarang',
+                ctaTrackLabel: 'Punya nomor kode pertanyaan? Lacak statusnya langsung:',
+                ctaTrackPlaceholder: 'Masukkan kode lacak (contoh: RM-105)',
+                ctaTrackBtn: 'Lacak',
+                stat1Label: 'Fatwa Syariah Terverifikasi',
+                stat2Label: 'Bab & Kategori Fikih',
+                stat3Label: 'Riset & Publikasi Ilmiah',
+                stat4Val: '24 - 48 Jam',
+                stat4Label: 'Rata-rata Waktu Respon',
+                catBadge: 'Klasifikasi Tematik',
+                catTitle: 'Kategori Fatwa Fikih',
+                catSubtitle: 'Pilih bab fikih untuk menjelajahi seluruh pertanyaan dan fatwa beserta referensi kitabnya',
+                fatwaUnit: 'Fatwa',
+                allPublishedFatwas: 'Semua Fatwa yang Diterbitkan',
+                categoryPrefix: 'Kategori: ',
+                totalResultsPrefix: 'Total Hasil Ditampilkan: ',
+                filterSearchPlaceholder: 'Filter cepat fatwa...',
+                sortNewest: 'Terbaru Diterbitkan',
+                sortPopular: 'Paling Banyak Dibaca',
+                sortNumber: 'Berdasarkan Nomor Fatwa',
+                noResultsTitle: 'Tidak Ditemukan Fatwa yang Sesuai',
+                noResultsDesc: 'Silakan ubah kata kunci pencarian, atau kirimkan pertanyaan Anda langsung ke Departemen Fatwa dan Penelitian.',
+                showAllFatwasBtn: 'Tampilkan Semua Fatwa',
+                fatwaNumPrefix: 'Fatwa No. #',
+                viewsUnit: 'dilihat',
+                questionLabel: 'Pertanyaan:',
+                questionerPrefix: 'Penanya: ',
+                answerLabel: 'Jawaban Departemen Fatwa dan Penelitian:',
+                referencesLabel: 'Referensi & Sumber Kitab Fikih Muktabar',
+                issuedByFooter: 'Diterbitkan oleh Departemen Fatwa & Penelitian - Ribat Al-Mustafa Asy-Syihr',
+                copyBtn: 'Salin Fatwa',
+                whatsappBtn: 'WhatsApp',
+                printBtn: 'Cetak',
+                saveBtn: 'Simpan',
+                savedStateBtn: 'Tersimpan',
+                askBadge: 'Layanan Fatwa Online',
+                askTitle: 'Kirim Pertanyaan ke Departemen Fatwa dan Penelitian',
+                askDesc: 'Pertanyaan Anda akan diajukan kepada Komisi Fatwa di Ribat Al-Mustafa Asy-Syihr dan Anda akan mendapatkan kode pelacakan khusus.',
+                successTitle: 'Pertanyaan Anda Berhasil Diterima, Alhamdulillah!',
+                successDesc: 'Pertanyaan Anda telah diteruskan ke Komisi Fatwa dan Penelitian di Ribat Al-Mustafa. Harap simpan nomor pelacakan berikut untuk memeriksa status jawaban:',
+                trackingCodeLabel: 'Nomor Pelacakan Fatwa:',
+                viewStatusNowBtn: 'Lihat Status Pertanyaan Sekarang',
+                askAnotherBtn: 'Kirim Pertanyaan Lain',
+                formNameLabel: 'Nama Penanya',
+                formNameHint: '(Opsional - boleh ditulis "Hamba Allah" untuk privasi)',
+                formNamePlaceholder: 'Nama lengkap atau kunyah Anda',
+                formCatLabel: 'Kategori Bab Fikih',
+                cat1: 'Thaharah & Shalat',
+                cat2: 'Zakat, Puasa & Haji',
+                cat3: 'Muamalah Keuangan & Perdagangan',
+                cat4: 'Fikih Keluarga, Talak & Waris',
+                cat5: 'Akidah & Tauhid',
+                cat6: 'Adab, Akhlak & Tazkiyatun Nafs',
+                cat7: 'Isu Kontemporer (Nawazil)',
+                formContactLabel: 'Nomor WhatsApp atau Email',
+                formContactHint: '(Untuk memberitahu Anda saat fatwa terbit)',
+                formContactPlaceholder: 'Contoh: +62812000000 atau Email',
+                formPriorityLabel: 'Tingkat Kepentingan Pertanyaan',
+                formPriorityNormal: 'Pertanyaan Biasa',
+                formPriorityUrgent: 'Mendesak (Talak/Waris)',
+                formTitleLabel: 'Judul Singkat Pertanyaan',
+                formTitlePlaceholder: 'Contoh: Hukum jual beli kredit dengan tambahan harga dari tunai',
+                formDetailsLabel: 'Isi Pertanyaan Secara Rinci',
+                formDetailsPlaceholder: 'Tuliskan rincian pertanyaan Anda dengan jelas...',
+                formDetailsNote: 'Harap sebutkan seluruh rincian yang memengaruhi hukum syariat, khususnya dalam masalah talak dan transaksi keuangan.',
+                formPrivacyCheck: 'Pertanyaan Khusus (Saya ingin menerima jawaban secara pribadi tanpa mencantumkan nama)',
+                formSubmitBtn: 'Kirim Pertanyaan ke Departemen',
+                trackTitle: 'Lacak Status Pertanyaan Fatwa',
+                trackSubtitle: 'Masukkan nomor pelacakan yang Anda peroleh saat mengirim pertanyaan untuk melihat tahap kajian atau membaca fatwa',
+                trackInputPlaceholder: 'Masukkan kode lacak (contoh: RM-105 atau RM-108)',
+                trackCheckBtn: 'Periksa',
+                trackDemoHint: 'Nomor contoh untuk pratinjau langsung:',
+                trackDemo1: 'RM-105 (Sedang Dikaji Komisi)',
+                trackDemo2: 'RM-108 (Telah Dijawab)',
+                trackBrowserHistory: 'Pertanyaan yang Anda kirim dari peramban ini:',
+                trackNotFoundTitle: 'Tidak Ditemukan Pertanyaan dengan Kode',
+                trackNotFoundDesc: 'Pastikan Anda menuliskan kode dengan benar (contoh: RM-105 atau RM-108)',
+                trackStep1: '1. Pertanyaan Diterima',
+                trackStep2: '2. Sedang Dikaji Komisi',
+                trackStep3: '3. Fatwa Terbit',
+                trackCurrentStatus: 'Status Saat Ini: ',
+                trackIssuedAnswer: 'Teks Jawaban Resmi dari Departemen:',
+                trackUnderReviewBadge: 'Sedang Dikaji',
+                resBadge: 'Karya Ilmiah & Penelitian',
+                resTitle: 'Publikasi & Riset Ribat Al-Mustafa Asy-Syihr',
+                resSubtitle: 'Kajian fikih terverifikasi dan buletin ilmiah yang diterbitkan oleh Departemen Penelitian Ribat',
+                readSummaryBtn: 'Baca Ringkasan',
+                closeBtn: 'Tutup',
+                aboutBadge: 'Profil Singkat',
+                aboutTitle: 'Tentang Departemen Fatwa & Penelitian di Ribat Al-Mustafa Asy-Syihr',
+                aboutDesc: 'Departemen Fatwa dan Penelitian merupakan salah satu pilar ilmiah utama di Ribat Al-Mustafa Asy-Syihr untuk Studi Islam di Provinsi Hadhramaut, didirikan untuk melayani masyarakat Muslim dalam menjawab berbagai persoalan ibadah, muamalah, keluarga, dan isu kontemporer.',
+                aboutBox1Title: 'Metodologi Ilmiah dalam Fatwa',
+                aboutBox1Desc: 'Departemen ini berpegang pada pendapat mu\'tamad dalam Mazhab Syafi\'i melalui kitab-kitab Syaikhain (An-Nawawi dan Ar-Rafi\'i) serta syarah Minhaj seperti Tuhfatul Muhtaj dan Nihayatul Muhtaj.',
+                aboutBox2Title: 'Mekanisme Kerja Komisi',
+                aboutBox2Desc: 'Pertanyaan yang masuk melalui situs web atau kunjungan langsung disortir dan dijawab lengkap dengan rujukan kitabnya, sedangkan masalah besar seperti talak dan waris dibahas bersama oleh komisi ilmiah.',
+                aboutHoursTitle: 'Jadwal Layanan Konsultasi Fatwa',
+                aboutHours1Label: 'Penerimaan Pertanyaan via Website:',
+                aboutHours1Val: 'Setiap Hari (24/7)',
+                aboutHours2Label: 'Kunjungan Langsung ke Kantor:',
+                aboutHours2Val: 'Sabtu - Kamis (Pagi & Sore)',
+                aboutHours3Label: 'Komisi Masalah Keluarga & Waris:',
+                aboutHours3Val: 'Senin & Kamis (Ba\'da Ashar)',
+                aboutLocation: 'Yaman - Hadhramaut - Kota Asy-Syihr - Ribat Al-Mustafa untuk Studi Islam',
+                footerDesc: 'Mimbar ilmiah syariah yang berfokus pada penyebaran ilmu yang bersanad, menjawab pertanyaan umat, dan mendokumentasikan masalah fikih beserta dalil dan referensinya.',
+                footerQuickLinks: 'Tautan Cepat',
+                footerContactTitle: 'Kontak & Informasi',
+                footerContactDesc: 'Anda dapat mengirimkan pertanyaan secara langsung melalui situs web atau mengunjungi kantor kami di kota Asy-Syihr.',
+                footerAskBtn: 'Ajukan Pertanyaan Sekarang',
+                footerCopyright: '© Hak Cipta Dilindungi - Departemen Fatwa & Penelitian - Ribat Al-Mustafa Asy-Syihr.',
+                bookmarksModalTitle: 'Fatwa Tersimpan di Favorit',
+                noBookmarksText: 'Belum ada fatwa yang disimpan di daftar favorit.',
+                viewBtn: 'Lihat',
+                langChangedMsg: 'Bahasa diubah ke Bahasa Indonesia'
+            }
+        };
+
+        function getCategoryDisplayName(catId) {
+            const cat = categoriesData.find(c => c.id === catId);
+            return cat ? (cat.name[currentLang] || cat.name.ar) : catId;
+        }
+
+        function changeLanguage(lang) {
+            if (!uiTranslations[lang]) return;
+            currentLang = lang;
+            const t = uiTranslations[lang];
+
+            document.documentElement.lang = lang;
+            document.documentElement.dir = t.dir;
+
+            // Update desktop and mobile dropdowns
+            const desktopSelect = document.getElementById('desktop-lang-select');
+            if (desktopSelect) desktopSelect.value = lang;
+            const mobileSelect = document.getElementById('mobile-lang-select');
+            if (mobileSelect) mobileSelect.value = lang;
+
+            // Translate all static elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            // Translate all inputs/textareas with data-i18n-placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t[key]) el.placeholder = t[key];
+            });
+
+            // Re-render dynamic components in selected language
+            initCurrentDate();
+            renderCategories();
+            renderFatwas();
+            renderResearchCards();
+            renderUserSubmittedHistory();
+
+            // Update current category header
+            const titleEl = document.getElementById('current-category-title');
+            if (titleEl) {
+                titleEl.textContent = currentCategory === 'الكل'
+                    ? t.allPublishedFatwas
+                    : `${t.categoryPrefix}${getCategoryDisplayName(currentCategory)}`;
+            }
+
+            // Re-render open tracking result if visible
+            const trackRes = document.getElementById('tracking-result-container');
+            if (trackRes && !trackRes.classList.contains('hidden')) {
+                checkTrackingStatus();
+            }
+
+            showToast(t.langChangedMsg);
+        }
+
+        // ==========================================
+        // 3. INITIALIZATION ON LOAD
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            initCurrentDate();
+            renderCategories();
+            renderFatwas();
+            renderResearchCards();
+            updateBookmarkBadge();
+            renderUserSubmittedHistory();
+        });
+
+        function initCurrentDate() {
+            const dateEl = document.getElementById('current-date-display');
+            if (!dateEl) return;
+            try {
+                const now = new Date();
+                const localeMap = { ar: 'ar-SA-u-ca-islamic', en: 'en-US-u-ca-islamic', id: 'id-ID-u-ca-islamic' };
+                const hijri = new Intl.DateTimeFormat(localeMap[currentLang] || 'ar-SA-u-ca-islamic', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                }).format(now);
+                dateEl.textContent = hijri;
+            } catch (e) {
+                dateEl.textContent = uiTranslations[currentLang].brandSubtitle;
+            }
+        }
+
+        // ==========================================
+        // 4. RENDER CATEGORIES, FATWAS & RESEARCH
+        // ==========================================
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            const t = uiTranslations[currentLang];
+            container.innerHTML = categoriesData.map(cat => {
+                const count = cat.id === 'الكل' 
+                    ? fatwasDatabase.length 
+                    : fatwasDatabase.filter(f => f.category === cat.id).length;
+                
+                const isActive = currentCategory === cat.id;
+                const activeClasses = isActive 
+                    ? 'bg-emerald-850 text-white border-gold-500 shadow-lg scale-[1.02]' 
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:border-emerald-700';
+
+                return `
+                    <button onclick="selectCategory('${cat.id}')" class="p-3.5 rounded-2xl border-2 transition-all flex flex-col items-center text-center justify-center gap-2 group ${activeClasses}">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg ${isActive ? 'bg-white/15 text-gold-400' : 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-850 dark:text-emerald-400 group-hover:scale-110 transition-transform'}">
+                            <i class="fa-solid ${cat.icon}"></i>
+                        </div>
+                        <span class="font-bold text-xs sm:text-sm line-clamp-1">${cat.name[currentLang] || cat.name.ar}</span>
+                        <span class="text-[11px] px-2 py-0.5 rounded-full ${isActive ? 'bg-gold-500 text-emerald-950 font-bold' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}">
+                            ${count} ${t.fatwaUnit}
+                        </span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectCategory(categoryId) {
+            currentCategory = categoryId;
+            const t = uiTranslations[currentLang];
+            document.getElementById('current-category-title').textContent = 
+                categoryId === 'الكل' ? t.allPublishedFatwas : `${t.categoryPrefix}${getCategoryDisplayName(categoryId)}`;
+            renderCategories();
+            renderFatwas();
+        }
+
+        function handleSearch(query) {
+            currentSearchQuery = query.trim();
+            const heroInput = document.getElementById('hero-search-input');
+            const sectionInput = document.getElementById('section-search-input');
+            if (heroInput && heroInput.value !== query) heroInput.value = query;
+            if (sectionInput && sectionInput.value !== query) sectionInput.value = query;
+            renderFatwas();
+        }
+
+        function quickFilterKeyword(keyword) {
+            currentCategory = 'الكل';
+            handleSearch(keyword);
+            renderCategories();
+            scrollToFatwas();
+        }
+
+        function scrollToFatwas() {
+            document.getElementById('fatwas-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSort(sortBy) {
+            currentSort = sortBy;
+            renderFatwas();
+        }
+
+        function renderFatwas() {
+            const container = document.getElementById('fatwas-list-container');
+            const countLabel = document.getElementById('fatwa-results-count');
+            const t = uiTranslations[currentLang];
+
+            // Filter by category and search query across all languages
+            let filtered = fatwasDatabase.filter(fatwa => {
+                const matchesCategory = currentCategory === 'الكل' || fatwa.category === currentCategory;
+                const q = currentSearchQuery.toLowerCase();
+                if (!q) return matchesCategory;
+
+                const content = fatwa[currentLang] || fatwa.ar;
+                const matchesSearch = 
+                    content.title.toLowerCase().includes(q) ||
+                    content.question.toLowerCase().includes(q) ||
+                    content.answer.toLowerCase().includes(q) ||
+                    fatwa.ar.title.toLowerCase().includes(q) ||
+                    fatwa.ar.question.toLowerCase().includes(q) ||
+                    fatwa.id.toString().includes(q);
+                return matchesCategory && matchesSearch;
+            });
+
+            // Sort
+            if (currentSort === 'popular') {
+                filtered.sort((a, b) => b.views - a.views);
+            } else if (currentSort === 'number') {
+                filtered.sort((a, b) => a.id - b.id);
+            } else {
+                filtered.sort((a, b) => b.id - a.id);
+            }
+
+            countLabel.textContent = `${t.totalResultsPrefix}${filtered.length} ${t.fatwaUnit}`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl p-10 text-center border border-gray-200 dark:border-gray-700 space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-400 flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800 dark:text-white">${t.noResultsTitle}</h4>
+                        <p class="text-sm text-gray-500 max-w-md mx-auto">${t.noResultsDesc}</p>
+                        <div class="pt-2 flex justify-center gap-3">
+                            <button onclick="quickFilterKeyword('')" class="px-5 py-2.5 rounded-xl bg-gray-200 dark:bg-gray-700 text-sm font-bold">${t.showAllFatwasBtn}</button>
+                            <a href="#ask-section" class="px-5 py-2.5 rounded-xl bg-emerald-850 text-white text-sm font-bold">${t.navAsk}</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(fatwa => {
+                const isBookmarked = bookmarkedIds.includes(fatwa.id);
+                const content = fatwa[currentLang] || fatwa.ar;
+                const formattedAnswer = content.answer.replace(/\n\n/g, '</p><p class="mt-3">').replace(/\n/g, '<br>');
+                const catDisplay = getCategoryDisplayName(fatwa.category);
+
+                return `
+                    <article id="fatwa-card-${fatwa.id}" class="bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-xl transition-shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        
+                        <!-- Card Top Metadata Bar -->
+                        <div class="bg-gray-100 dark:bg-gray-700/70 px-5 sm:px-8 py-3.5 border-b border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-3">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="bg-emerald-850 text-gold-400 text-xs font-bold px-3 py-1 rounded-lg font-mono">
+                                    ${t.fatwaNumPrefix}${fatwa.id}
+                                </span>
+                                <span class="bg-white dark:bg-gray-800 text-emerald-850 dark:text-emerald-400 text-xs font-bold px-3 py-1 rounded-lg border border-gray-200 dark:border-gray-600">
+                                    <i class="fa-solid fa-tag mx-1 text-gold-500"></i>${catDisplay}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                                <span><i class="fa-regular fa-calendar mx-1"></i>${content.date}</span>
+                                <span><i class="fa-regular fa-eye mx-1"></i>${fatwa.views} ${t.viewsUnit}</span>
+                            </div>
+                        </div>
+
+                        <!-- Card Main Content -->
+                        <div class="p-5 sm:p-8 space-y-6">
+                            <!-- Fatwa Title -->
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white font-serif leading-snug">
+                                ${content.title}
+                            </h3>
+
+                            <!-- THE QUESTION BOX (السؤال) -->
+                            <div class="bg-gray-50 dark:bg-gray-700/40 rounded-2xl p-5 border-s-4 border-emerald-850 dark:border-gold-500 relative">
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                    <span class="inline-flex items-center gap-1.5 text-sm font-extrabold text-emerald-850 dark:text-gold-400">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                        <span>${t.questionLabel}</span>
+                                    </span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">${t.questionerPrefix}${content.questioner}</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-200 font-serif fatwa-content-text leading-relaxed">
+                                    ${content.question}
+                                </p>
+                            </div>
+
+                            <!-- THE ANSWER BOX (الجواب / الفتوى) -->
+                            <div class="space-y-3 pt-2">
+                                <div class="flex items-center gap-2 text-emerald-850 dark:text-emerald-400 font-extrabold text-base border-b border-gray-100 dark:border-gray-700 pb-2">
+                                    <i class="fa-solid fa-feather-pointed text-gold-500"></i>
+                                    <span>${t.answerLabel}</span>
+                                </div>
+                                <div class="text-gray-800 dark:text-gray-100 font-serif fatwa-content-text leading-loose text-justify px-1">
+                                    <p>${formattedAnswer}</p>
+                                </div>
+                            </div>
+
+                            <!-- THE REFERENCES BOX (المراجع والمصادر الشرعية) -->
+                            <div class="bg-emerald-50/60 dark:bg-emerald-950/30 rounded-2xl p-4 sm:p-5 border border-emerald-200/80 dark:border-emerald-800/60">
+                                <button onclick="toggleReferences(${fatwa.id})" class="w-full flex items-center justify-between text-start font-bold text-sm text-emerald-950 dark:text-gold-400">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fa-solid fa-book-open-reader text-emerald-800 dark:text-gold-400"></i>
+                                        <span>${t.referencesLabel} (${content.references.length})</span>
+                                    </span>
+                                    <i id="ref-icon-${fatwa.id}" class="fa-solid fa-chevron-up text-xs transition-transform"></i>
+                                </button>
+                                <ul id="ref-list-${fatwa.id}" class="mt-3 pt-3 border-t border-emerald-200/60 dark:border-emerald-800/50 space-y-1.5 text-xs sm:text-sm text-gray-700 dark:text-gray-300 list-disc list-inside">
+                                    ${content.references.map(ref => `<li>${ref}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer Utility Actions -->
+                        <div class="bg-gray-50 dark:bg-gray-800/90 px-5 sm:px-8 py-3.5 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-stamp text-emerald-800 dark:text-gold-400"></i>
+                                <span>${t.issuedByFooter}</span>
+                            </span>
+
+                            <div class="flex flex-wrap items-center gap-2">
+                                <!-- Copy Fatwa -->
+                                <button onclick="copyFatwaText(${fatwa.id})" class="px-3 py-1.5 rounded-xl bg-white dark:bg-gray-700 hover:bg-emerald-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600 text-xs font-bold flex items-center gap-1.5 transition">
+                                    <i class="fa-regular fa-copy text-emerald-700 dark:text-gold-400"></i>
+                                    <span>${t.copyBtn}</span>
+                                </button>
+                                <!-- Share WhatsApp -->
+                                <button onclick="shareFatwaWhatsApp(${fatwa.id})" class="px-3 py-1.5 rounded-xl bg-white dark:bg-gray-700 hover:bg-green-50 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600 text-xs font-bold flex items-center gap-1.5 transition">
+                                    <i class="fa-brands fa-whatsapp text-green-600 text-sm"></i>
+                                    <span>${t.whatsappBtn}</span>
+                                </button>
+                                <!-- Print Fatwa -->
+                                <button onclick="printSingleFatwa(${fatwa.id})" class="px-3 py-1.5 rounded-xl bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600 text-xs font-bold flex items-center gap-1.5 transition">
+                                    <i class="fa-solid fa-print text-gray-600 dark:text-gray-300"></i>
+                                    <span>${t.printBtn}</span>
+                                </button>
+                                <!-- Bookmark -->
+                                <button onclick="toggleBookmark(${fatwa.id})" class="px-3 py-1.5 rounded-xl ${isBookmarked ? 'bg-gold-500 text-emerald-950 border-gold-500' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600'} border text-xs font-bold flex items-center gap-1.5 transition">
+                                    <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+                                    <span>${isBookmarked ? t.savedStateBtn : t.saveBtn}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderResearchCards() {
+            const container = document.getElementById('research-cards-container');
+            if (!container) return;
+            const t = uiTranslations[currentLang];
+            container.innerHTML = researchSummaries.map((item, idx) => {
+                const c = item[currentLang] || item.ar;
+                return `
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-md border border-gray-200 dark:border-gray-700 flex flex-col justify-between hover:shadow-lg transition">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-4">
+                                <span class="bg-emerald-50 dark:bg-emerald-950 text-emerald-850 dark:text-emerald-400 text-xs font-bold px-3 py-1 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                                    ${c.badge}
+                                </span>
+                                <span class="text-xs text-gray-400"><i class="fa-regular fa-file-lines mx-1"></i>${c.pages}</span>
+                            </div>
+                            <h3 class="font-bold text-lg text-gray-900 dark:text-white font-serif mb-2">
+                                ${c.title}
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
+                                ${c.desc}
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                            <span class="text-xs text-gray-500">${c.author}</span>
+                            <button onclick="openResearchModal(${idx})" class="text-emerald-850 dark:text-gold-400 font-bold text-sm hover:underline flex items-center gap-1">
+                                <span>${t.readSummaryBtn}</span>
+                                <i class="fa-solid fa-book-open text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleReferences(fatwaId) {
+            const list = document.getElementById(`ref-list-${fatwaId}`);
+            const icon = document.getElementById(`ref-icon-${fatwaId}`);
+            if (list.classList.contains('hidden')) {
+                list.classList.remove('hidden');
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            } else {
+                list.classList.add('hidden');
+                icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            }
+        }
+
+        // ==========================================
+        // 5. FATWA TOOLS (COPY, WHATSAPP, PRINT, BOOKMARK)
+        // ==========================================
+        function copyFatwaText(fatwaId) {
+            const fatwa = fatwasDatabase.find(f => f.id === fatwaId);
+            if (!fatwa) return;
+            const c = fatwa[currentLang] || fatwa.ar;
+            const t = uiTranslations[currentLang];
+
+            const fullText = `🕌 ${t.brandTitle} - ${t.brandSubtitle}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `📌 ${t.fatwaNumPrefix}${fatwa.id} | ${getCategoryDisplayName(fatwa.category)}\n` +
+                `🔸 ${c.title}\n\n` +
+                `❓ ${t.questionLabel}\n${c.question}\n\n` +
+                `✅ ${t.answerLabel}\n${c.answer}\n\n` +
+                `📚 ${t.referencesLabel}:\n- ${c.references.join('\n- ')}\n` +
+                `━━━━━━━━━━━━━━━━━━━━`;
+
+            copyToClipboardHelper(fullText);
+            showToast(`${t.copyBtn}: #${fatwa.id}`);
+        }
+
+        function shareFatwaWhatsApp(fatwaId) {
+            const fatwa = fatwasDatabase.find(f => f.id === fatwaId);
+            if (!fatwa) return;
+            const c = fatwa[currentLang] || fatwa.ar;
+            const t = uiTranslations[currentLang];
+            const shareText = `*${t.brandTitle} - ${t.brandSubtitle}*\n\n*${t.fatwaNumPrefix}${fatwa.id}: ${c.title}*\n\n*${t.questionLabel}* ${c.question}\n\n*${t.answerLabel}* ${c.answer}`;
+            const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+            window.open(url, '_blank');
+        }
+
+        function printSingleFatwa(fatwaId) {
+            const fatwa = fatwasDatabase.find(f => f.id === fatwaId);
+            if (!fatwa) return;
+            const c = fatwa[currentLang] || fatwa.ar;
+            const t = uiTranslations[currentLang];
+
+            const printArea = document.getElementById('print-area');
+            printArea.innerHTML = `
+                <div style="border: 2px solid #0B4619; padding: 25px; border-radius: 12px; font-family: 'Amiri', serif; direction: ${t.dir};">
+                    <div style="text-align: center; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px;">
+                        <h1 style="font-size: 24px; color: #0B4619; margin: 0;">${t.brandTitle}</h1>
+                        <p style="font-size: 16px; margin: 5px 0 0 0;">${t.brandSubtitle}</p>
+                        <p style="font-size: 13px; color: #555;">${t.fatwaNumPrefix}${fatwa.id} | ${getCategoryDisplayName(fatwa.category)} | ${c.date}</p>
+                    </div>
+                    <h2 style="font-size: 20px; color: #0B4619; margin-bottom: 15px;">${c.title}</h2>
+                    <div style="background: #f3f4f6; padding: 15px; border-right: 4px solid #0B4619; margin-bottom: 20px;">
+                        <strong>${t.questionLabel}</strong>
+                        <p style="margin-top: 8px; line-height: 1.8;">${c.question}</p>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <strong>${t.answerLabel}</strong>
+                        <p style="margin-top: 8px; line-height: 2; white-space: pre-line;">${c.answer}</p>
+                    </div>
+                    <div style="border-top: 1px solid #ccc; padding-top: 12px; font-size: 14px;">
+                        <strong>${t.referencesLabel}:</strong>
+                        <ul>
+                            ${c.references.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            printArea.classList.remove('hidden');
+            window.print();
+            printArea.classList.add('hidden');
+        }
+
+        function toggleBookmark(fatwaId) {
+            const idx = bookmarkedIds.indexOf(fatwaId);
+            const t = uiTranslations[currentLang];
+            if (idx > -1) {
+                bookmarkedIds.splice(idx, 1);
+                showToast(currentLang === 'ar' ? "تمت إزالة الفتوى من المحفوظات" : (currentLang === 'en' ? "Removed from saved fatwas" : "Dihapus dari daftar tersimpan"));
+            } else {
+                bookmarkedIds.push(fatwaId);
+                showToast(currentLang === 'ar' ? "تم حفظ الفتوى في قائمة المفضلة" : (currentLang === 'en' ? "Fatwa saved to bookmarks" : "Fatwa disimpan ke favorit"));
+            }
+            localStorage.setItem('ribat_bookmarks', JSON.stringify(bookmarkedIds));
+            updateBookmarkBadge();
+            renderFatwas();
+        }
+
+        function updateBookmarkBadge() {
+            const badge = document.getElementById('bookmark-count-badge');
+            if (badge) badge.textContent = bookmarkedIds.length;
+        }
+
+        function openBookmarksModal() {
+            const modal = document.getElementById('bookmarks-modal');
+            const listContainer = document.getElementById('bookmarks-list-container');
+            const t = uiTranslations[currentLang];
+            modal.classList.remove('hidden');
+
+            if (bookmarkedIds.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="text-center py-10 text-gray-500">
+                        <i class="fa-regular fa-bookmark text-4xl mb-3 text-gray-400"></i>
+                        <p>${t.noBookmarksText}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const savedFatwas = fatwasDatabase.filter(f => bookmarkedIds.includes(f.id));
+            listContainer.innerHTML = savedFatwas.map(f => {
+                const c = f[currentLang] || f.ar;
+                return `
+                    <div class="p-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 flex justify-between items-center gap-4">
+                        <div>
+                            <span class="text-xs font-mono text-emerald-800 dark:text-gold-400 font-bold">${t.fatwaNumPrefix}${f.id} • ${getCategoryDisplayName(f.category)}</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white font-serif mt-1">${c.title}</h4>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="jumpToSavedFatwa(${f.id})" class="px-3 py-1.5 bg-emerald-850 text-white text-xs rounded-xl font-bold">${t.viewBtn}</button>
+                            <button onclick="removeBookmarkFromModal(${f.id})" class="p-2 text-red-500 hover:bg-red-50 rounded-xl"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function closeBookmarksModal() {
+            document.getElementById('bookmarks-modal').classList.add('hidden');
+        }
+
+        function removeBookmarkFromModal(id) {
+            toggleBookmark(id);
+            openBookmarksModal();
+        }
+
+        function jumpToSavedFatwa(id) {
+            closeBookmarksModal();
+            currentCategory = 'الكل';
+            handleSearch('');
+            renderCategories();
+            setTimeout(() => {
+                const card = document.getElementById(`fatwa-card-${id}`);
+                if (card) card.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // ==========================================
+        // 6. SUBMIT QUESTION & TRACKING SYSTEM
+        // ==========================================
+        let lastGeneratedCode = '';
+
+        function submitFatwaQuestion(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('q-name').value.trim() || 'مستفتي';
+            const category = document.getElementById('q-category').value;
+            const contact = document.getElementById('q-contact').value.trim();
+            const priority = document.querySelector('input[name="q-priority"]:checked').value;
+            const title = document.getElementById('q-title').value.trim();
+            const details = document.getElementById('q-details').value.trim();
+
+            const randomNum = Math.floor(200 + Math.random() * 799);
+            const trackingCode = `RM-${randomNum}`;
+            lastGeneratedCode = trackingCode;
+
+            const newQuestionObj = {
+                code: trackingCode,
+                name,
+                category,
+                contact,
+                priority,
+                title,
+                details,
+                date: currentLang === 'ar' ? 'الآن (اليوم)' : (currentLang === 'en' ? 'Just now (Today)' : 'Baru saja (Hari ini)'),
+                statusStep: 1,
+                statusText: currentLang === 'ar'
+                    ? 'تم استلام السؤال وجاري فرزه لعرضه على لجنة الإفتاء برباط المصطفى'
+                    : (currentLang === 'en'
+                        ? 'Question received and being sorted for presentation to the Ribat Fatwa Committee'
+                        : 'Pertanyaan telah diterima dan sedang diproses untuk diajukan ke Komisi Fatwa Ribat'),
+                answer: null
+            };
+
+            userQuestions.unshift(newQuestionObj);
+            localStorage.setItem('ribat_user_questions', JSON.stringify(userQuestions));
+
+            document.getElementById('generated-tracking-code').textContent = trackingCode;
+            document.getElementById('form-fields-wrapper').classList.add('hidden');
+            document.getElementById('submission-success-box').classList.remove('hidden');
+
+            renderUserSubmittedHistory();
+            showToast(`${uiTranslations[currentLang].trackingCodeLabel} ${trackingCode}`);
+        }
+
+        function resetAskForm() {
+            document.getElementById('ask-fatwa-form').reset();
+            document.getElementById('submission-success-box').classList.add('hidden');
+            document.getElementById('form-fields-wrapper').classList.remove('hidden');
+        }
+
+        function copyTrackingCode() {
+            copyToClipboardHelper(lastGeneratedCode);
+            showToast(`${uiTranslations[currentLang].trackingCodeLabel} ${lastGeneratedCode}`);
+        }
+
+        function trackNewlySubmittedQuestion() {
+            fillTrackDemo(lastGeneratedCode);
+            document.getElementById('track-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function quickTrackFromHero() {
+            const val = document.getElementById('hero-track-input').value.trim();
+            if (!val) {
+                showToast(uiTranslations[currentLang].trackInputPlaceholder);
+                return;
+            }
+            fillTrackDemo(val);
+            document.getElementById('track-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function fillTrackDemo(code) {
+            document.getElementById('track-code-input').value = code;
+            checkTrackingStatus();
+        }
+
+        function checkTrackingStatus() {
+            const inputCode = document.getElementById('track-code-input').value.trim().toUpperCase();
+            const resultContainer = document.getElementById('tracking-result-container');
+            const t = uiTranslations[currentLang];
+
+            if (!inputCode) {
+                showToast(t.trackInputPlaceholder);
+                return;
+            }
+
+            const allTrackable = [...userQuestions, ...defaultTrackingItems];
+            const found = allTrackable.find(item => item.code.toUpperCase() === inputCode);
+
+            resultContainer.classList.remove('hidden');
+
+            if (!found) {
+                resultContainer.innerHTML = `
+                    <div class="bg-red-50 dark:bg-red-950/40 border border-red-300 dark:border-red-800 rounded-2xl p-5 text-center space-y-2">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 text-2xl"></i>
+                        <h4 class="font-bold text-red-900 dark:text-red-300">${t.trackNotFoundTitle} (${inputCode})</h4>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">${t.trackNotFoundDesc}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const localized = found[currentLang] || found;
+            const titleText = localized.title || found.title;
+            const dateText = localized.date || found.date;
+            const statusText = localized.statusText || found.statusText;
+            const answerText = localized.answer || found.answer;
+
+            const step1Active = found.statusStep >= 1;
+            const step2Active = found.statusStep >= 2;
+            const step3Active = found.statusStep >= 3;
+
+            resultContainer.innerHTML = `
+                <div class="bg-gray-50 dark:bg-gray-700/40 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 space-y-6">
+                    <div class="flex flex-wrap justify-between items-center gap-2 border-b border-gray-200 dark:border-gray-600 pb-4">
+                        <div>
+                            <span class="text-xs font-mono bg-emerald-850 text-gold-400 px-2.5 py-1 rounded-lg font-bold">${found.code}</span>
+                            <h4 class="font-bold text-lg text-gray-900 dark:text-white mt-2 font-serif">${titleText}</h4>
+                        </div>
+                        <div class="text-end text-xs text-gray-500 dark:text-gray-400">
+                            <div>${getCategoryDisplayName(found.category)}</div>
+                            <div class="mt-1">${dateText}</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Steps -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                        <div class="p-3 rounded-xl border ${step1Active ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-600 text-emerald-900 dark:text-emerald-300' : 'bg-gray-100 opacity-50'}">
+                            <i class="fa-solid fa-check-circle text-lg mb-1"></i>
+                            <div class="font-bold text-xs">${t.trackStep1}</div>
+                        </div>
+                        <div class="p-3 rounded-xl border ${step2Active ? 'bg-amber-50 dark:bg-amber-950/60 border-amber-500 text-amber-900 dark:text-amber-300' : 'bg-gray-100 dark:bg-gray-800 opacity-50'}">
+                            <i class="fa-solid fa-magnifying-glass text-lg mb-1"></i>
+                            <div class="font-bold text-xs">${t.trackStep2}</div>
+                        </div>
+                        <div class="p-3 rounded-xl border ${step3Active ? 'bg-green-100 dark:bg-green-950/70 border-green-600 text-green-900 dark:text-green-300' : 'bg-gray-100 dark:bg-gray-800 opacity-50'}">
+                            <i class="fa-solid fa-stamp text-lg mb-1"></i>
+                            <div class="font-bold text-xs">${t.trackStep3}</div>
+                        </div>
+                    </div>
+
+                    <div class="text-sm bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-600">
+                        <span class="font-bold text-emerald-850 dark:text-gold-400">${t.trackCurrentStatus}</span>
+                        <span>${statusText}</span>
+                    </div>
+
+                    ${answerText ? `
+                        <div class="bg-emerald-50/70 dark:bg-emerald-950/50 p-5 rounded-2xl border-s-4 border-emerald-800 space-y-2">
+                            <div class="font-bold text-emerald-900 dark:text-gold-400 text-sm">${t.trackIssuedAnswer}</div>
+                            <p class="font-serif text-base leading-relaxed text-gray-800 dark:text-gray-100">${answerText}</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderUserSubmittedHistory() {
+            const wrapper = document.getElementById('user-submitted-history');
+            const list = document.getElementById('user-questions-list');
+            const t = uiTranslations[currentLang];
+            if (!userQuestions || userQuestions.length === 0) {
+                wrapper.classList.add('hidden');
+                return;
+            }
+            wrapper.classList.remove('hidden');
+            list.innerHTML = userQuestions.map(q => `
+                <div onclick="fillTrackDemo('${q.code}')" class="p-3.5 rounded-xl bg-gray-50 dark:bg-gray-700/50 hover:bg-emerald-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 cursor-pointer transition flex justify-between items-center">
+                    <div class="truncate pe-2">
+                        <span class="text-xs font-mono font-bold text-emerald-800 dark:text-gold-400">${q.code}</span>
+                        <p class="text-xs font-bold text-gray-800 dark:text-gray-200 truncate mt-0.5">${q.title}</p>
+                    </div>
+                    <span class="text-[11px] bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 px-2.5 py-1 rounded-full shrink-0">${t.trackUnderReviewBadge}</span>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // 7. RESEARCH MODAL & UI HELPERS
+        // ==========================================
+        function openResearchModal(index) {
+            const item = researchSummaries[index];
+            if (!item) return;
+            const c = item[currentLang] || item.ar;
+            const t = uiTranslations[currentLang];
+            document.getElementById('research-modal-title').textContent = c.title;
+            document.getElementById('research-modal-body').innerHTML = `
+                <div class="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 pb-3 border-b border-gray-200 dark:border-gray-700">
+                    <span><i class="fa-solid fa-user-pen mx-1 text-emerald-700"></i>${c.author}</span>
+                    <span><i class="fa-regular fa-file-pdf mx-1 text-emerald-700"></i>${c.pages}</span>
+                </div>
+                <div class="font-serif text-lg leading-relaxed text-gray-800 dark:text-gray-200">
+                    ${c.summary}
+                </div>
+                <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+                    <button onclick="closeResearchModal()" class="px-5 py-2 bg-emerald-850 text-white rounded-xl text-sm font-bold">${t.closeBtn}</button>
+                </div>
+            `;
+            document.getElementById('research-modal').classList.remove('hidden');
+        }
+
+        function closeResearchModal() {
+            document.getElementById('research-modal').classList.add('hidden');
+        }
+
+        function adjustFontSize(direction) {
+            currentFontSizeStep = Math.max(-1, Math.min(3, currentFontSizeStep + direction));
+            const baseRem = 1.2 + (currentFontSizeStep * 0.15);
+            const lineRem = 2.1 + (currentFontSizeStep * 0.25);
+            document.documentElement.style.setProperty('--fatwa-font-size', `${baseRem}rem`);
+            document.documentElement.style.setProperty('--fatwa-line-height', `${lineRem}rem`);
+            showToast(direction > 0 ? "تم تكبير خط قراءة الفتاوى" : "تم تصغير خط قراءة الفتاوى");
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                icon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        }
+
+        function copyToClipboardHelper(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3200);
+        }
+    </script>
+</body>
+</html>
