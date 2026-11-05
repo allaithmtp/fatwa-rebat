@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import {
   Fatwa,
   Category,
@@ -2546,6 +2547,9 @@ export default function App() {
           <span>{toastMessage}</span>
         </div>
       </div>
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
 
     </div>
   );
