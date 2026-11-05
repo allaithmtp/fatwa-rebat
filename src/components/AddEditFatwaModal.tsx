@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Fatwa, Category } from '../types';
+import { autoTranslateFatwa, translateOffline, translateReferenceItem, translateQuestioner, translateDate } from '../utils/translator';
 
 interface AddEditFatwaModalProps {
   isOpen: boolean;
@@ -22,6 +23,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
   const [id, setId] = useState<number>(1043);
   const [category, setCategory] = useState<string>('المعاملات المالية والتجارة');
   const [views, setViews] = useState<number>(100);
+  const [isTranslating, setIsTranslating] = useState<boolean>(false);
+  const [arModified, setArModified] = useState<boolean>(false);
+  const [enManuallyEdited, setEnManuallyEdited] = useState<boolean>(false);
+  const [idManuallyEdited, setIdManuallyEdited] = useState<boolean>(false);
 
   // Arabic Fields (Required)
   const [arTitle, setArTitle] = useState('');
@@ -31,7 +36,7 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
   const [arAnswer, setArAnswer] = useState('');
   const [arReferences, setArReferences] = useState<string[]>(['']);
 
-  // English Fields (Optional)
+  // English Fields (Auto-translated)
   const [enTitle, setEnTitle] = useState('');
   const [enDate, setEnDate] = useState('');
   const [enQuestioner, setEnQuestioner] = useState('');
@@ -39,7 +44,7 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
   const [enAnswer, setEnAnswer] = useState('');
   const [enReferences, setEnReferences] = useState<string[]>(['']);
 
-  // Indonesian Fields (Optional)
+  // Indonesian Fields (Auto-translated)
   const [idTitle, setIdTitle] = useState('');
   const [idDate, setIdDate] = useState('');
   const [idQuestioner, setIdQuestioner] = useState('');
@@ -106,14 +111,81 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
       setIdAnswer('');
       setIdReferences(['']);
     }
+    setArModified(false);
+    setEnManuallyEdited(false);
+    setIdManuallyEdited(false);
   }, [fatwaToEdit, isOpen, existingFatwaIds, categories]);
 
   if (!isOpen) return null;
 
+  const handleAutoTranslate = async (showSuccessMsg = false) => {
+    if (!arTitle.trim()) {
+      if (showSuccessMsg) alert('يرجى كتابة عنوان الفتوى بالعربية أولاً للبدء بالترجمة التلقائية.');
+      return;
+    }
+    setIsTranslating(true);
+    try {
+      const res = await autoTranslateFatwa({
+        title: arTitle.trim(),
+        questioner: arQuestioner.trim() || 'مستفتٍ',
+        date: arDate.trim() || '1447 هـ',
+        question: arQuestion.trim() || arTitle.trim(),
+        answer: arAnswer.trim() || arTitle.trim(),
+        references: arReferences.map(r => r.trim()).filter(Boolean),
+      });
+
+      setEnTitle(res.en.title);
+      setEnQuestioner(res.en.questioner);
+      setEnDate(res.en.date);
+      setEnQuestion(res.en.question);
+      setEnAnswer(res.en.answer);
+      setEnReferences(res.en.references.length > 0 ? res.en.references : ['']);
+
+      setIdTitle(res.idLang.title);
+      setIdQuestioner(res.idLang.questioner);
+      setIdDate(res.idLang.date);
+      setIdQuestion(res.idLang.question);
+      setIdAnswer(res.idLang.answer);
+      setIdReferences(res.idLang.references.length > 0 ? res.idLang.references : ['']);
+      setArModified(false);
+
+      if (showSuccessMsg) {
+        alert('تمت ترجمة كافة الحقول (العنوان، السائل، التاريخ، السؤال، الجواب، والمراجع) بنجاح إلى الإنجليزية والإندونيسية!');
+      }
+    } catch {
+      // Offline fallback
+      setEnTitle(translateOffline(arTitle, 'en'));
+      setEnQuestioner(translateQuestioner(arQuestioner || 'مستفتٍ', 'en'));
+      setEnDate(translateDate(arDate || '1447 هـ', 'en'));
+      setEnQuestion(translateOffline(arQuestion, 'en'));
+      setEnAnswer(translateOffline(arAnswer, 'en'));
+      setEnReferences(arReferences.map(r => translateReferenceItem(r, 'en')).filter(Boolean));
+
+      setIdTitle(translateOffline(arTitle, 'id'));
+      setIdQuestioner(translateQuestioner(arQuestioner || 'مستفتٍ', 'id'));
+      setIdDate(translateDate(arDate || '1447 هـ', 'id'));
+      setIdQuestion(translateOffline(arQuestion, 'id'));
+      setIdAnswer(translateOffline(arAnswer, 'id'));
+      setIdReferences(arReferences.map(r => translateReferenceItem(r, 'id')).filter(Boolean));
+      setArModified(false);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
   const handleAddRef = (lang: 'ar' | 'en' | 'id') => {
-    if (lang === 'ar') setArReferences([...arReferences, '']);
-    if (lang === 'en') setEnReferences([...enReferences, '']);
-    if (lang === 'id') setIdReferences([...idReferences, '']);
+    if (lang === 'ar') {
+      setArReferences([...arReferences, '']);
+      setArModified(true);
+    }
+    if (lang === 'en') {
+      setEnReferences([...enReferences, '']);
+      setEnManuallyEdited(true);
+    }
+    if (lang === 'id') {
+      setIdReferences([...idReferences, '']);
+      setIdManuallyEdited(true);
+    }
   };
 
   const handleUpdateRef = (lang: 'ar' | 'en' | 'id', index: number, value: string) => {
@@ -121,14 +193,17 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
       const copy = [...arReferences];
       copy[index] = value;
       setArReferences(copy);
+      setArModified(true);
     } else if (lang === 'en') {
       const copy = [...enReferences];
       copy[index] = value;
       setEnReferences(copy);
+      setEnManuallyEdited(true);
     } else {
       const copy = [...idReferences];
       copy[index] = value;
       setIdReferences(copy);
+      setIdManuallyEdited(true);
     }
   };
 
@@ -136,23 +211,60 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
     if (lang === 'ar') {
       if (arReferences.length <= 1) return;
       setArReferences(arReferences.filter((_, i) => i !== index));
+      setArModified(true);
     } else if (lang === 'en') {
       setEnReferences(enReferences.filter((_, i) => i !== index));
+      setEnManuallyEdited(true);
     } else {
       setIdReferences(idReferences.filter((_, i) => i !== index));
+      setIdManuallyEdited(true);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!arTitle.trim() || !arQuestion.trim() || !arAnswer.trim()) {
       alert('يرجى ملء الحقول الأساسية في تبويب اللغة العربية (العنوان، نص السؤال، نص الجواب).');
       return;
     }
 
+    setIsTranslating(true);
     const cleanedArRefs = arReferences.map(r => r.trim()).filter(Boolean);
-    const cleanedEnRefs = enReferences.map(r => r.trim()).filter(Boolean);
-    const cleanedIdRefs = idReferences.map(r => r.trim()).filter(Boolean);
+
+    // Auto-translate all 6 fields from Arabic to ensure no field is left in Arabic
+    const autoTrans = await autoTranslateFatwa({
+      title: arTitle.trim(),
+      questioner: arQuestioner.trim() || 'مستفتٍ',
+      date: arDate.trim() || '1447 هـ',
+      question: arQuestion.trim(),
+      answer: arAnswer.trim(),
+      references: cleanedArRefs.length > 0 ? cleanedArRefs : ['المراجع الشرعية المعتمدة بالرباط'],
+    });
+
+    // Helper: checks if a string is already translated to Latin script (no Arabic characters)
+    const isTranslated = (str: string) => Boolean(str && str.trim() && !/[\u0600-\u06FF]/.test(str));
+
+    const finalEn = {
+      title: (!arModified && enManuallyEdited && isTranslated(enTitle)) ? enTitle.trim() : autoTrans.en.title,
+      questioner: (!arModified && enManuallyEdited && isTranslated(enQuestioner)) ? enQuestioner.trim() : autoTrans.en.questioner,
+      date: (!arModified && enManuallyEdited && isTranslated(enDate)) ? enDate.trim() : autoTrans.en.date,
+      question: (!arModified && enManuallyEdited && isTranslated(enQuestion)) ? enQuestion.trim() : autoTrans.en.question,
+      answer: (!arModified && enManuallyEdited && isTranslated(enAnswer)) ? enAnswer.trim() : autoTrans.en.answer,
+      references: (!arModified && enManuallyEdited && enReferences.filter(r => isTranslated(r)).length > 0)
+        ? enReferences.map(r => isTranslated(r) ? r.trim() : translateReferenceItem(r.trim(), 'en')).filter(Boolean)
+        : autoTrans.en.references,
+    };
+
+    const finalId = {
+      title: (!arModified && idManuallyEdited && isTranslated(idTitle)) ? idTitle.trim() : autoTrans.idLang.title,
+      questioner: (!arModified && idManuallyEdited && isTranslated(idQuestioner)) ? idQuestioner.trim() : autoTrans.idLang.questioner,
+      date: (!arModified && idManuallyEdited && isTranslated(idDate)) ? idDate.trim() : autoTrans.idLang.date,
+      question: (!arModified && idManuallyEdited && isTranslated(idQuestion)) ? idQuestion.trim() : autoTrans.idLang.question,
+      answer: (!arModified && idManuallyEdited && isTranslated(idAnswer)) ? idAnswer.trim() : autoTrans.idLang.answer,
+      references: (!arModified && idManuallyEdited && idReferences.filter(r => isTranslated(r)).length > 0)
+        ? idReferences.map(r => isTranslated(r) ? r.trim() : translateReferenceItem(r.trim(), 'id')).filter(Boolean)
+        : autoTrans.idLang.references,
+    };
 
     const updatedFatwa: Fatwa = {
       id: Number(id) || Math.floor(1000 + Math.random() * 9000),
@@ -166,31 +278,18 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
         answer: arAnswer.trim(),
         references: cleanedArRefs.length > 0 ? cleanedArRefs : ['المراجع الشرعية المعتمدة بالرباط']
       },
-      en: enTitle.trim() ? {
-        title: enTitle.trim(),
-        date: enDate.trim() || '1447 AH',
-        questioner: enQuestioner.trim() || 'Questioner',
-        question: enQuestion.trim(),
-        answer: enAnswer.trim(),
-        references: cleanedEnRefs
-      } : undefined,
-      idLang: idTitle.trim() ? {
-        title: idTitle.trim(),
-        date: idDate.trim() || '1447 H',
-        questioner: idQuestioner.trim() || 'Penanya',
-        question: idQuestion.trim(),
-        answer: idAnswer.trim(),
-        references: cleanedIdRefs
-      } : undefined
+      en: finalEn,
+      idLang: finalId
     };
 
+    setIsTranslating(false);
     onSave(updatedFatwa);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
-      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border-2 border-gold-500 overflow-hidden my-auto text-gray-800">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-modal-backdrop">
+      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border-2 border-gold-500 overflow-hidden my-auto text-gray-800 animate-modal-card">
         
         {/* Modal Header */}
         <div className="islamic-pattern p-5 text-white flex justify-between items-center border-b-2 border-gold-500 shrink-0 shadow-xs">
@@ -262,6 +361,34 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
             </div>
           </div>
 
+          {/* Auto-Translation Notification Banner */}
+          <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border border-emerald-300 rounded-2xl p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-emerald-850 text-gold-400 flex items-center justify-center shrink-0 shadow-xs">
+                <i className="fa-solid fa-wand-magic-sparkles text-sm"></i>
+              </div>
+              <div>
+                <span className="font-bold text-emerald-950 block text-xs sm:text-sm">
+                  الترجمة التلقائية الفورية مفعلة (يكفي كتابة الفتوى بالعربية فقط)
+                </span>
+                <span className="text-[11px] text-gray-600 block">
+                  سيتم توليد الترجمتين الإنجليزية والإندونيسية وتحديثهما آلياً فور الحفظ لتتواكب مع أي تعديلات دون الحاجة لكتابتهما يدوياً.
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => handleAutoTranslate(true)}
+              disabled={isTranslating || !arTitle.trim()}
+              className="px-3.5 py-1.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-emerald-950 font-bold text-xs shadow-xs transition flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+              title="توليد ومعاينة الترجمة الفورية الآن"
+            >
+              <i className={`fa-solid ${isTranslating ? 'fa-spinner fa-spin' : 'fa-language'}`}></i>
+              <span>{isTranslating ? 'جارٍ الترجمة...' : 'معاينة الترجمة الآلية الآن'}</span>
+            </button>
+          </div>
+
           {/* Language Selection Tabs */}
           <div className="border-b border-gray-200 flex gap-2">
             <button
@@ -278,27 +405,41 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('en')}
+              onClick={() => {
+                if ((!enTitle || /[\u0600-\u06FF]/.test(enTitle) || !enAnswer || /[\u0600-\u06FF]/.test(enAnswer)) && arTitle.trim()) {
+                  handleAutoTranslate();
+                }
+                setActiveTab('en');
+              }}
               className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 ${
                 activeTab === 'en'
                   ? 'border-emerald-850 text-emerald-850 bg-emerald-50/50 rounded-t-lg'
                   : 'border-transparent text-gray-500 hover:text-emerald-850'
               }`}
             >
-              <span>English (Optional)</span>
-              {enTitle && <i className="fa-solid fa-check text-xs text-green-600"></i>}
+              <span>English</span>
+              <span className="text-[10px] bg-emerald-100 text-emerald-800 font-normal px-2 py-0.5 rounded-full">
+                {enTitle && !/[\u0600-\u06FF]/.test(enTitle) ? 'مترجم آلياً' : 'تلقائي'}
+              </span>
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab('id')}
+              onClick={() => {
+                if ((!idTitle || /[\u0600-\u06FF]/.test(idTitle) || !idAnswer || /[\u0600-\u06FF]/.test(idAnswer)) && arTitle.trim()) {
+                  handleAutoTranslate();
+                }
+                setActiveTab('id');
+              }}
               className={`pb-3 px-4 font-bold text-sm border-b-2 transition flex items-center gap-2 ${
                 activeTab === 'id'
                   ? 'border-emerald-850 text-emerald-850 bg-emerald-50/50 rounded-t-lg'
                   : 'border-transparent text-gray-500 hover:text-emerald-850'
               }`}
             >
-              <span>Indonesia (Optional)</span>
-              {idTitle && <i className="fa-solid fa-check text-xs text-green-600"></i>}
+              <span>Indonesia</span>
+              <span className="text-[10px] bg-emerald-100 text-emerald-800 font-normal px-2 py-0.5 rounded-full">
+                {idTitle && !/[\u0600-\u06FF]/.test(idTitle) ? 'مترجم آلياً' : 'تلقائي'}
+              </span>
             </button>
           </div>
 
@@ -315,7 +456,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                     required
                     placeholder="مثال: حكم صلاة الجمعة خلف الإمام..."
                     value={arTitle}
-                    onChange={(e) => setArTitle(e.target.value)}
+                    onChange={(e) => {
+                      setArTitle(e.target.value);
+                      setArModified(true);
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                   />
                 </div>
@@ -329,7 +473,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                       type="text"
                       placeholder="مثال: مستفتٍ من الشحر"
                       value={arQuestioner}
-                      onChange={(e) => setArQuestioner(e.target.value)}
+                      onChange={(e) => {
+                        setArQuestioner(e.target.value);
+                        setArModified(true);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                     />
                   </div>
@@ -341,7 +488,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                       type="text"
                       placeholder="مثال: 15 ربيع الثاني 1447 هـ"
                       value={arDate}
-                      onChange={(e) => setArDate(e.target.value)}
+                      onChange={(e) => {
+                        setArDate(e.target.value);
+                        setArModified(true);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                     />
                   </div>
@@ -357,7 +507,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                   required
                   placeholder="نص السؤال كما ورد من المستفتي..."
                   value={arQuestion}
-                  onChange={(e) => setArQuestion(e.target.value)}
+                  onChange={(e) => {
+                    setArQuestion(e.target.value);
+                    setArModified(true);
+                  }}
                   className="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm leading-relaxed focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                 />
               </div>
@@ -371,7 +524,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                   required
                   placeholder="الحمد لله رب العالمين... الجواب المؤصل..."
                   value={arAnswer}
-                  onChange={(e) => setArAnswer(e.target.value)}
+                  onChange={(e) => {
+                    setArAnswer(e.target.value);
+                    setArModified(true);
+                  }}
                   className="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 font-serif text-base leading-relaxed focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                 />
               </div>
@@ -417,6 +573,32 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
           {/* English Form Fields */}
           {activeTab === 'en' && (
             <div className="space-y-4" dir="ltr">
+              {/* Quick Re-translate Action Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border border-emerald-200 rounded-2xl text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-lg bg-emerald-850 text-gold-400 flex items-center justify-center text-xs shadow-xs">
+                    <i className="fa-solid fa-language"></i>
+                  </span>
+                  <div>
+                    <span className="font-bold text-emerald-950 block">
+                      Auto-translated from Arabic content
+                    </span>
+                    <span className="text-[11px] text-gray-500 block">
+                      All fields are translated automatically. You can also re-sync with any changes made to Arabic.
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleAutoTranslate(true)}
+                  disabled={isTranslating || !arTitle.trim()}
+                  className="px-3.5 py-1.5 rounded-xl bg-emerald-850 text-gold-300 hover:bg-emerald-800 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer disabled:opacity-50 shadow-xs"
+                >
+                  <i className={`fa-solid ${isTranslating ? 'fa-spinner fa-spin' : 'fa-arrows-rotate'}`}></i>
+                  <span>{isTranslating ? 'Translating...' : 'Re-translate from Arabic'}</span>
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">
@@ -426,7 +608,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                     type="text"
                     placeholder="Ruling on..."
                     value={enTitle}
-                    onChange={(e) => setEnTitle(e.target.value)}
+                    onChange={(e) => {
+                      setEnTitle(e.target.value);
+                      setEnManuallyEdited(true);
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                   />
                 </div>
@@ -439,7 +624,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                       type="text"
                       placeholder="e.g. Questioner from Ash-Shihr"
                       value={enQuestioner}
-                      onChange={(e) => setEnQuestioner(e.target.value)}
+                      onChange={(e) => {
+                        setEnQuestioner(e.target.value);
+                        setEnManuallyEdited(true);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                     />
                   </div>
@@ -451,7 +639,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                       type="text"
                       placeholder="e.g. Rabi' al-Thani 1447 AH"
                       value={enDate}
-                      onChange={(e) => setEnDate(e.target.value)}
+                      onChange={(e) => {
+                        setEnDate(e.target.value);
+                        setEnManuallyEdited(true);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                     />
                   </div>
@@ -465,7 +656,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                 <textarea
                   rows={3}
                   value={enQuestion}
-                  onChange={(e) => setEnQuestion(e.target.value)}
+                  onChange={(e) => {
+                    setEnQuestion(e.target.value);
+                    setEnManuallyEdited(true);
+                  }}
                   className="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                 />
               </div>
@@ -477,7 +671,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                 <textarea
                   rows={6}
                   value={enAnswer}
-                  onChange={(e) => setEnAnswer(e.target.value)}
+                  onChange={(e) => {
+                    setEnAnswer(e.target.value);
+                    setEnManuallyEdited(true);
+                  }}
                   className="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                 />
               </div>
@@ -520,6 +717,32 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
           {/* Indonesian Form Fields */}
           {activeTab === 'id' && (
             <div className="space-y-4" dir="ltr">
+              {/* Quick Re-translate Action Bar */}
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border border-emerald-200 rounded-2xl text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-lg bg-emerald-850 text-gold-400 flex items-center justify-center text-xs shadow-xs">
+                    <i className="fa-solid fa-language"></i>
+                  </span>
+                  <div>
+                    <span className="font-bold text-emerald-950 block">
+                      Diterjemahkan otomatis dari bahasa Arab
+                    </span>
+                    <span className="text-[11px] text-gray-500 block">
+                      Semua kolom terjemahan sinkron otomatis tanpa perlu menulis manual.
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleAutoTranslate(true)}
+                  disabled={isTranslating || !arTitle.trim()}
+                  className="px-3.5 py-1.5 rounded-xl bg-emerald-850 text-gold-300 hover:bg-emerald-800 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer disabled:opacity-50 shadow-xs"
+                >
+                  <i className={`fa-solid ${isTranslating ? 'fa-spinner fa-spin' : 'fa-arrows-rotate'}`}></i>
+                  <span>{isTranslating ? 'Menerjemahkan...' : 'Perbarui terjemahan sekarang'}</span>
+                </button>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">
@@ -529,7 +752,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                     type="text"
                     placeholder="Hukum..."
                     value={idTitle}
-                    onChange={(e) => setIdTitle(e.target.value)}
+                    onChange={(e) => {
+                      setIdTitle(e.target.value);
+                      setIdManuallyEdited(true);
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                   />
                 </div>
@@ -542,7 +768,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                       type="text"
                       placeholder="Penanya dari Asy-Syihr"
                       value={idQuestioner}
-                      onChange={(e) => setIdQuestioner(e.target.value)}
+                      onChange={(e) => {
+                        setIdQuestioner(e.target.value);
+                        setIdManuallyEdited(true);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                     />
                   </div>
@@ -554,7 +783,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                       type="text"
                       placeholder="Rabiul Akhir 1447 H"
                       value={idDate}
-                      onChange={(e) => setIdDate(e.target.value)}
+                      onChange={(e) => {
+                        setIdDate(e.target.value);
+                        setIdManuallyEdited(true);
+                      }}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                     />
                   </div>
@@ -568,7 +800,10 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                 <textarea
                   rows={3}
                   value={idQuestion}
-                  onChange={(e) => setIdQuestion(e.target.value)}
+                  onChange={(e) => {
+                    setIdQuestion(e.target.value);
+                    setIdManuallyEdited(true);
+                  }}
                   className="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                 />
               </div>
@@ -580,10 +815,14 @@ export const AddEditFatwaModal: React.FC<AddEditFatwaModalProps> = ({
                 <textarea
                   rows={6}
                   value={idAnswer}
-                  onChange={(e) => setIdAnswer(e.target.value)}
+                  onChange={(e) => {
+                    setIdAnswer(e.target.value);
+                    setIdManuallyEdited(true);
+                  }}
                   className="w-full p-3.5 rounded-xl bg-gray-50 focus:bg-white border border-gray-300 text-sm focus:ring-2 focus:ring-emerald-700 focus:outline-none text-gray-800 transition"
                 />
               </div>
+
 
               {/* References */}
               <div className="space-y-2">

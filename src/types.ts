@@ -131,6 +131,7 @@ export interface SiteSettings {
   goldColor: string;
   logoIcon: string;
   logoImage?: string;
+  logoWithoutBox?: boolean;
   aboutTitle: string;
   aboutDesc: string;
   aboutBox1Title: string;

@@ -79,8 +79,8 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border-2 border-gold-500 overflow-hidden transform transition-all">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-modal-backdrop">
+      <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl border-2 border-gold-500 overflow-hidden animate-modal-card">
         
         {/* Header */}
         <div className="islamic-pattern p-6 text-white text-center border-b-2 border-gold-500 relative shadow-xs">

@@ -2,5 +2,7 @@
   "name": "دائرة الفتاوى والبحوث - رباط المصطفى بالشحر",
   "description": "منصة الفتاوى والبحوث الشرعية برباط المصطفى بالشحر للدراسات الإسلامية مع لوحة تحكم إدارية متكاملة وخدمة الاستفتاء الإلكتروني.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

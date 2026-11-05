@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ResearchStudy } from '../types';
+import { autoTranslateResearch, translateOffline } from '../utils/translator';
 
 interface AddEditResearchModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const AddEditResearchModal: React.FC<AddEditResearchModalProps> = ({
   const [author, setAuthor] = useState('');
   const [desc, setDesc] = useState('');
   const [summary, setSummary] = useState('');
+  const [isTranslating, setIsTranslating] = useState<boolean>(false);
 
   useEffect(() => {
     if (researchToEdit) {
@@ -41,11 +43,45 @@ export const AddEditResearchModal: React.FC<AddEditResearchModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !summary.trim()) {
       alert('يرجى كتابة عنوان البحث وملخصه.');
       return;
+    }
+
+    setIsTranslating(true);
+    let enObj = researchToEdit?.en;
+    let idObj = researchToEdit?.idLang;
+
+    try {
+      const autoTrans = await autoTranslateResearch({
+        badge: badge.trim() || 'بحث علمي',
+        pages: pages.trim() || 'عدد الصفحات',
+        title: title.trim(),
+        author: author.trim() || 'لجنة البحوث بالرباط',
+        desc: desc.trim() || title.trim(),
+        summary: summary.trim(),
+      });
+      enObj = autoTrans.en;
+      idObj = autoTrans.idLang;
+    } catch {
+      enObj = {
+        badge: translateOffline(badge || 'بحث علمي', 'en'),
+        pages: translateOffline(pages || '50 صفحة', 'en'),
+        title: translateOffline(title, 'en'),
+        author: translateOffline(author || 'لجنة البحوث بالرباط', 'en'),
+        desc: translateOffline(desc || title, 'en'),
+        summary: translateOffline(summary, 'en'),
+      };
+      idObj = {
+        badge: translateOffline(badge || 'بحث علمي', 'id'),
+        pages: translateOffline(pages || '50 صفحة', 'id'),
+        title: translateOffline(title, 'id'),
+        author: translateOffline(author || 'لجنة البحوث بالرباط', 'id'),
+        desc: translateOffline(desc || title, 'id'),
+        summary: translateOffline(summary, 'id'),
+      };
     }
 
     const updatedResearch: ResearchStudy = {
@@ -58,17 +94,18 @@ export const AddEditResearchModal: React.FC<AddEditResearchModalProps> = ({
         desc: desc.trim() || title.trim(),
         summary: summary.trim(),
       },
-      en: researchToEdit?.en,
-      idLang: researchToEdit?.idLang,
+      en: enObj,
+      idLang: idObj,
     };
 
+    setIsTranslating(false);
     onSave(updatedResearch);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
-      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border-2 border-gold-500 overflow-hidden my-auto text-gray-800">
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-modal-backdrop">
+      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border-2 border-gold-500 overflow-hidden my-auto text-gray-800 animate-modal-card">
         
         {/* Header */}
         <div className="islamic-pattern p-5 text-white flex justify-between items-center border-b-2 border-gold-500 shrink-0 shadow-xs">
@@ -96,6 +133,22 @@ export const AddEditResearchModal: React.FC<AddEditResearchModalProps> = ({
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 sm:p-7 space-y-4">
+          
+          {/* Auto-Translation Banner */}
+          <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-amber-50 border border-emerald-300 rounded-2xl p-3.5 flex items-center gap-3 text-xs shadow-xs">
+            <div className="w-8 h-8 rounded-xl bg-emerald-850 text-gold-400 flex items-center justify-center shrink-0 shadow-xs">
+              <i className="fa-solid fa-wand-magic-sparkles text-sm"></i>
+            </div>
+            <div>
+              <span className="font-bold text-emerald-950 block text-xs sm:text-sm">
+                الترجمة التلقائية مفعلة (يكفي إدخال بيانات البحث بالعربية فقط)
+              </span>
+              <span className="text-[11px] text-gray-600 block">
+                سيتم توليد ترجمة البحث وملخصه تلقائياً للغتين الإنجليزية والإندونيسية لتتواكب مع أي تعديلات تجريها.
+              </span>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-gray-700 mb-1">

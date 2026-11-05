@@ -20,16 +20,57 @@ import { AdminLoginModal } from './components/AdminLoginModal';
 import { AdminPanel } from './components/AdminPanel';
 import { AddEditFatwaModal } from './components/AddEditFatwaModal';
 import { AddEditResearchModal } from './components/AddEditResearchModal';
+import { translateOffline } from './utils/translator';
 
 function getFatwaContent(fatwa: Fatwa, lang: Language) {
-  if (lang === 'en' && fatwa.en) return fatwa.en;
-  if (lang === 'id' && fatwa.idLang) return fatwa.idLang;
+  if (lang === 'en') {
+    if (fatwa.en && fatwa.en.title) return fatwa.en;
+    return {
+      title: translateOffline(fatwa.ar.title, 'en'),
+      date: translateOffline(fatwa.ar.date, 'en'),
+      questioner: translateOffline(fatwa.ar.questioner, 'en'),
+      question: translateOffline(fatwa.ar.question, 'en'),
+      answer: translateOffline(fatwa.ar.answer, 'en'),
+      references: fatwa.ar.references ? fatwa.ar.references.map((r) => translateOffline(r, 'en')) : [],
+    };
+  }
+  if (lang === 'id') {
+    if (fatwa.idLang && fatwa.idLang.title) return fatwa.idLang;
+    return {
+      title: translateOffline(fatwa.ar.title, 'id'),
+      date: translateOffline(fatwa.ar.date, 'id'),
+      questioner: translateOffline(fatwa.ar.questioner, 'id'),
+      question: translateOffline(fatwa.ar.question, 'id'),
+      answer: translateOffline(fatwa.ar.answer, 'id'),
+      references: fatwa.ar.references ? fatwa.ar.references.map((r) => translateOffline(r, 'id')) : [],
+    };
+  }
   return fatwa.ar;
 }
 
 function getResearchContent(res: ResearchStudy, lang: Language) {
-  if (lang === 'en' && res.en) return res.en;
-  if (lang === 'id' && res.idLang) return res.idLang;
+  if (lang === 'en') {
+    if (res.en && res.en.title) return res.en;
+    return {
+      badge: translateOffline(res.ar.badge, 'en'),
+      pages: translateOffline(res.ar.pages, 'en'),
+      title: translateOffline(res.ar.title, 'en'),
+      author: translateOffline(res.ar.author, 'en'),
+      desc: translateOffline(res.ar.desc, 'en'),
+      summary: translateOffline(res.ar.summary, 'en'),
+    };
+  }
+  if (lang === 'id') {
+    if (res.idLang && res.idLang.title) return res.idLang;
+    return {
+      badge: translateOffline(res.ar.badge, 'id'),
+      pages: translateOffline(res.ar.pages, 'id'),
+      title: translateOffline(res.ar.title, 'id'),
+      author: translateOffline(res.ar.author, 'id'),
+      desc: translateOffline(res.ar.desc, 'id'),
+      summary: translateOffline(res.ar.summary, 'id'),
+    };
+  }
   return res.ar;
 }
 
@@ -139,6 +180,29 @@ export default function App() {
   const [isChoiceModalOpen, setIsChoiceModalOpen] = useState<boolean>(false);
   const [isBookmarksModalOpen, setIsBookmarksModalOpen] = useState<boolean>(false);
   const [selectedResearchForModal, setSelectedResearchForModal] = useState<ResearchStudy | null>(null);
+
+  // Check if any modal is currently active
+  const isAnyModalOpen = Boolean(
+    isAdminLoginOpen ||
+    isAdminPanelOpen ||
+    isAddEditFatwaOpen ||
+    isAddEditResearchOpen ||
+    isChoiceModalOpen ||
+    isBookmarksModalOpen ||
+    selectedResearchForModal
+  );
+
+  // Lock background page scroll when any modal is open
+  useEffect(() => {
+    if (isAnyModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isAnyModalOpen]);
 
   // Ask Fatwa Form State
   const [qName, setQName] = useState('');
@@ -510,8 +574,8 @@ export default function App() {
     <div className="min-h-screen bg-gray-50 text-gray-800 font-sans islamic-pattern-light">
       
       {/* ================= ADMIN TOP NOTIFICATION BAR (WHEN LOGGED IN) ================= */}
-      {isAdminLoggedIn && (
-        <div className="bg-gradient-to-r from-emerald-900 via-emerald-850 to-emerald-950 text-white text-xs py-2 px-3 sm:px-6 border-b-2 border-gold-500 shadow-md flex flex-wrap justify-between items-center gap-2 no-print z-50">
+      {isAdminLoggedIn && !isAnyModalOpen && (
+        <div className="sticky top-0 z-50 bg-gradient-to-r from-emerald-900 via-emerald-850 to-emerald-950 text-white text-xs py-2 px-3 sm:px-6 border-b-2 border-gold-500 shadow-md flex flex-wrap justify-between items-center gap-2 no-print transition-all duration-200">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
             <span className="font-bold text-gold-400">وضع الإشراف والتحكم الكامل مفعّل:</span>
@@ -528,7 +592,7 @@ export default function App() {
               className="bg-gold-500 hover:bg-gold-400 text-emerald-950 font-bold px-3 py-1 rounded-lg text-xs flex items-center gap-1.5 transition shadow"
             >
               <i className="fa-solid fa-sliders"></i>
-              <span>فتح لوحة التحكم والإدارة</span>
+              <span>فتح لوحة التحكم</span>
             </button>
 
             <button
@@ -536,7 +600,7 @@ export default function App() {
               className="bg-emerald-750 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded-lg text-xs flex items-center gap-1.5 transition border border-emerald-600"
             >
               <i className="fa-solid fa-plus text-gold-400"></i>
-              <span>إضافة فتوى أو بحث</span>
+              <span>فتوى/بحث</span>
             </button>
 
             <button
@@ -584,8 +648,8 @@ export default function App() {
               </select>
             </div>
 
-            {/* Font Size Adjusters */}
-            <div className="flex items-center bg-emerald-900/80 rounded-lg px-2 py-0.5 border border-emerald-700/50" title="حجم خط الفتاوى">
+            {/* Font Size Adjusters (مخفية مؤقتاً مع الحفاظ على الكود) */}
+            <div className="hidden items-center bg-emerald-900/80 rounded-lg px-2 py-0.5 border border-emerald-700/50" title="حجم خط الفتاوى">
               <button
                 onClick={() => handleAdjustFontSize(1)}
                 className="px-1.5 hover:text-gold-400 text-gray-200 transition font-bold"
@@ -655,25 +719,44 @@ export default function App() {
       </div>
 
       {/* ================= MAIN HEADER & NAVIGATION ================= */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-200 no-print">
+      <header
+        className="sticky z-40 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-200 no-print transition-all duration-200"
+        style={{ top: isAdminLoggedIn && !isAnyModalOpen ? '38px' : '0px' }}
+      >
         <div className="w-full max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20 gap-2">
             
             {/* Branding Logo */}
             <a href="#" className="flex items-center gap-2.5 sm:gap-3.5 group min-w-0">
-              <div className="w-10 h-10 sm:w-14 sm:h-14 shrink-0 rounded-2xl islamic-pattern flex items-center justify-center shadow-lg border-2 border-gold-500/70 group-hover:scale-105 transition-transform overflow-hidden">
-                {settings.logoImage ? (
-                  <img
-                    src={settings.logoImage}
-                    alt={settings.brandTitle}
-                    className="w-full h-full object-contain p-1 rounded-xl"
-                  />
-                ) : (
-                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L9.5 6.5C7 9 6 11.5 6 14H18C18 11.5 17 9 14.5 6.5L12 2ZM4 16V20H20V16H4ZM2 22H22V24H2V22Z"/>
-                  </svg>
-                )}
-              </div>
+              {settings.logoWithoutBox ? (
+                <div className="shrink-0 flex items-center justify-center max-h-14 sm:max-h-16 group-hover:scale-105 transition-transform">
+                  {settings.logoImage ? (
+                    <img
+                      src={settings.logoImage}
+                      alt={settings.brandTitle}
+                      className="h-10 sm:h-14 w-auto max-w-[120px] sm:max-w-[180px] object-contain drop-shadow-xs"
+                    />
+                  ) : (
+                    <svg className="w-8 h-8 sm:w-11 sm:h-11 text-emerald-850" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L9.5 6.5C7 9 6 11.5 6 14H18C18 11.5 17 9 14.5 6.5L12 2ZM4 16V20H20V16H4ZM2 22H22V24H2V22Z"/>
+                    </svg>
+                  )}
+                </div>
+              ) : (
+                <div className="w-10 h-10 sm:w-14 sm:h-14 shrink-0 rounded-2xl islamic-pattern flex items-center justify-center shadow-lg border-2 border-gold-500/70 group-hover:scale-105 transition-transform overflow-hidden">
+                  {settings.logoImage ? (
+                    <img
+                      src={settings.logoImage}
+                      alt={settings.brandTitle}
+                      className="w-full h-full object-contain p-1 rounded-xl"
+                    />
+                  ) : (
+                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L9.5 6.5C7 9 6 11.5 6 14H18C18 11.5 17 9 14.5 6.5L12 2ZM4 16V20H20V16H4ZM2 22H22V24H2V22Z"/>
+                    </svg>
+                  )}
+                </div>
+              )}
               <div className="truncate">
                 <h1 className="text-base sm:text-2xl font-extrabold text-emerald-850 font-serif tracking-wide truncate">
                   {settings.brandTitle}
@@ -711,18 +794,6 @@ export default function App() {
 
             {/* Prominent Action Button & Mobile Menu Trigger */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              
-              {/* If Admin logged in: Prominent Add Fatwa/Research button */}
-              {isAdminLoggedIn && (
-                <button
-                  onClick={() => setIsChoiceModalOpen(true)}
-                  className="inline-flex bg-gold-500 hover:bg-gold-400 text-emerald-950 px-3.5 py-2 rounded-xl font-bold text-xs sm:text-sm shadow-md transition items-center gap-1.5"
-                >
-                  <i className="fa-solid fa-plus text-xs"></i>
-                  <span>إضافة فتوى أو بحث</span>
-                </button>
-              )}
-
               <a
                 href="#ask-section"
                 className="hidden md:inline-flex bg-emerald-850 hover:bg-emerald-900 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md hover:shadow-lg border border-gold-500/40 items-center gap-2 whitespace-nowrap transition transform active:scale-95"
@@ -745,7 +816,7 @@ export default function App() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-5 space-y-2 shadow-xl">
+          <div className="lg:hidden bg-white border-t border-gray-200 px-4 pt-3 pb-5 space-y-2 shadow-xl animate-drawer">
             <a
               href="#hero"
               onClick={() => setMobileMenuOpen(false)}
@@ -2006,17 +2077,31 @@ export default function App() {
             {/* Col 1: Brand */}
             <div className="md:col-span-5 space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-emerald-950 border border-gold-500 flex items-center justify-center text-gold-400 overflow-hidden p-1 shadow-sm">
-                  {settings.logoImage ? (
-                    <img
-                      src={settings.logoImage}
-                      alt={settings.brandTitle}
-                      className="w-full h-full object-contain rounded-lg"
-                    />
-                  ) : (
-                    <i className={`fa-solid ${settings.logoIcon || 'fa-mosque'} text-lg`}></i>
-                  )}
-                </div>
+                {settings.logoWithoutBox ? (
+                  <div className="shrink-0 flex items-center justify-center max-h-12">
+                    {settings.logoImage ? (
+                      <img
+                        src={settings.logoImage}
+                        alt={settings.brandTitle}
+                        className="h-10 sm:h-12 w-auto max-w-[140px] object-contain drop-shadow-sm"
+                      />
+                    ) : (
+                      <i className={`fa-solid ${settings.logoIcon || 'fa-mosque'} text-2xl text-gold-400`}></i>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-11 h-11 rounded-xl bg-emerald-950 border border-gold-500 flex items-center justify-center text-gold-400 overflow-hidden p-1 shadow-sm">
+                    {settings.logoImage ? (
+                      <img
+                        src={settings.logoImage}
+                        alt={settings.brandTitle}
+                        className="w-full h-full object-contain rounded-lg"
+                      />
+                    ) : (
+                      <i className={`fa-solid ${settings.logoIcon || 'fa-mosque'} text-lg`}></i>
+                    )}
+                  </div>
+                )}
                 <div>
                   <h3 className="text-lg font-bold text-white font-serif">{settings.brandTitle}</h3>
                   <p className="text-xs text-gold-400 font-semibold">{settings.brandSubtitle}</p>
@@ -2083,8 +2168,8 @@ export default function App() {
 
       {/* ================= BOOKMARKS MODAL ================= */}
       {isBookmarksModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-print animate-modal-backdrop">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 overflow-hidden animate-modal-card">
             <div className="p-5 islamic-pattern text-white flex justify-between items-center border-b-2 border-gold-500">
               <div className="flex items-center gap-2.5">
                 <i className="fa-solid fa-bookmark text-gold-400 text-lg"></i>
@@ -2150,8 +2235,8 @@ export default function App() {
 
       {/* ================= RESEARCH SUMMARY MODAL ================= */}
       {selectedResearchForModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-print">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 no-print animate-modal-backdrop">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-gray-200 overflow-hidden animate-modal-card">
             <div className="p-5 islamic-pattern text-white flex justify-between items-center border-b-2 border-gold-500">
               <h3 className="font-bold text-lg font-serif">
                 {getResearchContent(selectedResearchForModal, currentLang).title}
@@ -2192,8 +2277,8 @@ export default function App() {
 
       {/* ================= PROMINENT CHOICE MODAL (ADD FATWA OR RESEARCH) ================= */}
       {isChoiceModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 border-2 border-gold-500 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-modal-backdrop">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 border-2 border-gold-500 shadow-2xl animate-modal-card">
             <div className="flex justify-between items-center border-b border-gray-200 pb-3">
               <h3 className="font-bold text-lg font-serif text-gray-900">ماذا تود أن تضيف الآن؟</h3>
               <button onClick={() => setIsChoiceModalOpen(false)} className="text-gray-400 hover:text-gray-600">
@@ -2254,8 +2339,7 @@ export default function App() {
         adminAccounts={adminAccounts}
         onLoginSuccess={(email) => {
           setCurrentAdminEmail(email);
-          setIsAdminPanelOpen(true);
-          showToast(`مرحباً بك يا مدير الموقع (${email})`);
+          showToast(`تم تسجيل الدخول بنجاح - مرحباً بك (${email})`);
         }}
       />
 

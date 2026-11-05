@@ -7,6 +7,7 @@ import {
   SiteSettings,
   AdminAccount,
 } from '../types';
+import { translateOffline } from '../utils/translator';
 
 interface AdminPanelProps {
   isOpen: boolean;
@@ -164,13 +165,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       return;
     }
 
+    const enName = newCatNameEn.trim() || translateOffline(newCatNameAr.trim(), 'en');
+    const idName = newCatNameId.trim() || translateOffline(newCatNameAr.trim(), 'id');
+
     if (editingCategory) {
       onEditCategory({
         id: editingCategory.id,
         name: {
           ar: newCatNameAr.trim(),
-          en: newCatNameEn.trim() || newCatNameAr.trim(),
-          id: newCatNameId.trim() || newCatNameAr.trim(),
+          en: enName,
+          id: idName,
         },
         icon: newCatIcon || 'fa-folder-open',
       });
@@ -181,8 +185,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         id: generatedId,
         name: {
           ar: newCatNameAr.trim(),
-          en: newCatNameEn.trim() || newCatNameAr.trim(),
-          id: newCatNameId.trim() || newCatNameAr.trim(),
+          en: enName,
+          id: idName,
         },
         icon: newCatIcon || 'fa-folder-open',
       });
@@ -268,17 +272,32 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
 
   const handleSaveInquiryAnswer = () => {
     if (!selectedInquiry) return;
+    const finalStatusText =
+      inquiryStatusText.trim() ||
+      (inquiryStatusStep === 3
+        ? 'تمت الإجابة واعتماد الفتوى من لجنة الإفتاء'
+        : inquiryStatusStep === 2
+        ? 'قيد الدراسة والعرض على لجنة الفتوى'
+        : 'تم استلام السؤال وجاري فرزه');
+    const finalAnswer = inquiryAnswerText.trim() || null;
+
     const updated: TrackingItem = {
       ...selectedInquiry,
       statusStep: inquiryStatusStep,
-      statusText:
-        inquiryStatusText.trim() ||
-        (inquiryStatusStep === 3
-          ? 'تمت الإجابة واعتماد الفتوى من لجنة الإفتاء'
-          : inquiryStatusStep === 2
-          ? 'قيد الدراسة والعرض على لجنة الفتوى'
-          : 'تم استلام السؤال وجاري فرزه'),
-      answer: inquiryAnswerText.trim() || null,
+      statusText: finalStatusText,
+      answer: finalAnswer,
+      en: {
+        title: translateOffline(selectedInquiry.title, 'en'),
+        date: translateOffline(selectedInquiry.date, 'en'),
+        statusText: translateOffline(finalStatusText, 'en'),
+        answer: finalAnswer ? translateOffline(finalAnswer, 'en') : null,
+      },
+      idLang: {
+        title: translateOffline(selectedInquiry.title, 'id'),
+        date: translateOffline(selectedInquiry.date, 'id'),
+        statusText: translateOffline(finalStatusText, 'id'),
+        answer: finalAnswer ? translateOffline(finalAnswer, 'id') : null,
+      },
     };
     onUpdateInquiry(updated);
     setSelectedInquiry(null);
@@ -295,8 +314,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-3xl max-w-6xl w-full max-h-[94vh] flex flex-col shadow-2xl border-2 border-gold-500 overflow-hidden my-auto text-gray-800">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-modal-backdrop">
+      <div className="bg-white rounded-3xl max-w-6xl w-full max-h-[94vh] flex flex-col shadow-2xl border-2 border-gold-500 overflow-hidden my-auto text-gray-800 animate-modal-card">
         
         {/* Top Header */}
         <div className="islamic-pattern p-4 sm:p-6 text-white flex flex-wrap justify-between items-center gap-3 border-b-2 border-gold-500 shrink-0 shadow-xs">
@@ -536,20 +555,39 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       {/* Preview Box */}
                       <div className="flex items-center gap-3 pt-1">
                         <span className="text-xs text-gray-500">المعاينة:</span>
-                        <div className="w-14 h-14 rounded-2xl islamic-pattern border-2 border-gold-500 flex items-center justify-center p-1.5 shadow overflow-hidden">
-                          {localSettings.logoImage ? (
-                            <img
-                              src={localSettings.logoImage}
-                              alt="Logo Preview"
-                              className="w-full h-full object-contain"
-                            />
-                          ) : (
-                            <i className={`fa-solid ${localSettings.logoIcon || 'fa-mosque'} text-gold-400 text-2xl`}></i>
-                          )}
+                        {localSettings.logoWithoutBox ? (
+                          <div className="h-14 min-w-14 max-w-36 px-2 rounded-2xl bg-gray-200/60 border border-dashed border-gray-300 flex items-center justify-center">
+                            {localSettings.logoImage ? (
+                              <img
+                                src={localSettings.logoImage}
+                                alt="Logo Preview"
+                                className="h-12 w-auto max-w-full object-contain"
+                              />
+                            ) : (
+                              <i className={`fa-solid ${localSettings.logoIcon || 'fa-mosque'} text-emerald-850 text-2xl`}></i>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="w-14 h-14 rounded-2xl islamic-pattern border-2 border-gold-500 flex items-center justify-center p-1.5 shadow overflow-hidden">
+                            {localSettings.logoImage ? (
+                              <img
+                                src={localSettings.logoImage}
+                                alt="Logo Preview"
+                                className="w-full h-full object-contain"
+                              />
+                            ) : (
+                              <i className={`fa-solid ${localSettings.logoIcon || 'fa-mosque'} text-gold-400 text-2xl`}></i>
+                            )}
+                          </div>
+                        )}
+                        <div className="text-xs">
+                          <span className="text-gray-800 font-medium block">
+                            {localSettings.logoImage ? 'صورة الشعار المرفوعة' : 'الأيقونة الإسلامية الافتراضية'}
+                          </span>
+                          <span className="text-[11px] text-emerald-850 font-bold block">
+                            {localSettings.logoWithoutBox ? '← بدون مربع (الشعار فقط)' : '← داخل مربع زخرفي'}
+                          </span>
                         </div>
-                        <span className="text-xs text-gray-700 font-medium">
-                          {localSettings.logoImage ? 'صورة الشعار المرفوعة حالياً' : 'الأيقونة الإسلامية الافتراضية'}
-                        </span>
                       </div>
                     </div>
 
@@ -579,6 +617,79 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       <p className="text-[11px] text-gray-500 leading-relaxed">
                         تُستخدم هذه الأيقونة في الهيدر والفوتر إذا لم تقم برفع صورة مخصصة للشعار.
                       </p>
+                    </div>
+
+                    {/* Option 3: Logo Display Mode (Without Box vs Boxed) */}
+                    <div className="md:col-span-2 p-4 rounded-xl border border-gray-200 bg-gray-50 space-y-3 shadow-xs">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                          <span className="text-xs font-bold text-gray-800 block">
+                            3. شكل ومظهر إطار الشعار في الموقع:
+                          </span>
+                          <p className="text-[11px] text-gray-500 mt-0.5">
+                            يمكنك إظهار الشعار بدون مربع أو خلفية ليتكيف حجمه بسلاسة مع المساحة في الهيدر والفوتر.
+                          </p>
+                        </div>
+                        <label className="relative inline-flex items-center cursor-pointer shrink-0">
+                          <input
+                            type="checkbox"
+                            checked={localSettings.logoWithoutBox || false}
+                            onChange={(e) => setLocalSettings({ ...localSettings, logoWithoutBox: e.target.checked })}
+                            className="sr-only peer"
+                          />
+                          <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-850"></div>
+                          <span className="me-3 text-xs font-bold text-gray-800">
+                            {localSettings.logoWithoutBox ? 'إظهار الشعار بدون مربع' : 'داخل مربع زخرفي'}
+                          </span>
+                        </label>
+                      </div>
+
+                      {/* Visual selector buttons */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => setLocalSettings({ ...localSettings, logoWithoutBox: false })}
+                          className={`p-3 rounded-xl border text-right transition flex items-center gap-3 ${
+                            !localSettings.logoWithoutBox
+                              ? 'border-emerald-700 bg-emerald-50/70 text-emerald-950 font-bold ring-2 ring-emerald-700/20'
+                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                          }`}
+                        >
+                          <div className="w-11 h-11 rounded-xl islamic-pattern border border-gold-500 flex items-center justify-center shrink-0 shadow-xs">
+                            {localSettings.logoImage ? (
+                              <img src={localSettings.logoImage} alt="logo" className="w-full h-full object-contain p-1 rounded-lg" />
+                            ) : (
+                              <i className={`fa-solid ${localSettings.logoIcon || 'fa-mosque'} text-gold-400 text-sm`}></i>
+                            )}
+                          </div>
+                          <div>
+                            <span className="text-xs block font-bold">داخل مربع زخرفي (افتراضي)</span>
+                            <span className="text-[10px] text-gray-500 block">إطار مربع بزخرفة إسلامية وتحديد ذهبي</span>
+                          </div>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setLocalSettings({ ...localSettings, logoWithoutBox: true })}
+                          className={`p-3 rounded-xl border text-right transition flex items-center gap-3 ${
+                            localSettings.logoWithoutBox
+                              ? 'border-emerald-700 bg-emerald-50/70 text-emerald-950 font-bold ring-2 ring-emerald-700/20'
+                              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                          }`}
+                        >
+                          <div className="w-11 h-11 rounded-xl bg-gray-200/70 border border-dashed border-gray-300 flex items-center justify-center shrink-0">
+                            {localSettings.logoImage ? (
+                              <img src={localSettings.logoImage} alt="logo" className="h-9 w-auto max-w-full object-contain" />
+                            ) : (
+                              <i className={`fa-solid ${localSettings.logoIcon || 'fa-mosque'} text-emerald-850 text-xl`}></i>
+                            )}
+                          </div>
+                          <div>
+                            <span className="text-xs block font-bold">بدون مربع (الشعار فقط)</span>
+                            <span className="text-[10px] text-gray-500 block">يظهر الشعار بحجم متكيف وطبيعي بدون أي إطار</span>
+                          </div>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
